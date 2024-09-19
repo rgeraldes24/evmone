@@ -118,19 +118,6 @@ public interface HostContext {
   ByteBuffer getCode(byte[] address);
 
   /**
-   * Selfdestruct function.
-   *
-   * <p>This function is used by an EVM to SELFDESTRUCT given contract. The execution of the
-   * contract will not be stopped, that is up to the EVM.
-   *
-   * @param address The address of the contract to be selfdestructed.
-   * @param beneficiary The address where the remaining ETH is going to be transferred.
-   * @return The information if the given address has not been registered as selfdestructed yet.
-   *     True if registered for the first time, false otherwise.
-   */
-  boolean selfdestruct(byte[] address, byte[] beneficiary);
-
-  /**
    * This function supports EVM calls.
    *
    * @param msg The call parameters.

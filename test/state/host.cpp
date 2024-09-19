@@ -98,19 +98,6 @@ size_t Host::copy_code(const address& addr, size_t code_offset, uint8_t* buffer_
     return num_bytes;
 }
 
-bool Host::selfdestruct(const address& addr, const address& beneficiary) noexcept
-{
-    // Touch beneficiary and transfer all balance to it.
-    // This may happen multiple times per single account as account's balance
-    // can be increased with a call following previous selfdestruct.
-    auto& acc = m_state.get(addr);
-    m_state.touch(beneficiary).balance += acc.balance;
-    acc.balance = 0;  // Zero balance (this can be the beneficiary).
-
-    // Mark the destruction if not done already.
-    return !std::exchange(acc.destructed, true);
-}
-
 address compute_new_account_address(const address& sender, uint64_t sender_nonce,
     const std::optional<bytes32>& salt, bytes_view init_code) noexcept
 {

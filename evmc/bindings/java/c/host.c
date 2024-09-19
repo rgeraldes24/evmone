@@ -281,35 +281,6 @@ static size_t copy_code_fn(struct evmc_host_context* context,
     return length;
 }
 
-static bool selfdestruct_fn(struct evmc_host_context* context,
-                            const evmc_address* address,
-                            const evmc_address* beneficiary)
-{
-    const char java_method_name[] = "selfdestruct";
-    const char java_method_signature[] = "(Lorg/ethereum/evmc/HostContext;[B[B)Z";
-
-    assert(context != NULL);
-    JNIEnv* jenv = attach();
-
-    // get java class
-    jclass host_class = (*jenv)->FindClass(jenv, "org/ethereum/evmc/Host");
-    assert(host_class != NULL);
-
-    // get java method
-    jmethodID method =
-        (*jenv)->GetStaticMethodID(jenv, host_class, java_method_name, java_method_signature);
-    assert(method != NULL);
-
-    // set java method params
-    jbyteArray jaddress = CopyDataToJava(jenv, address, sizeof(struct evmc_address));
-    jbyteArray jbeneficiary = CopyDataToJava(jenv, beneficiary, sizeof(struct evmc_address));
-
-    // call java method
-    jboolean jresult = (*jenv)->CallStaticBooleanMethod(jenv, host_class, method, (jobject)context,
-                                                        jaddress, jbeneficiary);
-    return jresult != JNI_FALSE;
-}
-
 static struct evmc_result call_fn(struct evmc_host_context* context, const struct evmc_message* msg)
 {
     const char java_method_name[] = "call";
@@ -498,7 +469,7 @@ const struct evmc_host_interface* evmc_java_get_host_interface()
 {
     static const struct evmc_host_interface host = {
         account_exists_fn, get_storage_fn, set_storage_fn,    get_balance_fn,    get_code_size_fn,
-        get_code_hash_fn,  copy_code_fn,   selfdestruct_fn,   call_fn,           get_tx_context_fn,
+        get_code_hash_fn,  copy_code_fn,   call_fn,           get_tx_context_fn,
         get_block_hash_fn, emit_log_fn,    access_account_fn, access_storage_fn,
     };
     return &host;

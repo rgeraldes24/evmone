@@ -289,7 +289,7 @@
                                                             \
     ON_OPCODE_IDENTIFIER(OP_CREATE, create)                 \
     ON_OPCODE_IDENTIFIER(OP_CALL, call)                     \
-    ON_OPCODE_IDENTIFIER(OP_CALLCODE, callcode)             \
+    ON_OPCODE_UNDEFINED(0xf2)                               \
     ON_OPCODE_IDENTIFIER(OP_RETURN, return_)                \
     ON_OPCODE_IDENTIFIER(OP_DELEGATECALL, delegatecall)     \
     ON_OPCODE_IDENTIFIER(OP_CREATE2, create2)               \
@@ -302,4 +302,4 @@
     ON_OPCODE_UNDEFINED(0xfc)                               \
     ON_OPCODE_IDENTIFIER(OP_REVERT, revert)                 \
     ON_OPCODE_IDENTIFIER(OP_INVALID, invalid)               \
-    ON_OPCODE_IDENTIFIER(OP_SELFDESTRUCT, selfdestruct)
+    ON_OPCODE_UNDEFINED(0xff)

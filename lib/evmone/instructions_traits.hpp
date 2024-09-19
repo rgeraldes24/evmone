@@ -102,10 +102,8 @@ constexpr inline GasCostTable gas_costs = []() noexcept {
         table[EVMC_FRONTIER][op] = static_cast<int16_t>((op - OP_LOG0 + 1) * 375);
     table[EVMC_FRONTIER][OP_CREATE] = 32000;
     table[EVMC_FRONTIER][OP_CALL] = 40;
-    table[EVMC_FRONTIER][OP_CALLCODE] = 40;
     table[EVMC_FRONTIER][OP_RETURN] = 0;
     table[EVMC_FRONTIER][OP_INVALID] = 0;
-    table[EVMC_FRONTIER][OP_SELFDESTRUCT] = 0;
 
     table[EVMC_HOMESTEAD] = table[EVMC_FRONTIER];
     table[EVMC_HOMESTEAD][OP_DELEGATECALL] = 40;
@@ -116,9 +114,7 @@ constexpr inline GasCostTable gas_costs = []() noexcept {
     table[EVMC_TANGERINE_WHISTLE][OP_EXTCODECOPY] = 700;
     table[EVMC_TANGERINE_WHISTLE][OP_SLOAD] = 200;
     table[EVMC_TANGERINE_WHISTLE][OP_CALL] = 700;
-    table[EVMC_TANGERINE_WHISTLE][OP_CALLCODE] = 700;
     table[EVMC_TANGERINE_WHISTLE][OP_DELEGATECALL] = 700;
-    table[EVMC_TANGERINE_WHISTLE][OP_SELFDESTRUCT] = 5000;
 
     table[EVMC_SPURIOUS_DRAGON] = table[EVMC_TANGERINE_WHISTLE];
 
@@ -150,7 +146,6 @@ constexpr inline GasCostTable gas_costs = []() noexcept {
     table[EVMC_BERLIN][OP_EXTCODEHASH] = warm_storage_read_cost;
     table[EVMC_BERLIN][OP_BALANCE] = warm_storage_read_cost;
     table[EVMC_BERLIN][OP_CALL] = warm_storage_read_cost;
-    table[EVMC_BERLIN][OP_CALLCODE] = warm_storage_read_cost;
     table[EVMC_BERLIN][OP_DELEGATECALL] = warm_storage_read_cost;
     table[EVMC_BERLIN][OP_STATICCALL] = warm_storage_read_cost;
     table[EVMC_BERLIN][OP_SLOAD] = warm_storage_read_cost;
@@ -378,7 +373,6 @@ constexpr inline std::array<Traits, 256> traits = []() noexcept {
 
     table[OP_CREATE] = {"CREATE", 0, false, 3, -2, EVMC_FRONTIER};
     table[OP_CALL] = {"CALL", 0, false, 7, -6, EVMC_FRONTIER};
-    table[OP_CALLCODE] = {"CALLCODE", 0, false, 7, -6, EVMC_FRONTIER};
     table[OP_RETURN] = {"RETURN", 0, true, 2, -2, EVMC_FRONTIER};
     table[OP_DELEGATECALL] = {"DELEGATECALL", 0, false, 6, -5, EVMC_HOMESTEAD};
     table[OP_CREATE2] = {"CREATE2", 0, false, 4, -3, EVMC_CONSTANTINOPLE};
@@ -387,7 +381,6 @@ constexpr inline std::array<Traits, 256> traits = []() noexcept {
     table[OP_RETF] = {"RETF", 0, true, 0, 0, EVMC_CANCUN};
     table[OP_REVERT] = {"REVERT", 0, true, 2, -2, EVMC_BYZANTIUM};
     table[OP_INVALID] = {"INVALID", 0, true, 0, 0, EVMC_FRONTIER};
-    table[OP_SELFDESTRUCT] = {"SELFDESTRUCT", 0, true, 1, -1, EVMC_FRONTIER};
 
     return table;
 }();

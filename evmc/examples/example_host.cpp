@@ -125,13 +125,6 @@ public:
         return n;
     }
 
-    bool selfdestruct(const evmc::address& addr, const evmc::address& beneficiary) noexcept final
-    {
-        (void)addr;
-        (void)beneficiary;
-        return false;
-    }
-
     evmc::Result call(const evmc_message& msg) noexcept final
     {
         return evmc::Result{EVMC_REVERT, msg.gas, 0, msg.input_data, msg.input_size};

@@ -276,7 +276,7 @@ static struct evmc_instruction_metrics prague_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {WARM_STORAGE_READ_COST, 7, -6},
-    /*       CALLCODE = 0xf2 */ {WARM_STORAGE_READ_COST, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {WARM_STORAGE_READ_COST, 6, -5},
     /*        CREATE2 = 0xf5 */ {32000, 4, -3},
@@ -289,7 +289,7 @@ static struct evmc_instruction_metrics prague_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics cancun_metrics[256] = {
@@ -535,7 +535,7 @@ static struct evmc_instruction_metrics cancun_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {WARM_STORAGE_READ_COST, 7, -6},
-    /*       CALLCODE = 0xf2 */ {WARM_STORAGE_READ_COST, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {WARM_STORAGE_READ_COST, 6, -5},
     /*        CREATE2 = 0xf5 */ {32000, 4, -3},
@@ -548,7 +548,7 @@ static struct evmc_instruction_metrics cancun_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics shanghai_metrics[256] = {
@@ -794,7 +794,7 @@ static struct evmc_instruction_metrics shanghai_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {WARM_STORAGE_READ_COST, 7, -6},
-    /*       CALLCODE = 0xf2 */ {WARM_STORAGE_READ_COST, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {WARM_STORAGE_READ_COST, 6, -5},
     /*        CREATE2 = 0xf5 */ {32000, 4, -3},
@@ -807,7 +807,7 @@ static struct evmc_instruction_metrics shanghai_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics london_metrics[256] = {
@@ -1053,7 +1053,7 @@ static struct evmc_instruction_metrics london_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {WARM_STORAGE_READ_COST, 7, -6},
-    /*       CALLCODE = 0xf2 */ {WARM_STORAGE_READ_COST, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {WARM_STORAGE_READ_COST, 6, -5},
     /*        CREATE2 = 0xf5 */ {32000, 4, -3},
@@ -1066,7 +1066,7 @@ static struct evmc_instruction_metrics london_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics berlin_metrics[256] = {
@@ -1312,7 +1312,7 @@ static struct evmc_instruction_metrics berlin_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {WARM_STORAGE_READ_COST, 7, -6},
-    /*       CALLCODE = 0xf2 */ {WARM_STORAGE_READ_COST, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {WARM_STORAGE_READ_COST, 6, -5},
     /*        CREATE2 = 0xf5 */ {32000, 4, -3},
@@ -1325,7 +1325,7 @@ static struct evmc_instruction_metrics berlin_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics istanbul_metrics[256] = {
@@ -1571,7 +1571,7 @@ static struct evmc_instruction_metrics istanbul_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {700, 7, -6},
-    /*       CALLCODE = 0xf2 */ {700, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {700, 6, -5},
     /*        CREATE2 = 0xf5 */ {32000, 4, -3},
@@ -1584,7 +1584,7 @@ static struct evmc_instruction_metrics istanbul_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics constantinople_metrics[256] = {
@@ -1830,7 +1830,7 @@ static struct evmc_instruction_metrics constantinople_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {700, 7, -6},
-    /*       CALLCODE = 0xf2 */ {700, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {700, 6, -5},
     /*        CREATE2 = 0xf5 */ {32000, 4, -3},
@@ -1843,7 +1843,7 @@ static struct evmc_instruction_metrics constantinople_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics byzantium_metrics[256] = {
@@ -2089,7 +2089,7 @@ static struct evmc_instruction_metrics byzantium_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {700, 7, -6},
-    /*       CALLCODE = 0xf2 */ {700, 7, -6},
+    /*                  0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {700, 6, -5},
     /*                = 0xf5 */ {UNDEFINED, 0, 0},
@@ -2102,7 +2102,7 @@ static struct evmc_instruction_metrics byzantium_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*         REVERT = 0xfd */ {ZERO, 2, -2},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics tangerine_whistle_metrics[256] = {
@@ -2348,7 +2348,7 @@ static struct evmc_instruction_metrics tangerine_whistle_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {700, 7, -6},
-    /*       CALLCODE = 0xf2 */ {700, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {700, 6, -5},
     /*                = 0xf5 */ {UNDEFINED, 0, 0},
@@ -2361,7 +2361,7 @@ static struct evmc_instruction_metrics tangerine_whistle_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*                = 0xfd */ {UNDEFINED, 0, 0},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {5000, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics homestead_metrics[256] = {
@@ -2607,7 +2607,7 @@ static struct evmc_instruction_metrics homestead_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {40, 7, -6},
-    /*       CALLCODE = 0xf2 */ {40, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*   DELEGATECALL = 0xf4 */ {40, 6, -5},
     /*                = 0xf5 */ {UNDEFINED, 0, 0},
@@ -2620,7 +2620,7 @@ static struct evmc_instruction_metrics homestead_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*                = 0xfd */ {UNDEFINED, 0, 0},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {ZERO, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 static struct evmc_instruction_metrics frontier_metrics[256] = {
@@ -2866,7 +2866,7 @@ static struct evmc_instruction_metrics frontier_metrics[256] = {
     /*                = 0xef */ {UNDEFINED, 0, 0},
     /*         CREATE = 0xf0 */ {32000, 3, -2},
     /*           CALL = 0xf1 */ {40, 7, -6},
-    /*       CALLCODE = 0xf2 */ {40, 7, -6},
+    /*                = 0xf2 */ {UNDEFINED, 0, 0},
     /*         RETURN = 0xf3 */ {ZERO, 2, -2},
     /*                = 0xf4 */ {UNDEFINED, 0, 0},
     /*                = 0xf5 */ {UNDEFINED, 0, 0},
@@ -2879,7 +2879,7 @@ static struct evmc_instruction_metrics frontier_metrics[256] = {
     /*                = 0xfc */ {UNDEFINED, 0, 0},
     /*                = 0xfd */ {UNDEFINED, 0, 0},
     /*        INVALID = 0xfe */ {ZERO, 0, 0},
-    /*   SELFDESTRUCT = 0xff */ {ZERO, 1, -1},
+    /*                = 0xff */ {UNDEFINED, 0, 0},
 };
 
 const struct evmc_instruction_metrics* evmc_get_instruction_metrics_table(

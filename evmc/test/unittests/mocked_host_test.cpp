@@ -107,27 +107,3 @@ TEST(mocked_host, storage_update_scenarios)
     EXPECT_EQ(execute_scenario(O, Y, O), EVMC_STORAGE_ADDED_DELETED);
     EXPECT_EQ(execute_scenario(X, Y, X), EVMC_STORAGE_MODIFIED_RESTORED);
 }
-
-TEST(mocked_host, selfdestruct)
-{
-    evmc::MockedHost host;
-    EXPECT_TRUE(host.recorded_selfdestructs.empty());
-
-    EXPECT_TRUE(host.selfdestruct(0xdead01_address, 0xbece01_address));
-    ASSERT_EQ(host.recorded_selfdestructs[0xdead01_address].size(), 1u);
-    EXPECT_EQ(host.recorded_selfdestructs[0xdead01_address][0], 0xbece01_address);
-
-    EXPECT_FALSE(host.selfdestruct(0xdead01_address, 0xbece02_address));
-    ASSERT_EQ(host.recorded_selfdestructs[0xdead01_address].size(), 2u);
-    EXPECT_EQ(host.recorded_selfdestructs[0xdead01_address][0], 0xbece01_address);
-    EXPECT_EQ(host.recorded_selfdestructs[0xdead01_address][1], 0xbece02_address);
-
-    EXPECT_TRUE(host.selfdestruct(0xdead02_address, 0xbece01_address));
-    ASSERT_EQ(host.recorded_selfdestructs[0xdead02_address].size(), 1u);
-    EXPECT_EQ(host.recorded_selfdestructs[0xdead02_address][0], 0xbece01_address);
-
-    EXPECT_FALSE(host.selfdestruct(0xdead02_address, 0xbece01_address));
-    ASSERT_EQ(host.recorded_selfdestructs[0xdead02_address].size(), 2u);
-    EXPECT_EQ(host.recorded_selfdestructs[0xdead02_address][0], 0xbece01_address);
-    EXPECT_EQ(host.recorded_selfdestructs[0xdead02_address][1], 0xbece01_address);
-}

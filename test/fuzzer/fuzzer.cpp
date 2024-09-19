@@ -369,10 +369,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t data_size) noe
                 ref_host.recorded_blockhashes.end(), host.recorded_blockhashes.begin(),
                 host.recorded_blockhashes.end()));
 
-            ASSERT(std::equal(ref_host.recorded_selfdestructs.begin(),
-                ref_host.recorded_selfdestructs.end(), host.recorded_selfdestructs.begin(),
-                host.recorded_selfdestructs.end()));
-
             // TODO: Enable account accesses check. Currently this is not possible because Aleth
             //       is doing additional unnecessary account existence checks in calls.
             // ASSERT(std::equal(ref_host.recorded_account_accesses.begin(),

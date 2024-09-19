@@ -247,7 +247,7 @@ static const char* prague_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ "CREATE2",
@@ -260,7 +260,7 @@ static const char* prague_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* cancun_names[256] = {
@@ -506,7 +506,7 @@ static const char* cancun_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ "CREATE2",
@@ -519,7 +519,7 @@ static const char* cancun_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* shanghai_names[256] = {
@@ -765,7 +765,7 @@ static const char* shanghai_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ "CREATE2",
@@ -778,7 +778,7 @@ static const char* shanghai_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* paris_names[256] = {
@@ -1024,7 +1024,7 @@ static const char* paris_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ "CREATE2",
@@ -1037,7 +1037,7 @@ static const char* paris_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* london_names[256] = {
@@ -1283,7 +1283,7 @@ static const char* london_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ "CREATE2",
@@ -1296,7 +1296,7 @@ static const char* london_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* istanbul_names[256] = {
@@ -1542,7 +1542,7 @@ static const char* istanbul_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ "CREATE2",
@@ -1555,7 +1555,7 @@ static const char* istanbul_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* constantinople_names[256] = {
@@ -1801,7 +1801,7 @@ static const char* constantinople_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ "CREATE2",
@@ -1814,7 +1814,7 @@ static const char* constantinople_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* byzantium_names[256] = {
@@ -2060,7 +2060,7 @@ static const char* byzantium_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ NULL,
@@ -2073,7 +2073,7 @@ static const char* byzantium_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ "REVERT",
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* homestead_names[256] = {
@@ -2319,7 +2319,7 @@ static const char* homestead_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ "DELEGATECALL",
     /* 0xf5 */ NULL,
@@ -2332,7 +2332,7 @@ static const char* homestead_names[256] = {
     /* 0xfc */ NULL,
     /* 0xfd */ NULL,
     /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xff */ NULL,
 };
 
 static const char* frontier_names[256] = {
@@ -2578,7 +2578,7 @@ static const char* frontier_names[256] = {
     /* 0xef */ NULL,
     /* 0xf0 */ "CREATE",
     /* 0xf1 */ "CALL",
-    /* 0xf2 */ "CALLCODE",
+    /* 0xf2 */ NULL,
     /* 0xf3 */ "RETURN",
     /* 0xf4 */ NULL,
     /* 0xf5 */ NULL,
@@ -2590,8 +2590,7 @@ static const char* frontier_names[256] = {
     /* 0xfb */ NULL,
     /* 0xfc */ NULL,
     /* 0xfd */ NULL,
-    /* 0xfe */ "INVALID",
-    /* 0xff */ "SELFDESTRUCT",
+    /* 0xfe */ "INVALID"
 };
 
 const char* const* evmc_get_instruction_names_table(enum evmc_revision revision)

@@ -75,9 +75,7 @@ TEST(instructions, tangerine_whistle_hard_fork)
         case OP_BALANCE:
         case OP_SLOAD:
         case OP_CALL:
-        case OP_CALLCODE:
         case OP_DELEGATECALL:
-        case OP_SELFDESTRUCT:
             continue;
         default:
             EXPECT_EQ(tw[op], h[op]) << op;
@@ -101,14 +99,8 @@ TEST(instructions, tangerine_whistle_hard_fork)
     EXPECT_EQ(h[OP_CALL].gas_cost, 40);
     EXPECT_EQ(tw[OP_CALL].gas_cost, 700);
 
-    EXPECT_EQ(h[OP_CALLCODE].gas_cost, 40);
-    EXPECT_EQ(tw[OP_CALLCODE].gas_cost, 700);
-
     EXPECT_EQ(h[OP_DELEGATECALL].gas_cost, 40);
     EXPECT_EQ(tw[OP_DELEGATECALL].gas_cost, 700);
-
-    EXPECT_EQ(h[OP_SELFDESTRUCT].gas_cost, 0);
-    EXPECT_EQ(tw[OP_SELFDESTRUCT].gas_cost, 5000);
 }
 
 TEST(instructions, spurious_dragon_hard_fork)
@@ -304,7 +296,6 @@ TEST(instructions, berlin_hard_fork)
         case OP_EXTCODEHASH:
         case OP_BALANCE:
         case OP_CALL:
-        case OP_CALLCODE:
         case OP_DELEGATECALL:
         case OP_STATICCALL:
         case OP_SLOAD:
@@ -321,7 +312,6 @@ TEST(instructions, berlin_hard_fork)
     EXPECT_EQ(b[OP_EXTCODEHASH].gas_cost, 100);
     EXPECT_EQ(b[OP_BALANCE].gas_cost, 100);
     EXPECT_EQ(b[OP_CALL].gas_cost, 100);
-    EXPECT_EQ(b[OP_CALLCODE].gas_cost, 100);
     EXPECT_EQ(b[OP_DELEGATECALL].gas_cost, 100);
     EXPECT_EQ(b[OP_STATICCALL].gas_cost, 100);
     EXPECT_EQ(b[OP_SLOAD].gas_cost, 100);

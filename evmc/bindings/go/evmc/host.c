@@ -20,7 +20,6 @@ const struct evmc_host_interface evmc_go_host = {
     (evmc_get_code_size_fn)getCodeSize,
     (evmc_get_code_hash_fn)getCodeHash,
     (evmc_copy_code_fn)copyCode,
-    (evmc_selfdestruct_fn)selfdestruct,
     (evmc_call_fn)call,
     (evmc_get_tx_context_fn)getTxContext,
     (evmc_get_block_hash_fn)getBlockHash,
@@ -81,10 +80,6 @@ static inline void go_exported_functions_type_checks()
     evmc_copy_code_fn copy_code_fn = NULL;
     size = copy_code_fn(context, address, size, data, size);
     size = copyCode(context, address, size, data, size);
-
-    evmc_selfdestruct_fn selfdestruct_fn = NULL;
-    bool_flag = selfdestruct_fn(context, address, address);
-    bool_flag = selfdestruct(context, address, address);
 
     evmc_call_fn call_fn = NULL;
     result = call_fn(context, message);

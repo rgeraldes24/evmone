@@ -165,7 +165,6 @@ enum Opcode : uint8_t
 
     OP_CREATE = 0xf0,
     OP_CALL = 0xf1,
-    OP_CALLCODE = 0xf2,
     OP_RETURN = 0xf3,
     OP_DELEGATECALL = 0xf4,
     OP_CREATE2 = 0xf5,
@@ -173,7 +172,6 @@ enum Opcode : uint8_t
     OP_STATICCALL = 0xfa,
 
     OP_REVERT = 0xfd,
-    OP_INVALID = 0xfe,
-    OP_SELFDESTRUCT = 0xff
+    OP_INVALID = 0xfe
 };
 }  // namespace evmone

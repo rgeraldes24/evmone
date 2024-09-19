@@ -934,7 +934,6 @@ inline Result log(StackTop stack, int64_t gas_left, ExecutionState& state) noexc
 template <Opcode Op>
 Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexcept;
 inline constexpr auto call = call_impl<OP_CALL>;
-inline constexpr auto callcode = call_impl<OP_CALLCODE>;
 inline constexpr auto delegatecall = call_impl<OP_DELEGATECALL>;
 inline constexpr auto staticcall = call_impl<OP_STATICCALL>;
 
@@ -990,42 +989,6 @@ inline TermResult return_impl(StackTop stack, int64_t gas_left, ExecutionState& 
 }
 inline constexpr auto return_ = return_impl<EVMC_SUCCESS>;
 inline constexpr auto revert = return_impl<EVMC_REVERT>;
-
-inline TermResult selfdestruct(StackTop stack, int64_t gas_left, ExecutionState& state) noexcept
-{
-    if (state.in_static_mode())
-        return {EVMC_STATIC_MODE_VIOLATION, gas_left};
-
-    const auto beneficiary = intx::be::trunc<evmc::address>(stack[0]);
-
-    if (state.rev >= EVMC_BERLIN && state.host.access_account(beneficiary) == EVMC_ACCESS_COLD)
-    {
-        if ((gas_left -= instr::cold_account_access_cost) < 0)
-            return {EVMC_OUT_OF_GAS, gas_left};
-    }
-
-    if (state.rev >= EVMC_TANGERINE_WHISTLE)
-    {
-        if (state.rev == EVMC_TANGERINE_WHISTLE || state.host.get_balance(state.msg->recipient))
-        {
-            // After TANGERINE_WHISTLE apply additional cost of
-            // sending value to a non-existing account.
-            if (!state.host.account_exists(beneficiary))
-            {
-                if ((gas_left -= 25000) < 0)
-                    return {EVMC_OUT_OF_GAS, gas_left};
-            }
-        }
-    }
-
-    if (state.host.selfdestruct(state.msg->recipient, beneficiary))
-    {
-        if (state.rev < EVMC_LONDON)
-            state.gas_refund += 24000;
-    }
-    return {EVMC_SUCCESS, gas_left};
-}
-
 
 /// Maps an opcode to the instruction implementation.
 ///

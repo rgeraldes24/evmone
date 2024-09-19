@@ -21,7 +21,6 @@ type CallKind int
 const (
 	Call         CallKind = C.EVMC_CALL
 	DelegateCall CallKind = C.EVMC_DELEGATECALL
-	CallCode     CallKind = C.EVMC_CALLCODE
 	Create       CallKind = C.EVMC_CREATE
 	Create2      CallKind = C.EVMC_CREATE2
 )
@@ -91,7 +90,6 @@ type HostContext interface {
 	GetCodeSize(addr Address) int
 	GetCodeHash(addr Address) Hash
 	GetCode(addr Address) []byte
-	Selfdestruct(addr Address, beneficiary Address) bool
 	GetTxContext() TxContext
 	GetBlockHash(number int64) Hash
 	EmitLog(addr Address, topics []Hash, data []byte)
@@ -157,12 +155,6 @@ func copyCode(pCtx unsafe.Pointer, pAddr *C.evmc_address, offset C.size_t, p *C.
 	out := goByteSlice(p, size)
 	copy(out, code[offset:])
 	return toCopy
-}
-
-//export selfdestruct
-func selfdestruct(pCtx unsafe.Pointer, pAddr *C.evmc_address, pBeneficiary *C.evmc_address) C.bool {
-	ctx := getHostContext(uintptr(pCtx))
-	return C.bool(ctx.Selfdestruct(goAddress(*pAddr), goAddress(*pBeneficiary)))
 }
 
 //export getTxContext

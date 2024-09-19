@@ -255,7 +255,6 @@ constexpr std::array<instruction_exec_fn, 256> instruction_implementations = [](
 
     table[OP_CREATE] = op_create<OP_CREATE>;
     table[OP_CALL] = op_call<OP_CALL>;
-    table[OP_CALLCODE] = op_call<OP_CALLCODE>;
     table[OP_DELEGATECALL] = op_call<OP_DELEGATECALL>;
     table[OP_CREATE2] = op_create<OP_CREATE2>;
     table[OP_STATICCALL] = op_call<OP_STATICCALL>;

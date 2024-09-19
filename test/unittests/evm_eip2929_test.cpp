@@ -217,34 +217,6 @@ TEST_P(evm, eip2929_sstore_modify_cold)
     EXPECT_EQ(host.accounts[msg.recipient].storage[key].access_status, EVMC_ACCESS_WARM);
 }
 
-TEST_P(evm, eip2929_selfdestruct_cold_beneficiary)
-{
-    rev = EVMC_BERLIN;
-    const auto code = push(0xbe) + OP_SELFDESTRUCT;
-
-    execute(7603, code);
-    EXPECT_GAS_USED(EVMC_SUCCESS, 7603);
-
-    host.recorded_account_accesses.clear();
-    execute(7602, code);
-    EXPECT_GAS_USED(EVMC_OUT_OF_GAS, 7602);
-}
-
-TEST_P(evm, eip2929_selfdestruct_warm_beneficiary)
-{
-    rev = EVMC_BERLIN;
-    const auto code = push(0xbe) + OP_SELFDESTRUCT;
-
-    host.access_account(0x00000000000000000000000000000000000000be_address);
-    execute(5003, code);
-    EXPECT_GAS_USED(EVMC_SUCCESS, 5003);
-
-    host.recorded_account_accesses.clear();
-    host.access_account(0x00000000000000000000000000000000000000be_address);
-    execute(5002, code);
-    EXPECT_GAS_USED(EVMC_OUT_OF_GAS, 5002);
-}
-
 TEST_P(evm, eip2929_delegatecall_cold)
 {
     rev = EVMC_BERLIN;

@@ -10,7 +10,7 @@ template <Opcode Op>
 Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexcept
 {
     static_assert(
-        Op == OP_CALL || Op == OP_CALLCODE || Op == OP_DELEGATECALL || Op == OP_STATICCALL);
+        Op == OP_CALL || Op == OP_DELEGATECALL || Op == OP_STATICCALL);
 
     const auto gas = stack.pop();
     const auto dst = intx::be::trunc<evmc::address>(stack.pop());
@@ -42,9 +42,7 @@ Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexce
     const auto output_size = static_cast<size_t>(output_size_u256);
 
     auto msg = evmc_message{};
-    msg.kind = (Op == OP_DELEGATECALL) ? EVMC_DELEGATECALL :
-               (Op == OP_CALLCODE)     ? EVMC_CALLCODE :
-                                         EVMC_CALL;
+    msg.kind = (Op == OP_DELEGATECALL) ? EVMC_DELEGATECALL : EVMC_CALL;
     msg.flags = (Op == OP_STATICCALL) ? uint32_t{EVMC_STATIC} : state.msg->flags;
     msg.depth = state.msg->depth + 1;
     msg.recipient = (Op == OP_CALL || Op == OP_STATICCALL) ? dst : state.msg->recipient;
@@ -113,8 +111,6 @@ template Result call_impl<OP_CALL>(
 template Result call_impl<OP_STATICCALL>(
     StackTop stack, int64_t gas_left, ExecutionState& state) noexcept;
 template Result call_impl<OP_DELEGATECALL>(
-    StackTop stack, int64_t gas_left, ExecutionState& state) noexcept;
-template Result call_impl<OP_CALLCODE>(
     StackTop stack, int64_t gas_left, ExecutionState& state) noexcept;
 
 

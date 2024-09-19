@@ -311,18 +311,6 @@ impl<'a> ExecutionContext<'a> {
         }
     }
 
-    /// Self-destruct the current account.
-    pub fn selfdestruct(&mut self, address: &Address, beneficiary: &Address) -> bool {
-        unsafe {
-            assert!((*self.host).selfdestruct.is_some());
-            (*self.host).selfdestruct.unwrap()(
-                self.context,
-                address as *const Address,
-                beneficiary as *const Address,
-            )
-        }
-    }
-
     /// Call to another account.
     pub fn call(&mut self, message: &ExecutionMessage) -> ExecutionResult {
         // There is no need to make any kind of copies here, because the caller
@@ -855,7 +843,6 @@ mod tests {
             get_code_size: Some(get_dummy_code_size),
             get_code_hash: None,
             copy_code: None,
-            selfdestruct: None,
             call: Some(execute_call),
             get_tx_context: Some(get_dummy_tx_context),
             get_block_hash: None,

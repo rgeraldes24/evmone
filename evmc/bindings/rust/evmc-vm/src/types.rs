@@ -57,10 +57,6 @@ mod tests {
     fn message_kind() {
         assert_eq!(MessageKind::EVMC_CALL, ffi::evmc_call_kind::EVMC_CALL);
         assert_eq!(
-            MessageKind::EVMC_CALLCODE,
-            ffi::evmc_call_kind::EVMC_CALLCODE
-        );
-        assert_eq!(
             MessageKind::EVMC_DELEGATECALL,
             ffi::evmc_call_kind::EVMC_DELEGATECALL
         );

@@ -508,14 +508,6 @@ TEST_P(evm, inner_invalid)
     EXPECT_GAS_USED(EVMC_INVALID_INSTRUCTION, 5);
 }
 
-TEST_P(evm, inner_selfdestruct)
-{
-    rev = EVMC_FRONTIER;
-    const auto code = push(0) + OP_SELFDESTRUCT + push(0);
-    execute(3, code);
-    EXPECT_GAS_USED(EVMC_SUCCESS, 3);
-}
-
 TEST_P(evm, keccak256)
 {
     execute(push(0x0800) + push(0x03ff) + OP_KECCAK256 + ret_top());
@@ -684,7 +676,7 @@ TEST_P(evm, staticmode)
 
     rev = EVMC_CONSTANTINOPLE;
     for (auto op : {OP_SSTORE, OP_LOG0, OP_LOG1, OP_LOG2, OP_LOG3, OP_LOG4, OP_CALL, OP_CREATE,
-             OP_CREATE2, OP_SELFDESTRUCT})
+             OP_CREATE2})
     {
         msg.flags |= EVMC_STATIC;
         execute(code_prefix + hex(op));

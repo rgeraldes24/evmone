@@ -132,8 +132,6 @@ memory_access_opcode memory_access_opcodes[] = {
     {OP_REVERT, 0, 1},
     {OP_CALL, 3, 4},
     {OP_CALL, 5, 6},
-    {OP_CALLCODE, 3, 4},
-    {OP_CALLCODE, 5, 6},
     {OP_DELEGATECALL, 2, 3},
     {OP_DELEGATECALL, 4, 5},
     {OP_STATICCALL, 2, 3},

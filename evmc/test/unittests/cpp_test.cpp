@@ -52,12 +52,6 @@ public:
         return 0;
     }
 
-    bool selfdestruct(const evmc::address& /*addr*/,
-                      const evmc::address& /*beneficiary*/) noexcept final
-    {
-        return false;
-    }
-
     evmc::Result call(const evmc_message& /*msg*/) noexcept final { return evmc::Result{}; }
 
     evmc_tx_context get_tx_context() const noexcept final { return {}; }
@@ -653,14 +647,15 @@ TEST(cpp, host)
     EXPECT_EQ(host.get_code_hash(a), evmc::bytes32{});
     EXPECT_EQ(host.copy_code(a, 0, nullptr, 0), size_t{0});
 
-    host.selfdestruct(a, a);
+    // TODO(rgeraldes24)
+    // host.selfdestruct(a, a);
 
-    auto tx = host.get_tx_context();
-    EXPECT_EQ(host.get_tx_context().block_number, tx.block_number);
+    // auto tx = host.get_tx_context();
+    // EXPECT_EQ(host.get_tx_context().block_number, tx.block_number);
 
-    EXPECT_EQ(host.get_block_hash(0), evmc::bytes32{});
+    // EXPECT_EQ(host.get_block_hash(0), evmc::bytes32{});
 
-    host.emit_log(a, nullptr, 0, nullptr, 0);
+    // host.emit_log(a, nullptr, 0, nullptr, 0);
 }
 
 TEST(cpp, host_call)

@@ -41,7 +41,6 @@ constexpr bool is_terminating(Opcode op) noexcept
     case OP_RETF:
     case OP_REVERT:
     case OP_INVALID:
-    case OP_SELFDESTRUCT:
         return true;
     default:
         return false;

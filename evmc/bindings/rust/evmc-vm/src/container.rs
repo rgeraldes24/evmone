@@ -142,7 +142,6 @@ mod tests {
             get_code_size: None,
             get_code_hash: None,
             copy_code: None,
-            selfdestruct: None,
             call: None,
             get_tx_context: Some(get_dummy_tx_context),
             get_block_hash: None,

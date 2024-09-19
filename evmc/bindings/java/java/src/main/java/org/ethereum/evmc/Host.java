@@ -53,11 +53,6 @@ final class Host {
     return ensureDirectBuffer(context.getCode(address));
   }
 
-  /** Selfdestruct callback function. */
-  static boolean selfdestruct(HostContext context, byte[] address, byte[] beneficiary) {
-    return context.selfdestruct(address, beneficiary);
-  }
-
   /** Call callback function. */
   static ByteBuffer call(HostContext context, ByteBuffer msg) {
     return ensureDirectBuffer(context.call(msg));

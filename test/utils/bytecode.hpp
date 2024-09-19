@@ -282,11 +282,6 @@ inline bytecode revert(bytecode index, bytecode size)
     return size + index + OP_REVERT;
 }
 
-inline bytecode selfdestruct(bytecode beneficiary)
-{
-    return std::move(beneficiary) + OP_SELFDESTRUCT;
-}
-
 inline bytecode keccak256(bytecode index, bytecode size)
 {
     return size + index + OP_KECCAK256;
@@ -340,7 +335,7 @@ public:
 
 
     template <Opcode k = kind>
-    typename std::enable_if<k == OP_CALL || k == OP_CALLCODE, call_instruction&>::type value(
+    typename std::enable_if<k == OP_CALL, call_instruction&>::type value(
         bytecode v)
     {
         m_value = std::move(v);
@@ -364,7 +359,7 @@ public:
     operator bytecode() const
     {
         auto code = m_output_size + m_output + m_input_size + m_input;
-        if constexpr (kind == OP_CALL || kind == OP_CALLCODE)
+        if constexpr (kind == OP_CALL)
             code += m_value;
         code += m_address + m_gas + kind;
         return code;
@@ -385,12 +380,6 @@ inline call_instruction<OP_CALL> call(bytecode address)
 {
     return call_instruction<OP_CALL>{std::move(address)};
 }
-
-inline call_instruction<OP_CALLCODE> callcode(bytecode address)
-{
-    return call_instruction<OP_CALLCODE>{std::move(address)};
-}
-
 
 template <Opcode kind>
 struct create_instruction
