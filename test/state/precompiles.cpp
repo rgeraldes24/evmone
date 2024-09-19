@@ -36,19 +36,9 @@ inline constexpr int64_t cost_per_input_word(size_t input_size) noexcept
     return BaseCost + WordCost * num_words(input_size);
 }
 
-PrecompileAnalysis ecrecover_analyze(bytes_view /*input*/, evmc_revision /*rev*/) noexcept
-{
-    return {3000, 32};
-}
-
 PrecompileAnalysis sha256_analyze(bytes_view input, evmc_revision /*rev*/) noexcept
 {
     return {cost_per_input_word<60, 12>(input.size()), 32};
-}
-
-PrecompileAnalysis ripemd160_analyze(bytes_view input, evmc_revision /*rev*/) noexcept
-{
-    return {cost_per_input_word<600, 120>(input.size()), 32};
 }
 
 PrecompileAnalysis identity_analyze(bytes_view input, evmc_revision /*rev*/) noexcept
@@ -72,11 +62,6 @@ PrecompileAnalysis ecpairing_analyze(bytes_view input, evmc_revision rev) noexce
     const auto element_cost = (rev >= EVMC_ISTANBUL) ? 34000 : 80000;
     const auto num_elements = static_cast<int64_t>(input.size() / 192);
     return {base_cost + num_elements * element_cost, 32};
-}
-
-PrecompileAnalysis blake2bf_analyze(bytes_view input, evmc_revision) noexcept
-{
-    return {input.size() == 213 ? intx::be::unsafe::load<uint32_t>(input.data()) : GasCostMax, 64};
 }
 
 PrecompileAnalysis expmod_analyze(bytes_view input, evmc_revision rev) noexcept
@@ -162,15 +147,12 @@ ExecutionResult dummy_execute(const uint8_t*, size_t, uint8_t*, size_t) noexcept
 inline constexpr auto traits = []() noexcept {
     std::array<PrecompileTraits, NumPrecompiles> tbl{{
         {},  // undefined for 0
-        {ecrecover_analyze, dummy_execute<PrecompileId::ecrecover>},
         {sha256_analyze, dummy_execute<PrecompileId::sha256>},
-        {ripemd160_analyze, dummy_execute<PrecompileId::ripemd160>},
         {identity_analyze, identity_execute},
         {expmod_analyze, dummy_execute<PrecompileId::expmod>},
         {ecadd_analyze, dummy_execute<PrecompileId::ecadd>},
         {ecmul_analyze, dummy_execute<PrecompileId::ecmul>},
         {ecpairing_analyze, dummy_execute<PrecompileId::ecpairing>},
-        {blake2bf_analyze, dummy_execute<PrecompileId::blake2bf>},
     }};
     return tbl;
 }();

@@ -75,11 +75,7 @@ evmc_result execute(evmc_vm* /*vm*/,
     const auto id = (addr.bytes[prefix_size] << 8) | addr.bytes[prefix_size + 1];
     switch (id)
     {
-    case 0x0001:  // ECDSARECOVER
     case 0x0002:  // SHA256
-    case 0x0003:  // RIPEMD160
-        return not_implemented();
-
     case 0x0004:  // Identity
         return execute_identity(msg);
 
@@ -87,8 +83,6 @@ evmc_result execute(evmc_vm* /*vm*/,
     case 0x0006:  // SNARKV
     case 0x0007:  // BNADD
     case 0x0008:  // BNMUL
-        if (rev < EVMC_BYZANTIUM)
-            return execute_empty(msg);
         return not_implemented();
 
     default:  // As if empty code was executed.
