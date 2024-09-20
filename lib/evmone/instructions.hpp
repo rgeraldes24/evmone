@@ -199,7 +199,7 @@ inline void mulmod(StackTop stack) noexcept
     m = m != 0 ? intx::mulmod(x, y, m) : 0;
 }
 
-inline Result exp(StackTop stack, int64_t gas_left) noexcept
+inline Result exp(StackTop stack, int64_t gas_left, ExecutionState& /*state*/) noexcept
 {
     const auto& base = stack.pop();
     auto& exponent = stack.top();

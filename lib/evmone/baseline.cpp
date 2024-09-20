@@ -93,8 +93,8 @@ template <Opcode Op>
 inline evmc_status_code check_requirements(const CostTable& cost_table, int64_t& gas_left,
     const uint256* stack_top, const uint256* stack_bottom) noexcept
 {
+    // TODO(rgeraldes24)
     static_assert(
-        // TODO(rgeraldes24)
         !instr::has_const_gas_cost(Op) || instr::gas_costs[EVMC_SHANGHAI][Op] != instr::undefined,
         "undefined instructions must not be handled by check_requirements()");
 

@@ -46,17 +46,17 @@ PrecompileAnalysis identity_analyze(bytes_view input, evmc_revision /*rev*/) noe
     return {cost_per_input_word<15, 3>(input.size()), input.size()};
 }
 
-PrecompileAnalysis ecadd_analyze(bytes_view /*input*/) noexcept
+PrecompileAnalysis ecadd_analyze(bytes_view /*input*/, evmc_revision /*rev*/) noexcept
 {
     return {150, 64};
 }
 
-PrecompileAnalysis ecmul_analyze(bytes_view /*input*/) noexcept
+PrecompileAnalysis ecmul_analyze(bytes_view /*input*/, evmc_revision /*rev*/) noexcept
 {
     return {6000, 64};
 }
 
-PrecompileAnalysis ecpairing_analyze(bytes_view input) noexcept
+PrecompileAnalysis ecpairing_analyze(bytes_view input, evmc_revision /*rev*/) noexcept
 {
     const auto base_cost = 45000;
     const auto element_cost = 34000;
@@ -64,7 +64,7 @@ PrecompileAnalysis ecpairing_analyze(bytes_view input) noexcept
     return {base_cost + num_elements * element_cost, 32};
 }
 
-PrecompileAnalysis expmod_analyze(bytes_view input) noexcept
+PrecompileAnalysis expmod_analyze(bytes_view input, evmc_revision /*rev*/) noexcept
 {
     using namespace intx;
 
@@ -105,12 +105,6 @@ PrecompileAnalysis expmod_analyze(bytes_view input) noexcept
     static constexpr auto mult_complexity_eip2565 = [](const uint256& x) noexcept {
         const auto w = (x + 7) >> 3;
         return w * w;
-    };
-    static constexpr auto mult_complexity_eip198 = [](const uint256& x) noexcept {
-        const auto x2 = x * x;
-        return (x <= 64)   ? x2 :
-               (x <= 1024) ? (x2 >> 2) + 96 * x - 3072 :
-                             (x2 >> 4) + 480 * x - 199680;
     };
 
     const auto max_len = std::max(mod_len, base_len);

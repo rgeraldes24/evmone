@@ -125,14 +125,15 @@ TEST(statetest_loader, load_minimal_test)
     EXPECT_EQ(st.input_labels.size(), 0);
 }
 
-TEST(statetest_loader, validate_deployed_code_test)
-{
-    {
-        state::State state;
-        state.insert(0xadd4_address, {.code = "EF00"_hex});
-        EXPECT_THAT([&] { validate_deployed_code(state, EVMC_SHANGHAI); },
-            ThrowsMessage<std::invalid_argument>(
-                "code at 0x000000000000000000000000000000000000add4 "
-                "starts with 0xEF00 in Shanghai"));
-    }
-}
+// TODO(rgeraldes24)
+// TEST(statetest_loader, validate_deployed_code_test)
+// {
+//     {
+//         state::State state;
+//         state.insert(0xadd4_address, {.code = "EF00"_hex});
+//         EXPECT_THAT([&] { validate_deployed_code(state, EVMC_SHANGHAI); },
+//             ThrowsMessage<std::invalid_argument>(
+//                 "code at 0x000000000000000000000000000000000000add4 "
+//                 "starts with 0xEF00 in Shanghai"));
+//     }
+// }

@@ -108,7 +108,7 @@ TEST_P(evm, create_gas)
 
 TEST_P(evm, create2)
 {
-    rev = EVMC_CONSTANTINOPLE;
+    rev = EVMC_SHANGHAI;
     auto& account = host.accounts[msg.recipient];
     account.set_balance(1);
 
@@ -134,7 +134,7 @@ TEST_P(evm, create2)
 
 TEST_P(evm, create2_salt_cost)
 {
-    rev = EVMC_CONSTANTINOPLE;
+    rev = EVMC_SHANGHAI;
     const auto code = create2().input(0, 0x20);
 
     execute(32021, code);
@@ -152,7 +152,7 @@ TEST_P(evm, create2_salt_cost)
 
 TEST_P(evm, create_balance_too_low)
 {
-    rev = EVMC_CONSTANTINOPLE;
+    rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(1);
     for (auto op : {OP_CREATE, OP_CREATE2})
     {
@@ -168,7 +168,7 @@ TEST_P(evm, create_failure)
     host.call_result.create_address = 0x00000000000000000000000000000000000000ce_address;
     const auto create_address =
         bytes_view{host.call_result.create_address.bytes, sizeof(host.call_result.create_address)};
-    rev = EVMC_CONSTANTINOPLE;
+    rev = EVMC_SHANGHAI;
     for (auto op : {OP_CREATE, OP_CREATE2})
     {
         const auto code = push(0) + (3 * OP_DUP1) + op + ret_top();
@@ -264,7 +264,7 @@ TEST_P(evm, call_with_value_depth_limit)
 
 TEST_P(evm, call_depth_limit)
 {
-    rev = EVMC_CONSTANTINOPLE;
+    rev = EVMC_SHANGHAI;
     msg.depth = 1024;
 
     for (auto op : {OP_CALL, OP_DELEGATECALL, OP_STATICCALL, OP_CREATE, OP_CREATE2})
@@ -605,10 +605,10 @@ TEST_P(evm, call_value)
     }
 }
 
-// TODO(rgeraldes24)
+// TODO(rgeraldes24): selfdestruct
 // TEST_P(evm, create_oog_after)
 // {
-//     rev = EVMC_CONSTANTINOPLE;
+//     rev = EVMC_SHANGHAI;
 //     for (auto op : {OP_CREATE, OP_CREATE2})
 //     {
 //         auto code = 4 * push(0) + op + OP_SELFDESTRUCT;

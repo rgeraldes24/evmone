@@ -174,7 +174,7 @@ TEST_P(evm, memory_access)
 {
     // This test checks if instructions accessing memory properly respond with out-of-gas
     // error for combinations of memory offset and memory size arguments.
-    rev = EVMC_CONSTANTINOPLE;
+    rev = EVMC_SHANGHAI;
 
     for (const auto& p : memory_access_test_cases)
     {

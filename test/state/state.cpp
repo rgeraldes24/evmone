@@ -18,7 +18,7 @@ inline constexpr int64_t num_words(size_t size_in_bytes) noexcept
     return static_cast<int64_t>((size_in_bytes + 31) / 32);
 }
 
-int64_t compute_tx_data_cost(evmc_revision rev, bytes_view data) noexcept
+int64_t compute_tx_data_cost(evmc_revision /*rev*/, bytes_view data) noexcept
 {
     constexpr int64_t zero_byte_cost = 4;
     const int64_t nonzero_byte_cost = 16;
@@ -111,7 +111,7 @@ evmc_message build_message(const Transaction& tx, int64_t execution_gas_limit) n
 }
 }  // namespace
 
-void finalize(State& state, evmc_revision rev, const address& coinbase,
+void finalize(State& state, evmc_revision /*rev*/, const address& coinbase,
     std::optional<uint64_t> block_reward, std::span<Withdrawal> withdrawals)
 {
     if (block_reward.has_value())
