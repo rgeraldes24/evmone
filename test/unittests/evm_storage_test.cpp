@@ -27,9 +27,10 @@ TEST_P(evm, sstore_pop_stack)
         host.accounts[msg.recipient].storage.find(0x01_bytes32)->second.current, 0x00_bytes32);
 }
 
+// TODO(rgeraldes24)
 TEST_P(evm, sload_cost_pre_tangerine_whistle)
 {
-    rev = EVMC_HOMESTEAD;
+    rev = EVMC_SHANGHAI;
     execute(56, sload(dup1(0)));
     EXPECT_GAS_USED(EVMC_SUCCESS, 56);
     EXPECT_EQ(host.accounts[msg.recipient].storage.size(), 0);
@@ -66,7 +67,7 @@ TEST_P(evm, sstore_cost)
 
     constexpr auto v1 = 0x01_bytes32;
 
-    for (auto r : {EVMC_BYZANTIUM, EVMC_CONSTANTINOPLE, EVMC_PETERSBURG, EVMC_ISTANBUL})
+    for (auto r : {EVMC_SHANGHAI})
     {
         rev = r;
 
@@ -101,12 +102,7 @@ TEST_P(evm, sstore_cost)
         storage[v1] = v1;
         execute(sstore(1, 1));
         EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-        if (rev >= EVMC_ISTANBUL)
-            EXPECT_EQ(gas_used, 806);
-        else if (rev == EVMC_CONSTANTINOPLE)
-            EXPECT_EQ(gas_used, 206);
-        else
-            EXPECT_EQ(gas_used, 5006);
+        EXPECT_EQ(gas_used, 806);
         execute(205, sstore(1, 1));
         EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 
@@ -114,59 +110,34 @@ TEST_P(evm, sstore_cost)
         storage.clear();
         execute(sstore(1, 1) + sstore(1, 1));
         EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-        if (rev >= EVMC_ISTANBUL)
-            EXPECT_EQ(gas_used, 20812);
-        else if (rev == EVMC_CONSTANTINOPLE)
-            EXPECT_EQ(gas_used, 20212);
-        else
-            EXPECT_EQ(gas_used, 25012);
+        EXPECT_EQ(gas_used, 20812);
 
         // Modified again:
         storage.clear();
         storage[v1] = {v1, 0x00_bytes32};
         execute(sstore(1, 2));
         EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-        if (rev >= EVMC_ISTANBUL)
-            EXPECT_EQ(gas_used, 806);
-        else if (rev == EVMC_CONSTANTINOPLE)
-            EXPECT_EQ(gas_used, 206);
-        else
-            EXPECT_EQ(gas_used, 5006);
+        EXPECT_EQ(gas_used, 806);
 
         // Added & modified again:
         storage.clear();
         execute(sstore(1, 1) + sstore(1, 2));
         EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-        if (rev >= EVMC_ISTANBUL)
-            EXPECT_EQ(gas_used, 20812);
-        else if (rev == EVMC_CONSTANTINOPLE)
-            EXPECT_EQ(gas_used, 20212);
-        else
-            EXPECT_EQ(gas_used, 25012);
+        EXPECT_EQ(gas_used, 20812);
 
         // Modified & modified again:
         storage.clear();
         storage[v1] = v1;
         execute(sstore(1, 2) + sstore(1, 3));
         EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-        if (rev >= EVMC_ISTANBUL)
-            EXPECT_EQ(gas_used, 5812);
-        else if (rev == EVMC_CONSTANTINOPLE)
-            EXPECT_EQ(gas_used, 5212);
-        else
-            EXPECT_EQ(gas_used, 10012);
+        EXPECT_EQ(gas_used, 5812);
 
         // Modified & modified again back to original:
         storage.clear();
         storage[v1] = v1;
         execute(sstore(1, 2) + sstore(1, 1));
         EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-        if (rev >= EVMC_ISTANBUL)
-            EXPECT_EQ(gas_used, 5812);
-        else if (rev == EVMC_CONSTANTINOPLE)
-            EXPECT_EQ(gas_used, 5212);
-        else
-            EXPECT_EQ(gas_used, 10012);
+        EXPECT_EQ(gas_used, 5812);
     }
 }
 
@@ -198,7 +169,7 @@ TEST_P(evm, sstore_cost_legacy)
         EXPECT_EQ(result.gas_refund, expected_gas_refund);
     };
 
-    for (const auto r : {EVMC_FRONTIER, EVMC_BYZANTIUM, EVMC_PETERSBURG})
+    for (const auto r : {EVMC_SHANGHAI})
     {
         rev = r;
 
@@ -255,12 +226,9 @@ TEST_P(evm, sstore_cost_net_gas_metering)
     };
 
     std::array<CostConstants, EVMC_MAX_REVISION + 1> cost_constants{};
-    cost_constants[EVMC_CONSTANTINOPLE] = {200, 20000, 5000, 15000};
-    cost_constants[EVMC_ISTANBUL] = {800, 20000, 5000, 15000};
-    cost_constants[EVMC_BERLIN] = {100, 20000, 2900, 15000};
-    cost_constants[EVMC_LONDON] = {100, 20000, 2900, 4800};
+    cost_constants[EVMC_SHANGHAI] = {100, 20000, 2900, 4800};
 
-    for (const auto r : {EVMC_CONSTANTINOPLE, EVMC_ISTANBUL, EVMC_BERLIN, EVMC_LONDON})
+    for (const auto r : {EVMC_SHANGHAI})
     {
         rev = r;
         const auto& c = cost_constants.at(static_cast<size_t>(r));
@@ -288,15 +256,7 @@ TEST_P(evm, sstore_below_stipend)
 {
     const auto code = sstore(0, 0);
 
-    rev = EVMC_HOMESTEAD;
-    execute(2306, code);
-    EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
-
-    rev = EVMC_CONSTANTINOPLE;
-    execute(2306, code);
-    EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-
-    rev = EVMC_ISTANBUL;
+    rev = EVMC_SHANGHAI;
     execute(2306, code);
     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 

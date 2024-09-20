@@ -106,7 +106,6 @@ mod tests {
 
     #[test]
     fn revision() {
-        assert_eq!(Revision::EVMC_FRONTIER, ffi::evmc_revision::EVMC_FRONTIER);
-        assert_eq!(Revision::EVMC_ISTANBUL, ffi::evmc_revision::EVMC_ISTANBUL);
+        assert_eq!(Revision::EVMC_SHANGHAI, ffi::evmc_revision::EVMC_SHANGHAI);
     }
 }

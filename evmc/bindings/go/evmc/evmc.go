@@ -95,20 +95,7 @@ const (
 type Revision int32
 
 const (
-	Frontier             Revision = C.EVMC_FRONTIER
-	Homestead            Revision = C.EVMC_HOMESTEAD
-	TangerineWhistle     Revision = C.EVMC_TANGERINE_WHISTLE
-	SpuriousDragon       Revision = C.EVMC_SPURIOUS_DRAGON
-	Byzantium            Revision = C.EVMC_BYZANTIUM
-	Constantinople       Revision = C.EVMC_CONSTANTINOPLE
-	Petersburg           Revision = C.EVMC_PETERSBURG
-	Istanbul             Revision = C.EVMC_ISTANBUL
-	Berlin               Revision = C.EVMC_BERLIN
-	London               Revision = C.EVMC_LONDON
-	Paris                Revision = C.EVMC_PARIS
 	Shanghai             Revision = C.EVMC_SHANGHAI
-	Cancun               Revision = C.EVMC_CANCUN
-	Prague               Revision = C.EVMC_PRAGUE
 	MaxRevision          Revision = C.EVMC_MAX_REVISION
 	LatestStableRevision Revision = C.EVMC_LATEST_STABLE_REVISION
 )

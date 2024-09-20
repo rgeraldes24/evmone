@@ -59,7 +59,7 @@ TEST_P(evm, codecopy_combinations)
 
 TEST_P(evm, tx_context)
 {
-    rev = EVMC_ISTANBUL;
+    rev = EVMC_SHANGHAI;
 
     host.tx_context.block_timestamp = 0xdd;
     host.tx_context.block_number = 0x1100;
@@ -102,9 +102,10 @@ TEST_P(evm, balance)
     EXPECT_EQ(result.output_data[5], 0x01);
 }
 
+// TODO(rgeraldes24): test
 TEST_P(evm, account_info_homestead)
 {
-    rev = EVMC_HOMESTEAD;
+    rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(1);
     host.accounts[msg.recipient].code = bytes{1};
 
@@ -129,11 +130,7 @@ TEST_P(evm, selfbalance)
     // instruction as a result)
     auto code = bytecode{} + push(1) + OP_SELFBALANCE + mstore(0) + ret(32 - 6, 6);
 
-    rev = EVMC_CONSTANTINOPLE;
-    execute(code);
-    EXPECT_EQ(result.status_code, EVMC_UNDEFINED_INSTRUCTION);
-
-    rev = EVMC_ISTANBUL;
+    rev = EVMC_SHANGHAI;
     execute(code);
     EXPECT_GAS_USED(EVMC_SUCCESS, 23);
     ASSERT_EQ(result.output_size, 6);
@@ -273,11 +270,7 @@ TEST_P(evm, extcodehash)
 
     const auto code = push(0) + OP_EXTCODEHASH + ret_top();
 
-    rev = EVMC_BYZANTIUM;
-    execute(code);
-    EXPECT_EQ(result.status_code, EVMC_UNDEFINED_INSTRUCTION);
-
-    rev = EVMC_CONSTANTINOPLE;
+    rev = EVMC_SHANGHAI;
     execute(code);
     EXPECT_EQ(gas_used, 418);
     ASSERT_EQ(result.output_size, 32);

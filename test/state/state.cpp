@@ -21,7 +21,7 @@ inline constexpr int64_t num_words(size_t size_in_bytes) noexcept
 int64_t compute_tx_data_cost(evmc_revision rev, bytes_view data) noexcept
 {
     constexpr int64_t zero_byte_cost = 4;
-    const int64_t nonzero_byte_cost = rev >= EVMC_ISTANBUL ? 16 : 68;
+    const int64_t nonzero_byte_cost = 16;
     int64_t cost = 0;
     for (const auto b : data)
         cost += (b == 0) ? zero_byte_cost : nonzero_byte_cost;
@@ -46,8 +46,8 @@ int64_t compute_tx_intrinsic_cost(evmc_revision rev, const Transaction& tx) noex
     static constexpr auto initcode_word_cost = 2;
     const auto is_create = !tx.to.has_value();
     const auto initcode_cost =
-        is_create && rev >= EVMC_SHANGHAI ? initcode_word_cost * num_words(tx.data.size()) : 0;
-    const auto tx_cost = is_create && rev >= EVMC_HOMESTEAD ? create_tx_cost : call_tx_cost;
+        is_create && initcode_word_cost * num_words(tx.data.size());
+    const auto tx_cost = is_create ? create_tx_cost : call_tx_cost;
     return tx_cost + compute_tx_data_cost(rev, tx.data) + compute_access_list_cost(tx.access_list) +
            initcode_cost;
 }
@@ -58,19 +58,13 @@ int64_t compute_tx_intrinsic_cost(evmc_revision rev, const Transaction& tx) noex
 std::variant<int64_t, std::error_code> validate_transaction(const Account& sender_acc,
     const BlockInfo& block, const Transaction& tx, evmc_revision rev) noexcept
 {
-    if (rev < EVMC_LONDON && tx.kind == Transaction::Kind::eip1559)
-        return make_error_code(TX_TYPE_NOT_SUPPORTED);
-
-    if (rev < EVMC_BERLIN && !tx.access_list.empty())
-        return make_error_code(TX_TYPE_NOT_SUPPORTED);
-
     if (tx.max_priority_gas_price > tx.max_gas_price)
         return make_error_code(TIP_GT_FEE_CAP);  // Priority gas price is too high.
 
     if (tx.gas_limit > block.gas_limit)
         return make_error_code(GAS_LIMIT_REACHED);
 
-    if (rev >= EVMC_LONDON && tx.max_gas_price < block.base_fee)
+    if (tx.max_gas_price < block.base_fee)
         return make_error_code(FEE_CAP_LESS_THEN_BLOCKS);
 
     if (!sender_acc.code.empty())
@@ -80,7 +74,7 @@ std::variant<int64_t, std::error_code> validate_transaction(const Account& sende
         return make_error_code(NONCE_HAS_MAX_VALUE);
 
     // initcode size is limited by EIP-3860.
-    if (rev >= EVMC_SHANGHAI && !tx.to.has_value() && tx.data.size() > max_initcode_size)
+    if (!tx.to.has_value() && tx.data.size() > max_initcode_size)
         return make_error_code(INIT_CODE_SIZE_LIMIT_EXCEEDED);
 
     // Compute and check if sender has enough balance for the theoretical maximum transaction cost.
@@ -123,14 +117,11 @@ void finalize(State& state, evmc_revision rev, const address& coinbase,
     if (block_reward.has_value())
         state.touch(coinbase).balance += *block_reward;
 
-    if (rev >= EVMC_SPURIOUS_DRAGON)
-    {
-        std::erase_if(
-            state.get_accounts(), [](const std::pair<const address, Account>& p) noexcept {
-                const auto& acc = p.second;
-                return acc.erasable && acc.is_empty();
-            });
-    }
+    std::erase_if(
+        state.get_accounts(), [](const std::pair<const address, Account>& p) noexcept {
+            const auto& acc = p.second;
+            return acc.erasable && acc.is_empty();
+        });
 
     for (const auto& withdrawal : withdrawals)
         state.touch(withdrawal.recipient).balance += withdrawal.get_amount();
@@ -147,7 +138,7 @@ std::variant<TransactionReceipt, std::error_code> transition(
 
     const auto execution_gas_limit = get<int64_t>(validation_result);
 
-    const auto base_fee = (rev >= EVMC_LONDON) ? block.base_fee : 0;
+    const auto base_fee = block.base_fee;
     assert(tx.max_gas_price >= base_fee);                   // Checked at the front.
     assert(tx.max_gas_price >= tx.max_priority_gas_price);  // Checked at the front.
     const auto priority_gas_price =
@@ -174,14 +165,13 @@ std::variant<TransactionReceipt, std::error_code> transition(
     // EIP-3651: Warm COINBASE.
     // This may create an empty coinbase account. The account cannot be created unconditionally
     // because this breaks old revisions.
-    if (rev >= EVMC_SHANGHAI)
-        host.access_account(block.coinbase);
+    host.access_account(block.coinbase);
 
     const auto result = host.call(build_message(tx, execution_gas_limit));
 
     auto gas_used = tx.gas_limit - result.gas_left;
 
-    const auto max_refund_quotient = rev >= EVMC_LONDON ? 5 : 2;
+    const auto max_refund_quotient = 5;
     const auto refund_limit = gas_used / max_refund_quotient;
     const auto refund = std::min(result.gas_refund, refund_limit);
     gas_used -= refund;

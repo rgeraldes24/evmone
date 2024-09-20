@@ -119,11 +119,12 @@ TEST_P(evm, swapsn_jumpdest)
     const auto swapsn = "b3";
     const auto code = push(4) + OP_JUMP + swapsn + OP_JUMPDEST + push(0) + ret_top();
 
-    rev = EVMC_PETERSBURG;
-    execute(code);
-    EXPECT_GAS_USED(EVMC_SUCCESS, 30);
+    // TODO(rgeraldes24)
+    // rev = EVMC_PETERSBURG;
+    // execute(code);
+    // EXPECT_GAS_USED(EVMC_SUCCESS, 30);
 
-    rev = EVMC_ISTANBUL;
+    rev = EVMC_SHANGHAI;
     execute(code);
     EXPECT_STATUS(EVMC_SUCCESS);
 
@@ -140,11 +141,7 @@ TEST_P(evm, swapsn_push)
     const auto swapsn = "b3";
     const auto code = push(5) + OP_JUMP + swapsn + push(uint8_t{OP_JUMPDEST}) + push(0) + ret_top();
 
-    rev = EVMC_PETERSBURG;
-    execute(code);
-    EXPECT_STATUS(EVMC_BAD_JUMP_DESTINATION);
-
-    rev = EVMC_ISTANBUL;
+    rev = EVMC_SHANGHAI;
     execute(code);
     EXPECT_STATUS(EVMC_BAD_JUMP_DESTINATION);
 
@@ -631,7 +628,7 @@ TEST_P(evm, undefined_instructions)
 
 TEST_P(evm, undefined_instruction_analysis_overflow)
 {
-    rev = EVMC_PETERSBURG;
+    rev = EVMC_SHANGHAI;
 
     auto undefined_opcode = static_cast<Opcode>(0x0c);
     auto code = bytecode{undefined_opcode};

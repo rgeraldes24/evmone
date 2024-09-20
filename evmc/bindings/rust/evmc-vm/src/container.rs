@@ -156,7 +156,7 @@ mod tests {
         assert_eq!(
             container
                 .execute(
-                    evmc_sys::evmc_revision::EVMC_PETERSBURG,
+                    evmc_sys::evmc_revision::EVMC_SHANGHAI,
                     &code,
                     &message,
                     Some(&mut context)
@@ -172,7 +172,7 @@ mod tests {
         assert_eq!(
             container
                 .execute(
-                    evmc_sys::evmc_revision::EVMC_PETERSBURG,
+                    evmc_sys::evmc_revision::EVMC_SHANGHAI,
                     &code,
                     &message,
                     Some(&mut context)

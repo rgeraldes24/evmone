@@ -24,7 +24,7 @@ constexpr int unspecified = -1000000;
 
 constexpr int get_revision_defined_in(size_t op) noexcept
 {
-    for (size_t r = EVMC_FRONTIER; r <= EVMC_MAX_REVISION; ++r)
+    for (size_t r = EVMC_SHANGHAI; r <= EVMC_MAX_REVISION; ++r)
     {
         if (instr::gas_costs[r][op] != instr::undefined)
             return static_cast<int>(r);
@@ -38,7 +38,6 @@ constexpr bool is_terminating(Opcode op) noexcept
     {
     case OP_STOP:
     case OP_RETURN:
-    case OP_RETF:
     case OP_REVERT:
     case OP_INVALID:
         return true;
@@ -55,12 +54,8 @@ constexpr void validate_traits_of() noexcept
     // immediate_size
     if constexpr (Op >= OP_PUSH1 && Op <= OP_PUSH32)
         static_assert(tr.immediate_size == Op - OP_PUSH1 + 1);
-    else if constexpr (Op == OP_RJUMP || Op == OP_RJUMPI || Op == OP_CALLF)
-        static_assert(tr.immediate_size == 2);
-    else if constexpr (Op == OP_DUPN || Op == OP_SWAPN)
-        static_assert(tr.immediate_size == 1);
     else
-        static_assert(tr.immediate_size == 0);  // Including RJUMPV.
+        static_assert(tr.immediate_size == 0);  // Including RJUMPV. // TODO(rgeraldes24)
 
     // is_terminating
     static_assert(tr.is_terminating == is_terminating(Op));
@@ -92,33 +87,9 @@ static_assert(!instr::has_const_gas_cost(OP_SLOAD));
 
 }  // namespace evmone::test
 
-namespace
-{
-// TODO: Coordinate with evmc::instructions library to remove the differences and this file
-constexpr bool instruction_only_in_evmone(evmc_revision rev, Opcode op) noexcept
-{
-    if (rev < EVMC_CANCUN)
-        return false;
-
-    switch (op)
-    {
-    case OP_RJUMP:
-    case OP_RJUMPI:
-    case OP_RJUMPV:
-    case OP_CALLF:
-    case OP_RETF:
-    case OP_DUPN:
-    case OP_SWAPN:
-        return true;
-    default:
-        return false;
-    }
-}
-}  // namespace
-
 TEST(instructions, compare_with_evmc_instruction_tables)
 {
-    for (int r = EVMC_FRONTIER; r <= EVMC_MAX_REVISION; ++r)
+    for (int r = EVMC_SHANGHAI; r <= EVMC_MAX_REVISION; ++r)
     {
         const auto rev = static_cast<evmc_revision>(r);
         const auto& instr_tbl = instr::gas_costs[rev];
@@ -127,9 +98,6 @@ TEST(instructions, compare_with_evmc_instruction_tables)
 
         for (size_t i = 0; i < evmone_tbl.size(); ++i)
         {
-            if (instruction_only_in_evmone(rev, Opcode(i)))
-                continue;
-
             const auto gas_cost = (instr_tbl[i] != instr::undefined) ? instr_tbl[i] : 0;
             const auto& metrics = evmone_tbl[i];
             const auto& ref_metrics = evmc_tbl[i];
@@ -151,7 +119,7 @@ TEST(instructions, compare_with_evmc_instruction_tables)
 
 TEST(instructions, compare_undefined_instructions)
 {
-    for (int r = EVMC_FRONTIER; r <= EVMC_MAX_REVISION; ++r)
+    for (int r = EVMC_SHANGHAI; r <= EVMC_MAX_REVISION; ++r)
     {
         const auto rev = static_cast<evmc_revision>(r);
         const auto& instr_tbl = instr::gas_costs[rev];
@@ -159,9 +127,6 @@ TEST(instructions, compare_undefined_instructions)
 
         for (size_t i = 0; i < instr_tbl.size(); ++i)
         {
-            if (instruction_only_in_evmone(rev, Opcode(i)))
-                continue;
-
             EXPECT_EQ(instr_tbl[i] == instr::undefined, evmc_names_tbl[i] == nullptr) << i;
         }
     }
@@ -172,9 +137,6 @@ TEST(instructions, compare_with_evmc_instruction_names)
     const auto* evmc_tbl = evmc_get_instruction_names_table(EVMC_MAX_REVISION);
     for (size_t i = 0; i < instr::traits.size(); ++i)
     {
-        if (instruction_only_in_evmone(EVMC_MAX_REVISION, Opcode(i)))
-            continue;
-
         EXPECT_STREQ(instr::traits[i].name, evmc_tbl[i]);
     }
 }

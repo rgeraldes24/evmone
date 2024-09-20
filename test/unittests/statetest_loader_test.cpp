@@ -129,15 +129,6 @@ TEST(statetest_loader, validate_deployed_code_test)
 {
     {
         state::State state;
-        state.insert(0xadd4_address, {.code = "EF0001010000020001000103000100FEDA"_hex});
-        EXPECT_THAT([&] { validate_deployed_code(state, EVMC_CANCUN); },
-            ThrowsMessage<std::invalid_argument>(
-                "EOF container at 0x000000000000000000000000000000000000add4 is invalid: "
-                "zero_section_size"));
-    }
-
-    {
-        state::State state;
         state.insert(0xadd4_address, {.code = "EF00"_hex});
         EXPECT_THAT([&] { validate_deployed_code(state, EVMC_SHANGHAI); },
             ThrowsMessage<std::invalid_argument>(

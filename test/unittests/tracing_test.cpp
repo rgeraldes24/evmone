@@ -29,7 +29,7 @@ protected:
     {}
 
     std::string trace(
-        bytes_view code, int32_t depth = 0, uint32_t flags = 0, evmc_revision rev = EVMC_BERLIN)
+        bytes_view code, int32_t depth = 0, uint32_t flags = 0, evmc_revision rev = EVMC_SHANGHAI)
     {
         evmc::MockedHost host;
         evmc_message msg{};
@@ -292,19 +292,4 @@ TEST_F(tracing, trace_code_containing_zero)
     trace(code);
 
     EXPECT_EQ(tracer.get_last_code().size(), code.size());
-}
-
-TEST_F(tracing, trace_eof)
-{
-    vm.add_tracer(evmone::create_instruction_tracer(trace_stream));
-
-    trace_stream << '\n';
-    EXPECT_EQ(trace(eof1_bytecode(add(2, 3) + OP_STOP, 2), 0, 0, EVMC_CANCUN), R"(
-{"depth":0,"rev":"Cancun","static":false}
-{"pc":0,"op":96,"opName":"PUSH1","gas":0xf4240,"stack":[],"memorySize":0}
-{"pc":2,"op":96,"opName":"PUSH1","gas":0xf423d,"stack":["0x3"],"memorySize":0}
-{"pc":4,"op":1,"opName":"ADD","gas":0xf423a,"stack":["0x3","0x2"],"memorySize":0}
-{"pc":5,"op":0,"opName":"STOP","gas":0xf4237,"stack":["0x5"],"memorySize":0}
-{"error":null,"gas":0xf4237,"gasUsed":0x9,"output":""}
-)");
 }

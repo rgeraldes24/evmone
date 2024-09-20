@@ -138,14 +138,15 @@ TEST_F(example_vm, revert_block_number)
     EXPECT_EQ(r, Output("00000000000000000000000000000000000000000000000000000000000000b4"));
 }
 
-TEST_F(example_vm, revert_undefined)
-{
-    rev = EVMC_FRONTIER;
-    const auto r = execute_in_example_vm(100, "fd");
-    EXPECT_EQ(r.status_code, EVMC_UNDEFINED_INSTRUCTION);
-    EXPECT_EQ(r.gas_left, 0);
-    EXPECT_EQ(r, Output(""));
-}
+// TODO(rgeraldes24)
+// TEST_F(example_vm, revert_undefined)
+// {
+//     rev = EVMC_FRONTIER;
+//     const auto r = execute_in_example_vm(100, "fd");
+//     EXPECT_EQ(r.status_code, EVMC_UNDEFINED_INSTRUCTION);
+//     EXPECT_EQ(r.gas_left, 0);
+//     EXPECT_EQ(r, Output(""));
+// }
 
 TEST_F(example_vm, call)
 {

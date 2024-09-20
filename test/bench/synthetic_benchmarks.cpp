@@ -105,6 +105,7 @@ bytecode generate_loop_inner_code(CodeParams params)
             // PUSH1 POP PUSH1 POP ...
             return stack_limit * (push(opcode, {}) + OP_POP);
 
+        // TODO(rgeraldes24): remove?
         case InstructionCategory::dup:
         {
             // The required n stack height for DUPn is provided by
@@ -118,6 +119,7 @@ bytecode generate_loop_inner_code(CodeParams params)
                    (n - 1) * OP_POP;                  // Pop initially duplicated values.
         }
 
+        // TODO(rgeraldes24): remove?
         case InstructionCategory::swap:
         {
             // The required n+1 stack height for SWAPn is provided by duplicating the loop counter
@@ -151,6 +153,7 @@ bytecode generate_loop_inner_code(CodeParams params)
             // PUSH1 PUSH1 PUSH1 ... POP POP POP ...
             return stack_limit * push(opcode, {}) + stack_limit * OP_POP;
 
+        // TODO(rgeraldes24)
         case InstructionCategory::dup:
         {
             // The required initial n stack height for DUPn is provided by

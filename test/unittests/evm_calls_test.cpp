@@ -53,7 +53,7 @@ TEST_P(evm, delegatecall_static)
 
 TEST_P(evm, delegatecall_oog_depth_limit)
 {
-    rev = EVMC_HOMESTEAD;
+    rev = EVMC_SHANGHAI;
     msg.depth = 1024;
     const auto code = bytecode{} + delegatecall(0).gas(16) + ret_top();
 
@@ -94,15 +94,15 @@ TEST_P(evm, create)
 TEST_P(evm, create_gas)
 {
     size_t c = 0;
-    for (auto r : {EVMC_HOMESTEAD, EVMC_TANGERINE_WHISTLE})
+    for (auto r : {EVMC_SHANGHAI})
     {
         ++c;
         rev = r;
         execute(50000, create());
         EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-        EXPECT_EQ(gas_used, rev == EVMC_HOMESTEAD ? 50000 : 49719) << rev;
+        EXPECT_EQ(gas_used, 49719) << rev;
         ASSERT_EQ(host.recorded_calls.size(), c);
-        EXPECT_EQ(host.recorded_calls.back().gas, rev == EVMC_HOMESTEAD ? 17991 : 17710) << rev;
+        EXPECT_EQ(host.recorded_calls.back().gas, 17710) << rev;
     }
 }
 
@@ -318,7 +318,7 @@ TEST_P(evm, call_output)
 
 TEST_P(evm, call_high_gas)
 {
-    rev = EVMC_HOMESTEAD;
+    rev = EVMC_SHANGHAI;
     host.accounts[0xaa_address] = {};
 
     for (auto call_opcode : {OP_CALL, OP_DELEGATECALL})
@@ -357,40 +357,40 @@ TEST_P(evm, call_new_account_creation_cost)
         4 * push(0) + calldataload(0) + push(call_dst) + push(0) + OP_CALL + ret_top();
     msg.recipient = msg_dst;
 
+    // TODO(rgeraldes24)
+    // rev = EVMC_TANGERINE_WHISTLE;
+    // host.accounts[msg.recipient].set_balance(0);
+    // execute(code, "00"_hex);
+    // EXPECT_GAS_USED(EVMC_SUCCESS, 25000 + 739);
+    // EXPECT_OUTPUT_INT(1);
+    // ASSERT_EQ(host.recorded_calls.size(), 1);
+    // EXPECT_EQ(host.recorded_calls.back().recipient, call_dst);
+    // EXPECT_EQ(host.recorded_calls.back().gas, 0);
+    // ASSERT_EQ(host.recorded_account_accesses.size(), 2);
+    // EXPECT_EQ(host.recorded_account_accesses[0], call_dst);  // Account exist?
+    // EXPECT_EQ(host.recorded_account_accesses[1], call_dst);  // Call.
+    // host.recorded_account_accesses.clear();
+    // host.recorded_calls.clear();
 
-    rev = EVMC_TANGERINE_WHISTLE;
-    host.accounts[msg.recipient].set_balance(0);
-    execute(code, "00"_hex);
-    EXPECT_GAS_USED(EVMC_SUCCESS, 25000 + 739);
-    EXPECT_OUTPUT_INT(1);
-    ASSERT_EQ(host.recorded_calls.size(), 1);
-    EXPECT_EQ(host.recorded_calls.back().recipient, call_dst);
-    EXPECT_EQ(host.recorded_calls.back().gas, 0);
-    ASSERT_EQ(host.recorded_account_accesses.size(), 2);
-    EXPECT_EQ(host.recorded_account_accesses[0], call_dst);  // Account exist?
-    EXPECT_EQ(host.recorded_account_accesses[1], call_dst);  // Call.
-    host.recorded_account_accesses.clear();
-    host.recorded_calls.clear();
+    // rev = EVMC_TANGERINE_WHISTLE;
+    // host.accounts[msg.recipient].set_balance(1);
+    // execute(code, "0000000000000000000000000000000000000000000000000000000000000001"_hex);
+    // EXPECT_GAS_USED(EVMC_SUCCESS, 25000 + 9000 + 739);
+    // EXPECT_OUTPUT_INT(1);
+    // ASSERT_EQ(host.recorded_calls.size(), 1);
+    // EXPECT_EQ(host.recorded_calls.back().recipient, call_dst);
+    // EXPECT_EQ(host.recorded_calls.back().gas, 2300);
+    // EXPECT_EQ(host.recorded_calls.back().sender, msg_dst);
+    // EXPECT_EQ(host.recorded_calls.back().value.bytes[31], 1);
+    // EXPECT_EQ(host.recorded_calls.back().input_size, 0);
+    // ASSERT_EQ(host.recorded_account_accesses.size(), 3);
+    // EXPECT_EQ(host.recorded_account_accesses[0], call_dst);       // Account exist?
+    // EXPECT_EQ(host.recorded_account_accesses[1], msg.recipient);  // Balance.
+    // EXPECT_EQ(host.recorded_account_accesses[2], call_dst);       // Call.
+    // host.recorded_account_accesses.clear();
+    // host.recorded_calls.clear();
 
-    rev = EVMC_TANGERINE_WHISTLE;
-    host.accounts[msg.recipient].set_balance(1);
-    execute(code, "0000000000000000000000000000000000000000000000000000000000000001"_hex);
-    EXPECT_GAS_USED(EVMC_SUCCESS, 25000 + 9000 + 739);
-    EXPECT_OUTPUT_INT(1);
-    ASSERT_EQ(host.recorded_calls.size(), 1);
-    EXPECT_EQ(host.recorded_calls.back().recipient, call_dst);
-    EXPECT_EQ(host.recorded_calls.back().gas, 2300);
-    EXPECT_EQ(host.recorded_calls.back().sender, msg_dst);
-    EXPECT_EQ(host.recorded_calls.back().value.bytes[31], 1);
-    EXPECT_EQ(host.recorded_calls.back().input_size, 0);
-    ASSERT_EQ(host.recorded_account_accesses.size(), 3);
-    EXPECT_EQ(host.recorded_account_accesses[0], call_dst);       // Account exist?
-    EXPECT_EQ(host.recorded_account_accesses[1], msg.recipient);  // Balance.
-    EXPECT_EQ(host.recorded_account_accesses[2], call_dst);       // Call.
-    host.recorded_account_accesses.clear();
-    host.recorded_calls.clear();
-
-    rev = EVMC_SPURIOUS_DRAGON;
+    rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(0);
     execute(code, "00"_hex);
     EXPECT_GAS_USED(EVMC_SUCCESS, 739);
@@ -406,7 +406,7 @@ TEST_P(evm, call_new_account_creation_cost)
     host.recorded_account_accesses.clear();
     host.recorded_calls.clear();
 
-    rev = EVMC_SPURIOUS_DRAGON;
+    rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(1);
     execute(code, "0000000000000000000000000000000000000000000000000000000000000001"_hex);
     EXPECT_GAS_USED(EVMC_SUCCESS, 25000 + 9000 + 739);
@@ -708,7 +708,7 @@ TEST_P(evm, returndatacopy_outofrange)
 
 TEST_P(evm, call_gas_refund_propagation)
 {
-    rev = EVMC_LONDON;
+    rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(1);
     host.call_result.status_code = EVMC_SUCCESS;
     host.call_result.gas_refund = 1;
@@ -725,7 +725,7 @@ TEST_P(evm, call_gas_refund_propagation)
 
 TEST_P(evm, call_gas_refund_aggregation_different_calls)
 {
-    rev = EVMC_LONDON;
+    rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(1);
     host.call_result.status_code = EVMC_SUCCESS;
     host.call_result.gas_refund = 1;
@@ -740,7 +740,7 @@ TEST_P(evm, call_gas_refund_aggregation_different_calls)
 
 TEST_P(evm, call_gas_refund_aggregation_same_calls)
 {
-    rev = EVMC_LONDON;
+    rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(2);
     host.call_result.status_code = EVMC_SUCCESS;
     host.call_result.gas_refund = 1;

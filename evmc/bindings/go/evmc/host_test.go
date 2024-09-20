@@ -78,7 +78,7 @@ func TestGetBlockNumberFromTxContext(t *testing.T) {
 	host := &testHostContext{}
 	addr := Address{}
 	h := Hash{}
-	output, gasLeft, err := vm.Execute(host, Byzantium, Call, false, 1, 100, addr, addr, nil, h, code)
+	output, gasLeft, err := vm.Execute(host, Shanghai, Call, false, 1, 100, addr, addr, nil, h, code)
 
 	if len(output) != 32 {
 		t.Errorf("unexpected output size: %d", len(output))
@@ -107,7 +107,7 @@ func TestCall(t *testing.T) {
 	host := &testHostContext{}
 	addr := Address{}
 	h := Hash{}
-	output, gasLeft, err := vm.Execute(host, Byzantium, Call, false, 1, 100, addr, addr, nil, h, code)
+	output, gasLeft, err := vm.Execute(host, Shanghai, Call, false, 1, 100, addr, addr, nil, h, code)
 
 	if len(output) != 34 {
 		t.Errorf("execution unexpected output length: %d", len(output))

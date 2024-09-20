@@ -259,15 +259,6 @@ constexpr std::array<instruction_exec_fn, 256> instruction_implementations = [](
     table[OP_CREATE2] = op_create<OP_CREATE2>;
     table[OP_STATICCALL] = op_call<OP_STATICCALL>;
 
-    table[OP_RJUMP] = op_undefined;
-    table[OP_RJUMPI] = op_undefined;
-    table[OP_RJUMPV] = op_undefined;
-    table[OP_CALLF] = op_undefined;
-    table[OP_RETF] = op_undefined;
-
-    table[OP_DUPN] = op_undefined;
-    table[OP_SWAPN] = op_undefined;
-
     return table;
 }();
 }  // namespace
@@ -276,7 +267,7 @@ EVMC_EXPORT const OpTable& get_op_table(evmc_revision rev) noexcept
 {
     static constexpr auto op_tables = []() noexcept {
         std::array<OpTable, EVMC_MAX_REVISION + 1> tables{};
-        for (size_t r = EVMC_FRONTIER; r <= EVMC_MAX_REVISION; ++r)
+        for (size_t r = EVMC_SHANGHAI; r <= EVMC_MAX_REVISION; ++r)
         {
             auto& table = tables[r];
             for (size_t i = 0; i < table.size(); ++i)

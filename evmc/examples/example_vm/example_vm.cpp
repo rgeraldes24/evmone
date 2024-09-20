@@ -358,9 +358,6 @@ evmc_result execute(evmc_vm* instance,
 
         case OP_REVERT:
         {
-            if (rev < EVMC_BYZANTIUM)
-                return evmc_make_result(EVMC_UNDEFINED_INSTRUCTION, 0, 0, nullptr, 0);
-
             uint32_t output_offset = to_uint32(stack.pop());
             uint32_t output_size = to_uint32(stack.pop());
             uint8_t* output_ptr = memory.expand(output_offset, output_size);

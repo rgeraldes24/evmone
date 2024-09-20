@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
         .gas = gas,
         .depth = 0,
     };
-    struct evmc_result result = evmc_execute(vm, host, ctx, EVMC_HOMESTEAD, &msg, code, code_size);
+    struct evmc_result result = evmc_execute(vm, host, ctx, EVMC_SHANGHAI, &msg, code, code_size);
     printf("Execution result:\n");
     int exit_code = 0;
     if (result.status_code != EVMC_SUCCESS)

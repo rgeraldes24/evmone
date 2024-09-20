@@ -91,8 +91,9 @@ public:
     }
 };
 
+// TODO(rgeraldes24)
 /// The newest "old" EVM revision. Lower priority.
-static constexpr auto old_rev = EVMC_SPURIOUS_DRAGON;
+static constexpr auto old_rev = EVMC_SHANGHAI;
 
 /// The additional gas limit cap for "old" EVM revisions.
 static constexpr auto old_rev_max_gas = 500000;

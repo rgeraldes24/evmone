@@ -46,30 +46,30 @@ PrecompileAnalysis identity_analyze(bytes_view input, evmc_revision /*rev*/) noe
     return {cost_per_input_word<15, 3>(input.size()), input.size()};
 }
 
-PrecompileAnalysis ecadd_analyze(bytes_view /*input*/, evmc_revision rev) noexcept
+PrecompileAnalysis ecadd_analyze(bytes_view /*input*/) noexcept
 {
-    return {rev >= EVMC_ISTANBUL ? 150 : 500, 64};
+    return {150, 64};
 }
 
-PrecompileAnalysis ecmul_analyze(bytes_view /*input*/, evmc_revision rev) noexcept
+PrecompileAnalysis ecmul_analyze(bytes_view /*input*/) noexcept
 {
-    return {rev >= EVMC_ISTANBUL ? 6000 : 40000, 64};
+    return {6000, 64};
 }
 
-PrecompileAnalysis ecpairing_analyze(bytes_view input, evmc_revision rev) noexcept
+PrecompileAnalysis ecpairing_analyze(bytes_view input) noexcept
 {
-    const auto base_cost = (rev >= EVMC_ISTANBUL) ? 45000 : 100000;
-    const auto element_cost = (rev >= EVMC_ISTANBUL) ? 34000 : 80000;
+    const auto base_cost = 45000;
+    const auto element_cost = 34000;
     const auto num_elements = static_cast<int64_t>(input.size() / 192);
     return {base_cost + num_elements * element_cost, 32};
 }
 
-PrecompileAnalysis expmod_analyze(bytes_view input, evmc_revision rev) noexcept
+PrecompileAnalysis expmod_analyze(bytes_view input) noexcept
 {
     using namespace intx;
 
     static constexpr size_t input_header_required_size = 3 * sizeof(uint256);
-    const int64_t min_gas = (rev >= EVMC_BERLIN) ? 200 : 0;
+    const int64_t min_gas = 200;
 
     uint8_t input_header[input_header_required_size]{};
     std::copy_n(input.data(), std::min(input.size(), input_header_required_size), input_header);
@@ -116,9 +116,7 @@ PrecompileAnalysis expmod_analyze(bytes_view input, evmc_revision rev) noexcept
     const auto max_len = std::max(mod_len, base_len);
     const auto adjusted_exp_len = adjusted_len(
         sizeof(input_header) + static_cast<size_t>(base_len), static_cast<size_t>(exp_len));
-    const auto gas = (rev >= EVMC_BERLIN) ?
-                         mult_complexity_eip2565(max_len) * adjusted_exp_len / 3 :
-                         mult_complexity_eip198(max_len) * adjusted_exp_len / 20;
+    const auto gas = mult_complexity_eip2565(max_len) * adjusted_exp_len / 3;
     return {std::max(min_gas, static_cast<int64_t>(std::min(gas, intx::uint256{GasCostMax}))),
         static_cast<size_t>(mod_len)};
 }
@@ -168,11 +166,6 @@ std::optional<evmc::Result> call_precompile(evmc_revision rev, const evmc_messag
         return {};
 
     const auto id = msg.code_address.bytes[19];
-    if (rev < EVMC_BYZANTIUM && id > 4)
-        return {};
-
-    if (rev < EVMC_ISTANBUL && id > 8)
-        return {};
 
     assert(id > 0);
     assert(msg.gas >= 0);

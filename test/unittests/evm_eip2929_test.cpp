@@ -13,7 +13,7 @@ using evmone::test::evm;
 TEST_P(evm, eip2929_case1)
 {
     // https://gist.github.com/holiman/174548cad102096858583c6fbbb0649a#case-1
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     msg.sender = 0x0000000000000000000000000000000000000000_address;
     msg.recipient = 0x000000000000000000000000636F6E7472616374_address;
     const bytecode code =
@@ -54,7 +54,7 @@ TEST_P(evm, eip2929_case1)
 TEST_P(evm, eip2929_case2)
 {
     // https://gist.github.com/holiman/174548cad102096858583c6fbbb0649a#case-2
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     msg.sender = 0x0000000000000000000000000000000000000000_address;
     msg.recipient = 0x000000000000000000000000636F6E7472616374_address;
     const bytecode code = "0x60006000600060ff3c60006000600060ff3c600060006000303c00";
@@ -75,7 +75,7 @@ TEST_P(evm, eip2929_case2)
 TEST_P(evm, eip2929_case3)
 {
     // https://gist.github.com/holiman/174548cad102096858583c6fbbb0649a#case-3
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     msg.sender = 0x0000000000000000000000000000000000000000_address;
     msg.recipient = 0x000000000000000000000000636F6E7472616374_address;
     const bytecode code = "0x60015450601160015560116002556011600255600254600154";
@@ -88,7 +88,7 @@ TEST_P(evm, eip2929_case3)
 TEST_P(evm, eip2929_case4)
 {
     // https://gist.github.com/holiman/174548cad102096858583c6fbbb0649a#case-4
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     msg.sender = 0x0000000000000000000000000000000000000000_address;
     msg.recipient = 0x000000000000000000000000636F6E7472616374_address;
     const bytecode code =
@@ -101,7 +101,7 @@ TEST_P(evm, eip2929_case4)
 
 TEST_P(evm, eip2929_balance_oog)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = push(0x0a) + OP_BALANCE;
 
     execute(2603, code);
@@ -114,7 +114,7 @@ TEST_P(evm, eip2929_balance_oog)
 
 TEST_P(evm, eip2929_extcodesize_oog)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = push(0x0a) + OP_EXTCODESIZE;
 
     execute(2603, code);
@@ -127,7 +127,7 @@ TEST_P(evm, eip2929_extcodesize_oog)
 
 TEST_P(evm, eip2929_extcodecopy_oog)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = push(0) + OP_DUP1 + OP_DUP1 + push(0x0a) + OP_EXTCODECOPY;
 
     execute(2612, code);
@@ -140,7 +140,7 @@ TEST_P(evm, eip2929_extcodecopy_oog)
 
 TEST_P(evm, eip2929_extcodehash_oog)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = push(0x0a) + OP_EXTCODEHASH;
 
     execute(2603, code);
@@ -153,7 +153,7 @@ TEST_P(evm, eip2929_extcodehash_oog)
 
 TEST_P(evm, eip2929_sload_cold)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = push(1) + OP_SLOAD;
 
     const evmc::bytes32 key{1};
@@ -170,7 +170,7 @@ TEST_P(evm, eip2929_sload_cold)
 
 TEST_P(evm, eip2929_sload_two_slots)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const evmc::bytes32 key0{0};
     const evmc::bytes32 key1{1};
     const auto code = push(key0) + OP_SLOAD + OP_POP + push(key1) + OP_SLOAD + OP_POP;
@@ -183,7 +183,7 @@ TEST_P(evm, eip2929_sload_two_slots)
 
 TEST_P(evm, eip2929_sload_warm)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = push(1) + OP_SLOAD;
 
     const evmc::bytes32 key{1};
@@ -199,7 +199,7 @@ TEST_P(evm, eip2929_sload_warm)
 
 TEST_P(evm, eip2929_sstore_modify_cold)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = sstore(1, 3);
 
     const evmc::bytes32 key{1};
@@ -219,7 +219,7 @@ TEST_P(evm, eip2929_sstore_modify_cold)
 
 TEST_P(evm, eip2929_delegatecall_cold)
 {
-    rev = EVMC_BERLIN;
+    rev = EVMC_SHANGHAI;
     const auto code = delegatecall(0xde);
     auto& r = host.recorded_account_accesses;
 

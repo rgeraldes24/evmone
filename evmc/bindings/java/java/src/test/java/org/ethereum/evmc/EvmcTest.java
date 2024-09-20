@@ -64,7 +64,7 @@ final class EvmcTest {
   void testExecute_returnAddress() throws Exception {
     try (EvmcVm vm = EvmcVm.create(exampleVmPath)) {
       HostContext context = new TestHostContext();
-      int BYZANTIUM = 4;
+      int SHANGHAI = 4; // TODO(rgeraldes24): number
       int EVMC_CALL = 0;
       int kind = EVMC_CALL;
       char[] sender = "39bf71de1b7d7be3b51\0".toCharArray();
@@ -80,7 +80,7 @@ final class EvmcTest {
       ByteBuffer bbcode = ByteBuffer.allocateDirect(code.length).put(code);
 
       ByteBuffer result =
-          vm.execute(context, BYZANTIUM, msg, bbcode).order(ByteOrder.nativeOrder());
+          vm.execute(context, SHANGHAI, msg, bbcode).order(ByteOrder.nativeOrder());
       int statusCode = result.getInt();
       result.getInt(); // padding
       long gasLeft = result.getLong();
@@ -94,7 +94,7 @@ final class EvmcTest {
   void testExecute_counter() throws Exception {
     try (EvmcVm vm = EvmcVm.create(exampleVmPath)) {
       HostContext context = new TestHostContext();
-      int BYZANTIUM = 4;
+      int SHANGHAI = 4; // TODO(rgeraldes24): number
       int EVMC_CALL = 0;
       int kind = EVMC_CALL;
       char[] sender = "39bf71de1b7d7be3b51\0".toCharArray();
@@ -110,7 +110,7 @@ final class EvmcTest {
       ByteBuffer bbcode = ByteBuffer.allocateDirect(code.length).put(code);
 
       ByteBuffer result =
-          vm.execute(context, BYZANTIUM, msg, bbcode).order(ByteOrder.nativeOrder());
+          vm.execute(context, SHANGHAI, msg, bbcode).order(ByteOrder.nativeOrder());
       int statusCode = result.getInt();
       result.getInt(); // padding
       long gasLeft = result.getLong();
@@ -124,7 +124,7 @@ final class EvmcTest {
   void testExecute_returnBlockNumber() throws Exception {
     try (EvmcVm vm = EvmcVm.create(exampleVmPath)) {
       HostContext context = new TestHostContext();
-      int BYZANTIUM = 4;
+      int SHANGHAI = 4; // TODO(rgeraldes24): number
       int EVMC_CALL = 0;
       int kind = EVMC_CALL;
       char[] sender = "39bf71de1b7d7be3b51\0".toCharArray();
@@ -140,7 +140,7 @@ final class EvmcTest {
       ByteBuffer bbcode = ByteBuffer.allocateDirect(code.length).put(code);
 
       ByteBuffer result =
-          vm.execute(context, BYZANTIUM, msg, bbcode).order(ByteOrder.nativeOrder());
+          vm.execute(context, SHANGHAI, msg, bbcode).order(ByteOrder.nativeOrder());
       int statusCode = result.getInt();
       result.getInt(); // padding
       long gasLeft = result.getLong();
@@ -154,7 +154,7 @@ final class EvmcTest {
   void testExecute_saveReturnBlockNumber() throws Exception {
     try (EvmcVm vm = EvmcVm.create(exampleVmPath)) {
       HostContext context = new TestHostContext();
-      int BYZANTIUM = 4;
+      int SHANGHAI = 4; // TODO(rgeraldes24): number
       int EVMC_CALL = 0;
       int kind = EVMC_CALL;
       char[] sender = "39bf71de1b7d7be3b51\0".toCharArray();
@@ -172,7 +172,7 @@ final class EvmcTest {
       ByteBuffer bbcode = ByteBuffer.allocateDirect(code.length).put(code);
 
       ByteBuffer result =
-          vm.execute(context, BYZANTIUM, msg, bbcode).order(ByteOrder.nativeOrder());
+          vm.execute(context, SHANGHAI, msg, bbcode).order(ByteOrder.nativeOrder());
       int statusCode = result.getInt();
       result.getInt(); // padding
       long gasLeft = result.getLong();
@@ -186,7 +186,7 @@ final class EvmcTest {
   void testExecute_makeCall() throws Exception {
     try (EvmcVm vm = EvmcVm.create(exampleVmPath)) {
       HostContext context = new TestHostContext();
-      int BYZANTIUM = 4;
+      int SHANGHAI = 4; // TODO(rgeraldes24): number
       int EVMC_CALL = 0;
       int kind = EVMC_CALL;
       char[] sender = "39bf71de1b7d7be3b51\0".toCharArray();
@@ -211,7 +211,7 @@ final class EvmcTest {
       ByteBuffer bbcode = ByteBuffer.allocateDirect(code.length).put(code);
 
       ByteBuffer result =
-          vm.execute(context, BYZANTIUM, msg, bbcode).order(ByteOrder.nativeOrder());
+          vm.execute(context, SHANGHAI, msg, bbcode).order(ByteOrder.nativeOrder());
       int statusCode = result.getInt();
       result.getInt(); // padding
       long gasLeft = result.getLong();
@@ -224,7 +224,8 @@ final class EvmcTest {
   void testExecute_EVMC_CREATE() throws Exception {
     try (EvmcVm vm = EvmcVm.create(exampleVmPath)) {
       HostContext context = new TestHostContext();
-      int BYZANTIUM = 4;
+      // TODO(rgeraldes24)
+      int SHANGHAI = 4;
       int EVMC_CREATE = 3;
       int kind = EVMC_CREATE;
       char[] sender = "39bf71de1b7d7be3b51\\0".toCharArray();
@@ -239,7 +240,7 @@ final class EvmcTest {
       ByteBuffer bbcode = ByteBuffer.allocateDirect(code.length).put(code);
 
       ByteBuffer result =
-          vm.execute(context, BYZANTIUM, msg, bbcode).order(ByteOrder.nativeOrder());
+          vm.execute(context, SHANGHAI, msg, bbcode).order(ByteOrder.nativeOrder());
       int statusCode = result.getInt();
       result.getInt(); // padding
       long gasLeft = result.getLong();

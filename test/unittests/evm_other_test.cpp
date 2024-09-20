@@ -95,7 +95,7 @@ TEST_P(evm, evmone_block_gas_cost_overflow_balance)
 {
     // Here we build single-block bytecode with as many BALANCE instructions as possible.
 
-    rev = EVMC_ISTANBUL;  // Here BALANCE costs 700.
+    rev = EVMC_SHANGHAI;  // Here BALANCE costs 700.
 
     constexpr auto gas_max = std::numeric_limits<uint32_t>::max();
     constexpr auto n = gas_max / 700 + 2;

@@ -43,7 +43,7 @@ TEST(execution_state, default_construct)
 
     EXPECT_EQ(st.memory.size(), 0);
     EXPECT_EQ(st.msg, nullptr);
-    EXPECT_EQ(st.rev, EVMC_FRONTIER);
+    EXPECT_EQ(st.rev, EVMC_SHANGHAI);
     EXPECT_EQ(st.return_data.size(), 0);
     EXPECT_EQ(st.status, EVMC_SUCCESS);
     EXPECT_EQ(st.output_offset, 0);
@@ -58,7 +58,7 @@ TEST(execution_state, default_construct_advanced)
     EXPECT_EQ(st.stack.size(), 0);
     EXPECT_EQ(st.memory.size(), 0);
     EXPECT_EQ(st.msg, nullptr);
-    EXPECT_EQ(st.rev, EVMC_FRONTIER);
+    EXPECT_EQ(st.rev, EVMC_SHANGHAI);
     EXPECT_EQ(st.return_data.size(), 0);
     EXPECT_EQ(st.status, EVMC_SUCCESS);
     EXPECT_EQ(st.output_offset, 0);
@@ -79,7 +79,7 @@ TEST(execution_state, reset_advanced)
     st.stack.push({});
     st.memory.grow(64);
     st.msg = &msg;
-    st.rev = EVMC_BYZANTIUM;
+    st.rev = EVMC_SHANGHAI;
     st.return_data.push_back('0');
     st.status = EVMC_FAILURE;
     st.output_offset = 3;
@@ -92,7 +92,7 @@ TEST(execution_state, reset_advanced)
     EXPECT_EQ(st.stack.size(), 1);
     EXPECT_EQ(st.memory.size(), 64);
     EXPECT_EQ(st.msg, &msg);
-    EXPECT_EQ(st.rev, EVMC_BYZANTIUM);
+    EXPECT_EQ(st.rev, EVMC_SHANGHAI);
     EXPECT_EQ(st.return_data.size(), 1);
     EXPECT_EQ(st.status, EVMC_FAILURE);
     EXPECT_EQ(st.output_offset, 3);
@@ -106,7 +106,7 @@ TEST(execution_state, reset_advanced)
         const evmc_host_interface host_interface2{};
         const uint8_t code2[]{0x80, 0x81};
 
-        st.reset(msg2, EVMC_HOMESTEAD, host_interface2, nullptr, {code2, std::size(code2)});
+        st.reset(msg2, EVMC_SHANGHAI, host_interface2, nullptr, {code2, std::size(code2)});
 
         // TODO: We are not able to test HostContext with current API. It may require an execution
         //       test.
@@ -115,7 +115,7 @@ TEST(execution_state, reset_advanced)
         EXPECT_EQ(st.stack.size(), 0);
         EXPECT_EQ(st.memory.size(), 0);
         EXPECT_EQ(st.msg, &msg2);
-        EXPECT_EQ(st.rev, EVMC_HOMESTEAD);
+        EXPECT_EQ(st.rev, EVMC_SHANGHAI);
         EXPECT_EQ(st.return_data.size(), 0);
         EXPECT_EQ(st.status, EVMC_SUCCESS);
         EXPECT_EQ(st.output_offset, 0);

@@ -132,7 +132,6 @@ public:
 
     /// Reference to original EVM code container.
     /// For legacy code this is a reference to entire original code.
-    /// For EOF-formatted code this is a reference to entire container.
     bytes_view original_code;
 
     evmc_status_code status = EVMC_SUCCESS;

@@ -24,7 +24,7 @@ Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexce
     stack.push(0);  // Assume failure.
     state.return_data.clear();
 
-    if (state.rev >= EVMC_BERLIN && state.host.access_account(dst) == EVMC_ACCESS_COLD)
+    if (state.host.access_account(dst) == EVMC_ACCESS_COLD)
     {
         if ((gas_left -= instr::additional_cold_account_access_cost) < 0)
             return {EVMC_OUT_OF_GAS, gas_left};
@@ -65,7 +65,7 @@ Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexce
         if (has_value && state.in_static_mode())
             return {EVMC_STATIC_MODE_VIOLATION, gas_left};
 
-        if ((has_value || state.rev < EVMC_SPURIOUS_DRAGON) && !state.host.account_exists(dst))
+        if ((has_value) && !state.host.account_exists(dst))
             cost += 25000;
     }
 
@@ -76,11 +76,8 @@ Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexce
     if (gas < msg.gas)
         msg.gas = static_cast<int64_t>(gas);
 
-    if (state.rev >= EVMC_TANGERINE_WHISTLE)  // TODO: Always true for STATICCALL.
-        msg.gas = std::min(msg.gas, gas_left - gas_left / 64);
-    else if (msg.gas > gas_left)
-        return {EVMC_OUT_OF_GAS, gas_left};
-
+    msg.gas = std::min(msg.gas, gas_left - gas_left / 64);
+    
     if (has_value)
     {
         msg.gas += 2300;  // Add stipend.
@@ -136,10 +133,10 @@ Result create_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noex
     const auto init_code_offset = static_cast<size_t>(init_code_offset_u256);
     const auto init_code_size = static_cast<size_t>(init_code_size_u256);
 
-    if (state.rev >= EVMC_SHANGHAI && init_code_size > 0xC000)
+    if (init_code_size > 0xC000)
         return {EVMC_OUT_OF_GAS, gas_left};
 
-    const auto init_code_word_cost = 6 * (Op == OP_CREATE2) + 2 * (state.rev >= EVMC_SHANGHAI);
+    const auto init_code_word_cost = 6 * (Op == OP_CREATE2) + 2;
     const auto init_code_cost = num_words(init_code_size) * init_code_word_cost;
     if ((gas_left -= init_code_cost) < 0)
         return {EVMC_OUT_OF_GAS, gas_left};
@@ -153,8 +150,8 @@ Result create_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noex
 
     auto msg = evmc_message{};
     msg.gas = gas_left;
-    if (state.rev >= EVMC_TANGERINE_WHISTLE)
-        msg.gas = msg.gas - msg.gas / 64;
+    msg.gas = msg.gas - msg.gas / 64;
+        
 
     msg.kind = (Op == OP_CREATE) ? EVMC_CREATE : EVMC_CREATE2;
     if (init_code_size > 0)

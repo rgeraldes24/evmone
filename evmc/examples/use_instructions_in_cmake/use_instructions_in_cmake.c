@@ -8,5 +8,5 @@
 
 int main()
 {
-    return evmc_get_instruction_metrics_table(EVMC_BYZANTIUM)[OP_STOP].gas_cost;
+    return evmc_get_instruction_metrics_table(EVMC_SHANGHAI)[OP_STOP].gas_cost;
 }

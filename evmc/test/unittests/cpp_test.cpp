@@ -615,7 +615,7 @@ TEST(cpp, vm_execute_with_null_host)
 
     auto vm = evmc::VM{evmc_create_example_vm()};
     const evmc_message msg{};
-    auto res = vm.execute(host, EVMC_FRONTIER, msg, nullptr, 0);
+    auto res = vm.execute(host, EVMC_SHANGHAI, msg, nullptr, 0);
     EXPECT_EQ(res.status_code, EVMC_SUCCESS);
     EXPECT_EQ(res.gas_left, 0);
 }
@@ -880,20 +880,7 @@ TEST(cpp, revision_to_string)
         NAME, #NAME     \
     }
     constexpr TestCase test_cases[]{
-        TEST_CASE(EVMC_FRONTIER),
-        TEST_CASE(EVMC_HOMESTEAD),
-        TEST_CASE(EVMC_TANGERINE_WHISTLE),
-        TEST_CASE(EVMC_SPURIOUS_DRAGON),
-        TEST_CASE(EVMC_BYZANTIUM),
-        TEST_CASE(EVMC_CONSTANTINOPLE),
-        TEST_CASE(EVMC_PETERSBURG),
-        TEST_CASE(EVMC_ISTANBUL),
-        TEST_CASE(EVMC_BERLIN),
-        TEST_CASE(EVMC_LONDON),
-        TEST_CASE(EVMC_PARIS),
         TEST_CASE(EVMC_SHANGHAI),
-        TEST_CASE(EVMC_CANCUN),
-        TEST_CASE(EVMC_PRAGUE),
     };
 #undef TEST_CASE
 
