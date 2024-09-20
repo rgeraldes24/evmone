@@ -11,7 +11,6 @@ TEST(statetest_loader, block_info)
 {
     constexpr std::string_view input = R"({
             "currentCoinbase": "0x1111111111111111111111111111111111111111",
-            "currentDifficulty": "0x0",
             "currentGasLimit": "0x0",
             "currentNumber": "0",
             "currentTimestamp": "0",
@@ -37,8 +36,6 @@ TEST(statetest_loader, block_info_hex)
         "currentNumber": "1",
         "currentTimestamp": "0x3E8",
         "currentRandom": "0x00",
-        "currentDifficulty": "1",
-        "parentDifficulty": "0",
         "parentBaseFee": "7",
         "parentGasUsed": "0",
         "parentGasLimit": "0x16345785D8A0000",
@@ -46,9 +43,7 @@ TEST(statetest_loader, block_info_hex)
         "blockHashes": {
             "0": "0xc305d826e3784046a7e9d31128ef98d3e96133fe454c16ef630574d967dfdb1a"
         },
-        "ommers": [],
-        "withdrawals": [],
-        "parentUncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"
+        "withdrawals": []
     })";
 
     const auto bi = test::from_json<state::BlockInfo>(json::json::parse(input));
@@ -68,8 +63,6 @@ TEST(statetest_loader, block_info_dec)
         "currentNumber": "1",
         "currentTimestamp": "1000",
         "currentRandom": "0x00",
-        "currentDifficulty": "0",
-        "parentDifficulty": "0",
         "parentBaseFee": "7",
         "parentGasUsed": "0",
         "parentGasLimit": "100000000000000000",
@@ -77,9 +70,7 @@ TEST(statetest_loader, block_info_dec)
         "blockHashes": {
             "0": "0xc305d826e3784046a7e9d31128ef98d3e96133fe454c16ef630574d967dfdb1a"
         },
-        "ommers": [],
-        "withdrawals": [],
-        "parentUncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"
+        "withdrawals": []
     })";
 
     const auto bi = test::from_json<state::BlockInfo>(json::json::parse(input));
@@ -98,7 +89,6 @@ TEST(statetest_loader, block_info_0_current_difficulty)
         "currentGasLimit": "100000000000000000",
         "currentNumber": "1",
         "currentTimestamp": "1000",
-        "currentDifficulty": "0",
         "parentBaseFee": "7",
         "parentGasUsed": "0",
         "parentGasLimit": "100000000000000000",
@@ -106,9 +96,7 @@ TEST(statetest_loader, block_info_0_current_difficulty)
         "blockHashes": {
             "0": "0xc305d826e3784046a7e9d31128ef98d3e96133fe454c16ef630574d967dfdb1a"
         },
-        "ommers": [],
-        "withdrawals": [],
-        "parentUncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"
+        "withdrawals": []
     })";
 
     const auto bi = test::from_json<state::BlockInfo>(json::json::parse(input));
@@ -127,7 +115,6 @@ TEST(statetest_loader, block_info_0_parent_difficulty)
         "currentGasLimit": "100000000000000000",
         "currentNumber": "1",
         "currentTimestamp": "1000",
-        "parentDifficulty": "0x0",
         "parentBaseFee": "7",
         "parentGasUsed": "0",
         "parentGasLimit": "100000000000000000",
@@ -135,9 +122,7 @@ TEST(statetest_loader, block_info_0_parent_difficulty)
         "blockHashes": {
             "0": "0xc305d826e3784046a7e9d31128ef98d3e96133fe454c16ef630574d967dfdb1a"
         },
-        "ommers": [],
-        "withdrawals": [],
-        "parentUncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"
+        "withdrawals": []
     })";
 
     const auto bi = test::from_json<state::BlockInfo>(json::json::parse(input));
@@ -153,7 +138,6 @@ TEST(statetest_loader, block_info_0_random)
 {
     constexpr std::string_view input = R"({
             "currentCoinbase": "0x1111111111111111111111111111111111111111",
-            "currentDifficulty": "0x0",
             "currentGasLimit": "0x0",
             "currentNumber": "0",
             "currentTimestamp": "0",
@@ -175,7 +159,6 @@ TEST(statetest_loader, block_info_withdrawals)
 {
     constexpr std::string_view input = R"({
             "currentCoinbase": "0x1111111111111111111111111111111111111111",
-            "currentDifficulty": "0x0",
             "currentGasLimit": "0x0",
             "currentNumber": "0",
             "currentTimestamp": "0",

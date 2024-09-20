@@ -80,8 +80,6 @@ int main(int argc, const char* argv[])
         }
 
         json::json j_result;
-        // FIXME: Calculate difficulty properly
-        j_result["currentDifficulty"] = "0x20000";
         j_result["currentBaseFee"] = hex0x(block.base_fee);
 
         int64_t cumulative_gas_used = 0;

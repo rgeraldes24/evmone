@@ -58,7 +58,8 @@ def build_source(src_file, out_file):
     env = test.setdefault('env', {})
     env.setdefault('currentBaseFee', BASE_FEE)
     env.setdefault('currentCoinbase', COINBASE)
-    env.setdefault('currentDifficulty', 1)
+    # TODO(rgeraldes24): remove
+    # env.setdefault('currentDifficulty', 1)
     env.setdefault('currentGasLimit', GAS_LIMIT)
     env.setdefault('currentNumber', 1)
     env.setdefault('currentTimestamp', 1638453897)
