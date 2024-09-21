@@ -169,7 +169,7 @@ TEST_F(tracing, trace)
 
     trace_stream << '\n';
     EXPECT_EQ(trace(add(2, 3)), R"(
-{"depth":0,"rev":"Berlin","static":false}
+{"depth":0,"rev":"Shanghai","static":false}
 {"pc":0,"op":96,"opName":"PUSH1","gas":0xf4240,"stack":[],"memorySize":0}
 {"pc":2,"op":96,"opName":"PUSH1","gas":0xf423d,"stack":["0x3"],"memorySize":0}
 {"pc":4,"op":1,"opName":"ADD","gas":0xf423a,"stack":["0x3","0x2"],"memorySize":0}
@@ -184,7 +184,7 @@ TEST_F(tracing, trace_stack)
     const auto code = push(1) + push(2) + push(3) + push(4) + OP_ADD + OP_ADD + OP_ADD;
     trace_stream << '\n';
     EXPECT_EQ(trace(code), R"(
-{"depth":0,"rev":"Berlin","static":false}
+{"depth":0,"rev":"Shanghai","static":false}
 {"pc":0,"op":96,"opName":"PUSH1","gas":0xf4240,"stack":[],"memorySize":0}
 {"pc":2,"op":96,"opName":"PUSH1","gas":0xf423d,"stack":["0x1"],"memorySize":0}
 {"pc":4,"op":96,"opName":"PUSH1","gas":0xf423a,"stack":["0x1","0x2"],"memorySize":0}
@@ -203,7 +203,7 @@ TEST_F(tracing, trace_error)
     const auto code = bytecode{OP_POP};
     trace_stream << '\n';
     EXPECT_EQ(trace(code), R"(
-{"depth":0,"rev":"Berlin","static":false}
+{"depth":0,"rev":"Shanghai","static":false}
 {"pc":0,"op":80,"opName":"POP","gas":0xf4240,"stack":[],"memorySize":0}
 {"error":"stack underflow","gas":0x0,"gasUsed":0xf4240,"output":""}
 )");
@@ -216,7 +216,7 @@ TEST_F(tracing, trace_output)
     const auto code = push(0xabcdef) + ret_top();
     trace_stream << '\n';
     EXPECT_EQ(trace(code), R"(
-{"depth":0,"rev":"Berlin","static":false}
+{"depth":0,"rev":"Shanghai","static":false}
 {"pc":0,"op":98,"opName":"PUSH3","gas":0xf4240,"stack":[],"memorySize":0}
 {"pc":4,"op":96,"opName":"PUSH1","gas":0xf423d,"stack":["0xabcdef"],"memorySize":0}
 {"pc":6,"op":82,"opName":"MSTORE","gas":0xf423a,"stack":["0xabcdef","0x0"],"memorySize":0}
@@ -234,7 +234,7 @@ TEST_F(tracing, trace_revert)
     const auto code = mstore(0, 0x0e4404) + push(3) + push(29) + OP_REVERT;
     trace_stream << '\n';
     EXPECT_EQ(trace(code), R"(
-{"depth":0,"rev":"Berlin","static":false}
+{"depth":0,"rev":"Shanghai","static":false}
 {"pc":0,"op":98,"opName":"PUSH3","gas":0xf4240,"stack":[],"memorySize":0}
 {"pc":4,"op":96,"opName":"PUSH1","gas":0xf423d,"stack":["0xe4404"],"memorySize":0}
 {"pc":6,"op":82,"opName":"MSTORE","gas":0xf423a,"stack":["0xe4404","0x0"],"memorySize":0}
@@ -251,7 +251,7 @@ TEST_F(tracing, trace_create)
 
     trace_stream << '\n';
     EXPECT_EQ(trace({}, 2), R"(
-{"depth":2,"rev":"Berlin","static":false}
+{"depth":2,"rev":"Shanghai","static":false}
 {"error":null,"gas":0xf4240,"gasUsed":0x0,"output":""}
 )");
 }
@@ -262,7 +262,7 @@ TEST_F(tracing, trace_static)
 
     trace_stream << '\n';
     EXPECT_EQ(trace({}, 2, EVMC_STATIC), R"(
-{"depth":2,"rev":"Berlin","static":true}
+{"depth":2,"rev":"Shanghai","static":true}
 {"error":null,"gas":0xf4240,"gasUsed":0x0,"output":""}
 )");
 }
@@ -274,7 +274,7 @@ TEST_F(tracing, trace_undefined_instruction)
     const auto code = bytecode{} + OP_JUMPDEST + "EF";
     trace_stream << '\n';
     EXPECT_EQ(trace(code), R"(
-{"depth":0,"rev":"Berlin","static":false}
+{"depth":0,"rev":"Shanghai","static":false}
 {"pc":0,"op":91,"opName":"JUMPDEST","gas":0xf4240,"stack":[],"memorySize":0}
 {"pc":1,"op":239,"opName":"0xef","gas":0xf423f,"stack":[],"memorySize":0}
 {"error":"undefined instruction","gas":0x0,"gasUsed":0xf4240,"output":""}

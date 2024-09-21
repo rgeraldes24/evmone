@@ -13,7 +13,7 @@ ORIGIN = '0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b'
 ORIGIN_PRIV_KEY = '0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8'
 COINBASE = ORIGIN
 
-NETWORK = 'London'
+NETWORK = 'Shanghai'
 
 
 # Decode DRY text.
@@ -76,6 +76,7 @@ def build_source(src_file, out_file):
     tx.setdefault('value', [0])
     tx.setdefault('nonce', 0)
     tx.setdefault('maxFeePerGas', BASE_FEE)
+    tx.setdefault('maxPriorityFeePerGas', 0)
     tx.setdefault('secretKey', ORIGIN_PRIV_KEY)
 
     expect = []

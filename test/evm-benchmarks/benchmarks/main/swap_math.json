@@ -25,7 +25,7 @@
             "previousHash" : "0x5e20a0453cecd065ea59c37ac63e079ee08998b6045136a8ce6635c7912ec0b6"
         },
         "post" : {
-            "London" : [
+            "Shanghai" : [
                 {
                     "hash" : "0x4dfec24637098e8eae6738127dfdba4079ff2efd76a8501f6aca52fcb3c9ef80",
                     "indexes" : {
@@ -83,7 +83,8 @@
             "gasLimit" : [
                 "0x3b9aca00"
             ],
-            "gasPrice" : "0x01",
+            "maxFeePerGas" : "0x01",
+            "maxPriorityFeePerGas" : "0x00",
             "nonce" : "0x00",
             "secretKey" : "0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
             "sender" : "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
