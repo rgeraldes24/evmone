@@ -58,8 +58,6 @@ def build_source(src_file, out_file):
     env = test.setdefault('env', {})
     env.setdefault('currentBaseFee', BASE_FEE)
     env.setdefault('currentCoinbase', COINBASE)
-    # TODO(rgeraldes24): remove
-    # env.setdefault('currentDifficulty', 1)
     env.setdefault('currentGasLimit', GAS_LIMIT)
     env.setdefault('currentNumber', 1)
     env.setdefault('currentTimestamp', 1638453897)
@@ -77,7 +75,7 @@ def build_source(src_file, out_file):
     tx.setdefault('gasLimit', [GAS_LIMIT])
     tx.setdefault('value', [0])
     tx.setdefault('nonce', 0)
-    tx.setdefault('gasPrice', BASE_FEE)
+    tx.setdefault('maxFeePerGas', BASE_FEE)
     tx.setdefault('secretKey', ORIGIN_PRIV_KEY)
 
     expect = []

@@ -149,18 +149,10 @@ inline uint64_t calculate_current_base_fee_eip1559(
 template <>
 state::BlockInfo from_json<state::BlockInfo>(const json::json& j)
 {
-    // TODO(rgeraldes24)
-    evmc::bytes32 difficulty;
+    evmc::bytes32 random;
     const auto prev_randao_it = j.find("currentRandom");
-    const auto current_difficulty_it = j.find("currentDifficulty");
-    const auto parent_difficulty_it = j.find("parentDifficulty");
-    if (prev_randao_it != j.end())
-        difficulty = from_json<bytes32>(*prev_randao_it);
-    else if (current_difficulty_it != j.end())
-        difficulty = from_json<bytes32>(*current_difficulty_it);
-    else if (parent_difficulty_it != j.end())
-        difficulty = from_json<bytes32>(*parent_difficulty_it);
-
+    random = from_json<bytes32>(*prev_randao_it);
+    
     uint64_t base_fee = 0;
     if (j.contains("currentBaseFee"))
         base_fee = from_json<uint64_t>(j.at("currentBaseFee"));
@@ -183,7 +175,7 @@ state::BlockInfo from_json<state::BlockInfo>(const json::json& j)
 
     return {from_json<int64_t>(j.at("currentNumber")), from_json<int64_t>(j.at("currentTimestamp")),
         from_json<int64_t>(j.at("currentGasLimit")),
-        from_json<evmc::address>(j.at("currentCoinbase")), difficulty, base_fee,
+        from_json<evmc::address>(j.at("currentCoinbase")), random, base_fee,
         std::move(withdrawals)};
 }
 
@@ -226,23 +218,9 @@ static void from_json_tx_common(const json::json& j, state::Transaction& o)
     if (const auto to_it = j.find("to"); to_it != j.end() && !to_it->get<std::string>().empty())
         o.to = from_json<evmc::address>(*to_it);
 
-    if (const auto gas_price_it = j.find("gasPrice"); gas_price_it != j.end())
-    {
-        o.kind = state::Transaction::Kind::legacy;
-        o.max_gas_price = from_json<intx::uint256>(*gas_price_it);
-        o.max_priority_gas_price = o.max_gas_price;
-        if (j.contains("maxFeePerGas") || j.contains("maxPriorityFeePerGas"))
-        {
-            throw std::invalid_argument(
-                "invalid transaction: contains both legacy and EIP-1559 fees");
-        }
-    }
-    else
-    {
-        o.kind = state::Transaction::Kind::eip1559;
-        o.max_gas_price = from_json<intx::uint256>(j.at("maxFeePerGas"));
-        o.max_priority_gas_price = from_json<intx::uint256>(j.at("maxPriorityFeePerGas"));
-    }
+    o.kind = state::Transaction::Kind::eip1559;
+    o.max_gas_price = from_json<intx::uint256>(j.at("maxFeePerGas"));
+    o.max_priority_gas_price = from_json<intx::uint256>(j.at("maxPriorityFeePerGas"));
 }
 
 template <>
@@ -259,8 +237,6 @@ state::Transaction from_json<state::Transaction>(const json::json& j)
     if (const auto ac_it = j.find("accessList"); ac_it != j.end())
     {
         o.access_list = from_json<state::AccessList>(*ac_it);
-        if (o.kind == state::Transaction::Kind::legacy)  // Upgrade tx type if tx has "accessList"
-            o.kind = state::Transaction::Kind::eip2930;
     }
 
     if (const auto type_it = j.find("type"); type_it != j.end())
@@ -270,9 +246,8 @@ state::Transaction from_json<state::Transaction>(const json::json& j)
     }
 
     o.nonce = from_json<uint64_t>(j.at("nonce"));
-    o.r = from_json<intx::uint256>(j.at("r"));
-    o.s = from_json<intx::uint256>(j.at("s"));
-    o.v = from_json<uint8_t>(j.at("v"));
+    o.public_key = from_json<bytes>(j.at("publicKey"));
+    o.signature = from_json<bytes>(j.at("signature"));
 
     return o;
 }

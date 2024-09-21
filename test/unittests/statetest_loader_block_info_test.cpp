@@ -82,58 +82,6 @@ TEST(statetest_loader, block_info_dec)
     EXPECT_EQ(bi.number, 1);
 }
 
-TEST(statetest_loader, block_info_0_current_difficulty)
-{
-    constexpr std::string_view input = R"({
-        "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        "currentGasLimit": "100000000000000000",
-        "currentNumber": "1",
-        "currentTimestamp": "1000",
-        "parentBaseFee": "7",
-        "parentGasUsed": "0",
-        "parentGasLimit": "100000000000000000",
-        "parentTimstamp": "0",
-        "blockHashes": {
-            "0": "0xc305d826e3784046a7e9d31128ef98d3e96133fe454c16ef630574d967dfdb1a"
-        },
-        "withdrawals": []
-    })";
-
-    const auto bi = test::from_json<state::BlockInfo>(json::json::parse(input));
-    EXPECT_EQ(bi.coinbase, 0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba_address);
-    EXPECT_EQ(bi.prev_randao, 0x00_bytes32);
-    EXPECT_EQ(bi.gas_limit, 100000000000000000);
-    EXPECT_EQ(bi.base_fee, 7);
-    EXPECT_EQ(bi.timestamp, 1000);
-    EXPECT_EQ(bi.number, 1);
-}
-
-TEST(statetest_loader, block_info_0_parent_difficulty)
-{
-    constexpr std::string_view input = R"({
-        "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        "currentGasLimit": "100000000000000000",
-        "currentNumber": "1",
-        "currentTimestamp": "1000",
-        "parentBaseFee": "7",
-        "parentGasUsed": "0",
-        "parentGasLimit": "100000000000000000",
-        "parentTimstamp": "0",
-        "blockHashes": {
-            "0": "0xc305d826e3784046a7e9d31128ef98d3e96133fe454c16ef630574d967dfdb1a"
-        },
-        "withdrawals": []
-    })";
-
-    const auto bi = test::from_json<state::BlockInfo>(json::json::parse(input));
-    EXPECT_EQ(bi.coinbase, 0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba_address);
-    EXPECT_EQ(bi.prev_randao, 0x00_bytes32);
-    EXPECT_EQ(bi.gas_limit, 100000000000000000);
-    EXPECT_EQ(bi.base_fee, 7);
-    EXPECT_EQ(bi.timestamp, 1000);
-    EXPECT_EQ(bi.number, 1);
-}
-
 TEST(statetest_loader, block_info_0_random)
 {
     constexpr std::string_view input = R"({

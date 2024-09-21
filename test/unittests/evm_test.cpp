@@ -119,14 +119,10 @@ TEST_P(evm, swapsn_jumpdest)
     const auto swapsn = "b3";
     const auto code = push(4) + OP_JUMP + swapsn + OP_JUMPDEST + push(0) + ret_top();
 
-    // TODO(rgeraldes24)
-    // rev = EVMC_PETERSBURG;
-    // execute(code);
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 30);
-
     rev = EVMC_SHANGHAI;
     execute(code);
     EXPECT_STATUS(EVMC_SUCCESS);
+    EXPECT_GAS_USED(EVMC_SUCCESS, 30);
 
     rev = EVMC_MAX_REVISION;
     execute(code);

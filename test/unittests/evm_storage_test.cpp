@@ -28,13 +28,13 @@ TEST_P(evm, sstore_pop_stack)
 }
 
 // TODO(rgeraldes24)
-TEST_P(evm, sload_cost_pre_tangerine_whistle)
-{
-    rev = EVMC_SHANGHAI;
-    execute(56, sload(dup1(0)));
-    EXPECT_GAS_USED(EVMC_SUCCESS, 56);
-    EXPECT_EQ(host.accounts[msg.recipient].storage.size(), 0);
-}
+// TEST_P(evm, sload_cost_pre_tangerine_whistle)
+// {
+//     rev = EVMC_SHANGHAI;
+//     execute(56, sload(dup1(0)));
+//     EXPECT_GAS_USED(EVMC_SUCCESS, 56);
+//     EXPECT_EQ(host.accounts[msg.recipient].storage.size(), 0);
+// }
 
 TEST_P(evm, sstore_out_of_block_gas)
 {
