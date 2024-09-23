@@ -22,16 +22,11 @@ constexpr auto common_cost_tables = []() noexcept {
     return tables;
 }();
 
-constexpr auto legacy_cost_tables = []() noexcept {
-    auto tables = common_cost_tables;
-    return tables;
-}();
-
 }  // namespace
 
 const CostTable& get_baseline_cost_table(evmc_revision rev) noexcept
 {
-    const auto& tables = legacy_cost_tables;
+    const auto& tables = common_cost_tables;
     return tables[rev];
 }
 }  // namespace evmone::baseline
