@@ -71,6 +71,7 @@ def build_source(src_file, out_file):
         account.setdefault('nonce', 0)
         account.setdefault('storage', {})
 
+    # TODO(rgeraldes24): double check go-zond evm env examples
     tx = test['transaction']
     tx.setdefault('gasLimit', [GAS_LIMIT])
     tx.setdefault('value', [0])
