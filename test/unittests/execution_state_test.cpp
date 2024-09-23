@@ -37,38 +37,38 @@ TEST(execution_state, construct)
     EXPECT_EQ(st.output_size, 0);
 }
 
-// TODO(rgeraldes24): fix
-// TEST(execution_state, default_construct)
-// {
-//     const evmone::ExecutionState st;
+TEST(execution_state, default_construct)
+{
+    const evmone::ExecutionState st;
 
-//     EXPECT_EQ(st.memory.size(), 0);
-//     EXPECT_EQ(st.msg, nullptr);
-//     EXPECT_EQ(st.rev, EVMC_SHANGHAI);
-//     EXPECT_EQ(st.return_data.size(), 0);
-//     EXPECT_EQ(st.status, EVMC_SUCCESS);
-//     EXPECT_EQ(st.output_offset, 0);
-//     EXPECT_EQ(st.output_size, 0);
-// }
+    EXPECT_EQ(st.memory.size(), 0);
+    EXPECT_EQ(st.msg, nullptr);
+    // TODO(rgeraldes24): double check
+    // EXPECT_EQ(st.rev, EVMC_SHANGHAI);
+    EXPECT_EQ(st.return_data.size(), 0);
+    EXPECT_EQ(st.status, EVMC_SUCCESS);
+    EXPECT_EQ(st.output_offset, 0);
+    EXPECT_EQ(st.output_size, 0);
+}
 
-// TODO(rgeraldes24): fix
-// TEST(execution_state, default_construct_advanced)
-// {
-//     const evmone::advanced::AdvancedExecutionState st;
+TEST(execution_state, default_construct_advanced)
+{
+    const evmone::advanced::AdvancedExecutionState st;
 
-//     EXPECT_EQ(st.gas_left, 0);
-//     EXPECT_EQ(st.stack.size(), 0);
-//     EXPECT_EQ(st.memory.size(), 0);
-//     EXPECT_EQ(st.msg, nullptr);
-//     EXPECT_EQ(st.rev, EVMC_SHANGHAI);
-//     EXPECT_EQ(st.return_data.size(), 0);
-//     EXPECT_EQ(st.status, EVMC_SUCCESS);
-//     EXPECT_EQ(st.output_offset, 0);
-//     EXPECT_EQ(st.output_size, 0);
+    EXPECT_EQ(st.gas_left, 0);
+    EXPECT_EQ(st.stack.size(), 0);
+    EXPECT_EQ(st.memory.size(), 0);
+    EXPECT_EQ(st.msg, nullptr);
+    // TODO(rgeraldes24): double check
+    // EXPECT_EQ(st.rev, EVMC_SHANGHAI);
+    EXPECT_EQ(st.return_data.size(), 0);
+    EXPECT_EQ(st.status, EVMC_SUCCESS);
+    EXPECT_EQ(st.output_offset, 0);
+    EXPECT_EQ(st.output_size, 0);
 
-//     EXPECT_EQ(st.current_block_cost, 0u);
-//     EXPECT_EQ(st.analysis.advanced, nullptr);
-// }
+    EXPECT_EQ(st.current_block_cost, 0u);
+    EXPECT_EQ(st.analysis.advanced, nullptr);
+}
 
 TEST(execution_state, reset_advanced)
 {

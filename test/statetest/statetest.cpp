@@ -23,7 +23,7 @@ public:
     void TestBody() final
     {
         std::ifstream f{m_json_test_file};
-        // TODO(rgeraldes24)
+        // TODO(rgeraldes24): disabled for now
         // evmone::test::run_state_test(evmone::test::load_state_test(f), m_vm);
     }
 };

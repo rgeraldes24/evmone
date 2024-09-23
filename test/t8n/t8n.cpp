@@ -29,7 +29,6 @@ int main(int argc, const char* argv[])
     fs::path output_result_file;
     fs::path output_alloc_file;
     fs::path output_body_file;
-    std::optional<uint64_t> block_reward;
     uint64_t chain_id = 0;
 
     try
@@ -57,8 +56,6 @@ int main(int argc, const char* argv[])
                 output_result_file = argv[i];
             else if (arg == "--output.alloc" && ++i < argc)
                 output_alloc_file = argv[i];
-            else if (arg == "--state.reward" && ++i < argc && argv[i] != "-1"sv)
-                block_reward = intx::from_string<uint64_t>(argv[i]);
             else if (arg == "--state.chainid" && ++i < argc)
                 chain_id = intx::from_string<uint64_t>(argv[i]);
             else if (arg == "--output.body" && ++i < argc)
@@ -156,7 +153,7 @@ int main(int argc, const char* argv[])
                 }
             }
 
-            state::finalize(state, rev, block.coinbase, block_reward, block.withdrawals);
+            state::finalize(state, rev, block.withdrawals);
 
             j_result["logsHash"] = hex0x(logs_hash(txs_logs));
             j_result["stateRoot"] = hex0x(state::mpt_hash(state.get_accounts()));

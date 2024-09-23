@@ -111,12 +111,8 @@ evmc_message build_message(const Transaction& tx, int64_t execution_gas_limit) n
 }
 }  // namespace
 
-void finalize(State& state, evmc_revision /*rev*/, const address& coinbase,
-    std::optional<uint64_t> block_reward, std::span<Withdrawal> withdrawals)
+void finalize(State& state, evmc_revision /*rev*/, std::span<Withdrawal> withdrawals)
 {
-    if (block_reward.has_value())
-        state.touch(coinbase).balance += *block_reward;
-
     std::erase_if(
         state.get_accounts(), [](const std::pair<const address, Account>& p) noexcept {
             const auto& acc = p.second;

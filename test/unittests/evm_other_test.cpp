@@ -91,7 +91,7 @@ TEST_P(evm, evmone_block_gas_cost_overflow_create)
     }
 }
 
-// TODO(rgeraldes24): fix
+// TODO(rgeraldes24): fix: status code success
 // TEST_P(evm, evmone_block_gas_cost_overflow_balance)
 // {
 //     // Here we build single-block bytecode with as many BALANCE instructions as possible.

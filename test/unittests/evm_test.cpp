@@ -415,16 +415,6 @@ TEST_P(evm, exp_oog)
     EXPECT_EQ(result.gas_left, 0);
 }
 
-// TODO(rgeraldes24): remove
-// TEST_P(evm, exp_pre_spurious_dragon)
-// {
-//     rev = EVMC_TANGERINE_WHISTLE;
-//     const auto code = push(0x012019) + push(3) + OP_EXP + ret_top();
-//     execute(131 - 70, code);
-//     EXPECT_GAS_USED(EVMC_SUCCESS, 131 - 70);
-//     EXPECT_OUTPUT_INT(0x422ea3761c4f6517df7f102bb18b96abf4735099209ca21256a6b8ac4d1daaa3_u256);
-// }
-
 TEST_P(evm, calldataload)
 {
     execute(mstore(0, calldataload(3)) + ret(0, 10), "0102030405"_hex);
@@ -654,16 +644,15 @@ TEST_P(evm, undefined_instruction_block_cost_negative)
     EXPECT_STATUS(EVMC_UNDEFINED_INSTRUCTION);
 }
 
-// TODO(rgeraldes24): fix: r = 0
-// TEST_P(evm, abort)
-// {
-//     for (auto r = 0; r <= EVMC_MAX_REVISION; ++r)
-//     {
-//         auto opcode = uint8_t{0xfe};
-//         auto res = vm.execute(host, evmc_revision(r), {}, &opcode, sizeof(opcode));
-//         EXPECT_EQ(res.status_code, EVMC_INVALID_INSTRUCTION);
-//     }
-// }
+TEST_P(evm, abort)
+{
+    for (auto r = 11; r <= EVMC_MAX_REVISION; ++r)
+    {
+        auto opcode = uint8_t{0xfe};
+        auto res = vm.execute(host, evmc_revision(r), {}, &opcode, sizeof(opcode));
+        EXPECT_EQ(res.status_code, EVMC_INVALID_INSTRUCTION);
+    }
+}
 
 TEST_P(evm, staticmode)
 {

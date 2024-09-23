@@ -64,7 +64,7 @@ TEST(state_mpt_hash, deleted_storage)
         0x4e7338c16731491e0fb5d1623f5265c17699c970c816bab71d4d717f6071414d_bytes32);
 }
 
-// TODO(rgeraldes24): fix
+// TODO(rgeraldes24): add new values
 // TEST(state_mpt_hash, one_transactions)
 // {
 //     // https://sepolia.etherscan.io/tx/0xd4070618ed3026722ae5dbacc95e70714327d65abce292bba9de38201895cdff
@@ -110,7 +110,7 @@ TEST(state_mpt_hash, deleted_storage)
 //     EXPECT_EQ(tx_root, 0x6ce50bfaaebabe884433c144fa4d8a4c1087e443587a9788b30381636dedbeb2_bytes32);
 // }
 
-// TODO(rgeraldes24): fix
+// TODO(rgeraldes24): add new values
 // TEST(state_mpt_hash, legacy_and_eip1559_receipt_three_logs_no_logs)
 // {
 //     // https://sepolia.etherscan.io/tx/0x1e68d9dbbf933399a6dfe5686ba0b51e04a4da81ab17aa5ff84334fdf2d4a3a7

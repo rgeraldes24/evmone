@@ -150,7 +150,7 @@ struct Traits
     std::optional<evmc_revision> since;
 };
 
-// TODO(rgeraldes24): will return always true in our case
+// NOTE(rgeraldes24): returns always true for now
 /// Determines if an instruction has constant base gas cost across all revisions.
 /// Note that this is not true for instructions with constant base gas cost but
 /// not available in the first revision (e.g. SHL).

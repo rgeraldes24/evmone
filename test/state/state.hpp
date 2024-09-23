@@ -129,12 +129,10 @@ struct TransactionReceipt
     BloomFilter logs_bloom_filter;
 };
 
-// TODO(rgeraldes24)
 /// Finalize state after applying a "block" of transactions.
 ///
-/// Applies block reward to coinbase, withdrawals and deletes empty touched accounts.
-void finalize(State& state, evmc_revision rev, const address& coinbase,
-    std::optional<uint64_t> block_reward, std::span<Withdrawal> withdrawals);
+/// Applies withdrawals and deletes empty touched accounts.
+void finalize(State& state, evmc_revision rev, std::span<Withdrawal> withdrawals);
 
 [[nodiscard]] std::variant<TransactionReceipt, std::error_code> transition(
     State& state, const BlockInfo& block, const Transaction& tx, evmc_revision rev, evmc::VM& vm);

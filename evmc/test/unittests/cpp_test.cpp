@@ -647,15 +647,12 @@ TEST(cpp, host)
     EXPECT_EQ(host.get_code_hash(a), evmc::bytes32{});
     EXPECT_EQ(host.copy_code(a, 0, nullptr, 0), size_t{0});
 
-    // TODO(rgeraldes24)
-    // host.selfdestruct(a, a);
+    auto tx = host.get_tx_context();
+    EXPECT_EQ(host.get_tx_context().block_number, tx.block_number);
 
-    // auto tx = host.get_tx_context();
-    // EXPECT_EQ(host.get_tx_context().block_number, tx.block_number);
+    EXPECT_EQ(host.get_block_hash(0), evmc::bytes32{});
 
-    // EXPECT_EQ(host.get_block_hash(0), evmc::bytes32{});
-
-    // host.emit_log(a, nullptr, 0, nullptr, 0);
+    host.emit_log(a, nullptr, 0, nullptr, 0);
 }
 
 TEST(cpp, host_call)

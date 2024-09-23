@@ -40,8 +40,7 @@ TEST(instructions, shanghai_hard_fork)
     const auto sn = evmc_get_instruction_names_table(EVMC_SHANGHAI);
     // const auto pn = evmc_get_instruction_names_table(EVMC_PARIS);
 
-    // TODO(rgeraldes24): review desc
-    // NOTE(rgeraldes24): unused atm: need another fork
+    // NOTE(rgeraldes24): unused for now
     // for (int op = 0x00; op <= 0xff; ++op)
     // {
     //     if (op == OP_PUSH0)
