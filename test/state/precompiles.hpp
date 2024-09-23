@@ -14,6 +14,7 @@ inline constexpr std::size_t NumPrecompiles = 10;
 
 enum class PrecompileId : uint8_t
 {
+    depositroot = 0x01,
     sha256 = 0x02,
     identity = 0x04,
     expmod = 0x05,

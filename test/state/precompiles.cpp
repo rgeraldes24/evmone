@@ -36,6 +36,12 @@ inline constexpr int64_t cost_per_input_word(size_t input_size) noexcept
     return BaseCost + WordCost * num_words(input_size);
 }
 
+PrecompileAnalysis depositroot_analyze(bytes_view /*input*/, evmc_revision /*rev*/) noexcept
+{
+    // TODO(rgeraldes24)
+    return {3000, 32};
+}
+
 PrecompileAnalysis sha256_analyze(bytes_view input, evmc_revision /*rev*/) noexcept
 {
     return {cost_per_input_word<60, 12>(input.size()), 32};
@@ -139,6 +145,7 @@ ExecutionResult dummy_execute(const uint8_t*, size_t, uint8_t*, size_t) noexcept
 inline constexpr auto traits = []() noexcept {
     std::array<PrecompileTraits, NumPrecompiles> tbl{{
         {},  // undefined for 0
+        {depositroot_analyze, dummy_execute<PrecompileId::depositroot>},
         {sha256_analyze, dummy_execute<PrecompileId::sha256>},
         {identity_analyze, identity_execute},
         {expmod_analyze, dummy_execute<PrecompileId::expmod>},
