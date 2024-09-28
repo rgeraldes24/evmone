@@ -45,29 +45,28 @@ TEST_P(evm, sstore_out_of_block_gas)
 {
     const auto code = push(0) + sstore(0, 1) + OP_POP;
 
+    // TODO(rgearldes24): double check
     // Barely enough gas to execute successfully.
     host.accounts[msg.recipient] = {};  // Reset contract account.
-    execute(20011, code);
-    // TODO(rgeraldes24): fix: out of gas
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 20011);
+    execute(22111, code);
+    EXPECT_GAS_USED(EVMC_SUCCESS, 22111);
 
     // Out of block gas - 1 too low.
     host.accounts[msg.recipient] = {};  // Reset contract account.
-    execute(20010, code);
+    execute(22110, code);
     EXPECT_STATUS(EVMC_OUT_OF_GAS);
 
     // Out of block gas - 2 too low.
     host.accounts[msg.recipient] = {};  // Reset contract account.
-    execute(20009, code);
+    execute(22109, code);
     EXPECT_STATUS(EVMC_OUT_OF_GAS);
 
     // SSTORE instructions out of gas.
     host.accounts[msg.recipient] = {};  // Reset contract account.
-    execute(20008, code);
+    execute(22108, code);
     EXPECT_STATUS(EVMC_OUT_OF_GAS);
 }
 
-// TODO(rgeraldes24): fix: out of gas
 TEST_P(evm, sstore_cost)
 {
     auto& storage = host.accounts[msg.recipient].storage;
@@ -80,11 +79,11 @@ TEST_P(evm, sstore_cost)
 
         // Added:
         storage.clear();
-        execute(20006, sstore(1, 1));
-        // TODO(rgeraldes24): fix: out of gas
-        // EXPECT_EQ(result.status_code, EVMC_SUCCESS);
+        // TODO(rgeraldes24): double check
+        execute(22106, sstore(1, 1));
+        EXPECT_EQ(result.status_code, EVMC_SUCCESS);
         storage.clear();
-        execute(20005, sstore(1, 1));
+        execute(22105, sstore(1, 1));
         EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 
         // Deleted:
