@@ -38,8 +38,7 @@ inline constexpr int64_t cost_per_input_word(size_t input_size) noexcept
 
 PrecompileAnalysis depositroot_analyze(bytes_view /*input*/, evmc_revision /*rev*/) noexcept
 {
-    // TODO(rgeraldes24)
-    return {3000, 32};
+    return {19992, 32};
 }
 
 PrecompileAnalysis sha256_analyze(bytes_view input, evmc_revision /*rev*/) noexcept
