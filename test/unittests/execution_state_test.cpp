@@ -43,8 +43,7 @@ TEST(execution_state, default_construct)
 
     EXPECT_EQ(st.memory.size(), 0);
     EXPECT_EQ(st.msg, nullptr);
-    // TODO(rgeraldes24): double check
-    // EXPECT_EQ(st.rev, EVMC_SHANGHAI);
+    EXPECT_EQ(st.rev, EVMC_SHANGHAI);
     EXPECT_EQ(st.return_data.size(), 0);
     EXPECT_EQ(st.status, EVMC_SUCCESS);
     EXPECT_EQ(st.output_offset, 0);
@@ -59,8 +58,7 @@ TEST(execution_state, default_construct_advanced)
     EXPECT_EQ(st.stack.size(), 0);
     EXPECT_EQ(st.memory.size(), 0);
     EXPECT_EQ(st.msg, nullptr);
-    // TODO(rgeraldes24): double check
-    // EXPECT_EQ(st.rev, EVMC_SHANGHAI);
+    EXPECT_EQ(st.rev, EVMC_SHANGHAI);
     EXPECT_EQ(st.return_data.size(), 0);
     EXPECT_EQ(st.status, EVMC_SUCCESS);
     EXPECT_EQ(st.output_offset, 0);

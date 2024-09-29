@@ -55,7 +55,7 @@ constexpr void validate_traits_of() noexcept
     if constexpr (Op >= OP_PUSH1 && Op <= OP_PUSH32)
         static_assert(tr.immediate_size == Op - OP_PUSH1 + 1);
     else
-        static_assert(tr.immediate_size == 0);  // Including RJUMPV. // TODO(rgeraldes24)
+        static_assert(tr.immediate_size == 0);
 
     // is_terminating
     static_assert(tr.is_terminating == is_terminating(Op));

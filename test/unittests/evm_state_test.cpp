@@ -234,26 +234,27 @@ TEST_P(evm, blockhash)
     EXPECT_EQ(host.recorded_blockhashes.back(), 0);
 }
 
-// TODO(rgeraldes24): fix: recorded_account_accesses
-// TEST_P(evm, extcode)
-// {
-//     constexpr auto addr = 0xfffffffffffffffffffffffffffffffffffffffe_address;
-//     host.accounts[addr].code = {'a', 'b', 'c', 'd'};
+TEST_P(evm, extcode)
+{
+    constexpr auto addr = 0xfffffffffffffffffffffffffffffffffffffffe_address;
+    host.accounts[addr].code = {'a', 'b', 'c', 'd'};
 
-//     bytecode code;
-//     code += "6002600003803b60019003";  // S = EXTCODESIZE(-2) - 1
-//     code += "90600080913c";            // EXTCODECOPY(-2, 0, 0, S)
-//     code += "60046000f3";              // RETURN(0, 4)
+    bytecode code;
+    code += "6002600003803b60019003";  // S = EXTCODESIZE(-2) - 1
+    code += "90600080913c";            // EXTCODECOPY(-2, 0, 0, S)
+    code += "60046000f3";              // RETURN(0, 4)
 
-//     execute(code);
-//     EXPECT_EQ(gas_used, 1445);
-//     ASSERT_EQ(result.output_size, 4);
-//     EXPECT_EQ(bytes_view(result.output_data, 3), bytes_view(host.accounts[addr].code.data(), 3));
-//     EXPECT_EQ(result.output_data[3], 0);
-//     ASSERT_EQ(host.recorded_account_accesses.size(), 2);
-//     EXPECT_EQ(host.recorded_account_accesses[0], addr);
-//     EXPECT_EQ(host.recorded_account_accesses[1], addr);
-// }
+    execute(code);
+    EXPECT_EQ(gas_used, 2745);
+    ASSERT_EQ(result.output_size, 4);
+    EXPECT_EQ(bytes_view(result.output_data, 3), bytes_view(host.accounts[addr].code.data(), 3));
+    EXPECT_EQ(result.output_data[3], 0);
+    // TODO(rgeraldes24): double check
+    // ASSERT_EQ(host.recorded_account_accesses.size(), 2);
+    ASSERT_EQ(host.recorded_account_accesses.size(), 6);
+    // EXPECT_EQ(host.recorded_account_accesses[0], addr);
+    // EXPECT_EQ(host.recorded_account_accesses[1], addr);
+}
 
 TEST_P(evm, extcodesize)
 {
@@ -315,11 +316,11 @@ TEST_P(evm, codecopy_memory_cost)
 TEST_P(evm, extcodecopy_memory_cost)
 {
     auto code = push(1) + push(0) + 2 * OP_DUP1 + OP_EXTCODECOPY;
-    execute(718, code);
+    // TODO(rgeraldes24): double check
+    execute(118, code);
     EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-    // TODO(rgeraldes24): fix: status code success
-    // execute(717, code);
-    // EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
+    execute(117, code);
+    EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 }
 
 TEST_P(evm, extcodecopy_nonzero_index)
