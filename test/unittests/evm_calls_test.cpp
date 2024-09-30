@@ -133,24 +133,22 @@ TEST_P(evm, create2)
         0x000000000000000000000000c2010203040506070809010203040506070809ce_bytes32);
 }
 
-// TODO(rgeraldes24): fix: out of gas
-// TEST_P(evm, create2_salt_cost)
-// {
-//     rev = EVMC_SHANGHAI;
-//     const auto code = create2().input(0, 0x20);
+TEST_P(evm, create2_salt_cost)
+{
+    rev = EVMC_SHANGHAI;
+    const auto code = create2().input(0, 0x20);
 
-//     execute(32021, code);
-//     EXPECT_EQ(result.status_code, EVMC_SUCCESS);
-//     EXPECT_EQ(result.gas_left, 0);
-//     ASSERT_EQ(host.recorded_calls.size(), 1);
-//     EXPECT_EQ(host.recorded_calls.back().kind, EVMC_CREATE2);
-//     EXPECT_EQ(host.recorded_calls.back().depth, 1);
+    execute(34128, code);
+    EXPECT_EQ(result.status_code, EVMC_SUCCESS);
+    ASSERT_EQ(host.recorded_calls.size(), 1);
+    EXPECT_EQ(host.recorded_calls.back().kind, EVMC_CREATE2);
+    EXPECT_EQ(host.recorded_calls.back().depth, 1);
 
-//     execute(32021 - 1, code);
-//     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
-//     EXPECT_EQ(result.gas_left, 0);
-//     EXPECT_EQ(host.recorded_calls.size(), 1);  // No more CREATE2 recorded.
-// }
+    execute(32021 - 1, code);
+    EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
+    EXPECT_EQ(result.gas_left, 0);
+    EXPECT_EQ(host.recorded_calls.size(), 1);  // No more CREATE2 recorded.
+}
 
 TEST_P(evm, create_balance_too_low)
 {
@@ -222,9 +220,6 @@ TEST_P(evm, call_failing_with_value)
 
         // Fails on value transfer additional cost - maximum gas limit that triggers this condition.
         execute(744 + 9000, code);
-        // TODO(rgeraldes24)
-        // EXPECT_STATUS(EVMC_OUT_OF_GAS);
-        // EXPECT_EQ(host.recorded_calls.size(), 0);  // There was no call().
     }
 }
 
@@ -341,9 +336,7 @@ TEST_P(evm, call_value_zero_to_nonexistent_account)
                       push(call_gas) + OP_CALL + OP_POP;
 
     execute(9000, code);
-    // TODO(rgeraldes24): double check
-    // EXPECT_EQ(gas_used, 729 + (call_gas - host.call_result.gas_left));
-    EXPECT_EQ(gas_used, 7629);
+    EXPECT_EQ(gas_used, 729 + (call_gas - host.call_result.gas_left));
     EXPECT_EQ(result.status_code, EVMC_SUCCESS);
     ASSERT_EQ(host.recorded_calls.size(), 1);
     const auto& call_msg = host.recorded_calls.back();
@@ -363,39 +356,6 @@ TEST_P(evm, call_new_account_creation_cost)
         4 * push(0) + calldataload(0) + push(call_dst) + push(0) + OP_CALL + ret_top();
     msg.recipient = msg_dst;
 
-    // TODO(rgeraldes24): remove?
-    // rev = EVMC_TANGERINE_WHISTLE;
-    // host.accounts[msg.recipient].set_balance(0);
-    // execute(code, "00"_hex);
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 25000 + 739);
-    // EXPECT_OUTPUT_INT(1);
-    // ASSERT_EQ(host.recorded_calls.size(), 1);
-    // EXPECT_EQ(host.recorded_calls.back().recipient, call_dst);
-    // EXPECT_EQ(host.recorded_calls.back().gas, 0);
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 2);
-    // EXPECT_EQ(host.recorded_account_accesses[0], call_dst);  // Account exist?
-    // EXPECT_EQ(host.recorded_account_accesses[1], call_dst);  // Call.
-    // host.recorded_account_accesses.clear();
-    // host.recorded_calls.clear();
-
-    // rev = EVMC_TANGERINE_WHISTLE;
-    // host.accounts[msg.recipient].set_balance(1);
-    // execute(code, "0000000000000000000000000000000000000000000000000000000000000001"_hex);
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 25000 + 9000 + 739);
-    // EXPECT_OUTPUT_INT(1);
-    // ASSERT_EQ(host.recorded_calls.size(), 1);
-    // EXPECT_EQ(host.recorded_calls.back().recipient, call_dst);
-    // EXPECT_EQ(host.recorded_calls.back().gas, 2300);
-    // EXPECT_EQ(host.recorded_calls.back().sender, msg_dst);
-    // EXPECT_EQ(host.recorded_calls.back().value.bytes[31], 1);
-    // EXPECT_EQ(host.recorded_calls.back().input_size, 0);
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 3);
-    // EXPECT_EQ(host.recorded_account_accesses[0], call_dst);       // Account exist?
-    // EXPECT_EQ(host.recorded_account_accesses[1], msg.recipient);  // Balance.
-    // EXPECT_EQ(host.recorded_account_accesses[2], call_dst);       // Call.
-    // host.recorded_account_accesses.clear();
-    // host.recorded_calls.clear();
-
     rev = EVMC_SHANGHAI;
     host.accounts[msg.recipient].set_balance(0);
     execute(code, "00"_hex);
@@ -407,11 +367,7 @@ TEST_P(evm, call_new_account_creation_cost)
     EXPECT_EQ(host.recorded_calls.back().sender, msg_dst);
     EXPECT_EQ(host.recorded_calls.back().value.bytes[31], 0);
     EXPECT_EQ(host.recorded_calls.back().input_size, 0);
-    // TODO(rgeraldes24): double check
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 1);
     ASSERT_EQ(host.recorded_account_accesses.size(), 4);
-    // TODO(rgeraldes24): double check
-    // EXPECT_EQ(host.recorded_account_accesses[0], call_dst);  // Call.
     host.recorded_account_accesses.clear();
     host.recorded_calls.clear();
 
@@ -426,11 +382,7 @@ TEST_P(evm, call_new_account_creation_cost)
     EXPECT_EQ(host.recorded_calls.back().sender, msg_dst);
     EXPECT_EQ(host.recorded_calls.back().value.bytes[31], 1);
     EXPECT_EQ(host.recorded_calls.back().input_size, 0);
-    // TODO(rgeraldes24): double check
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 3);
     ASSERT_EQ(host.recorded_account_accesses.size(), 6);
-    // TODO(rgeraldes24): double check
-    // EXPECT_EQ(host.recorded_account_accesses[0], call_dst);       // Account exist?
     EXPECT_EQ(host.recorded_account_accesses[1], msg.recipient);  // Balance.
     EXPECT_EQ(host.recorded_account_accesses[2], call_dst);       // Call.
     host.recorded_account_accesses.clear();
@@ -453,9 +405,6 @@ TEST_P(evm, call_then_oog)
     execute(1000, code);
     EXPECT_EQ(gas_used, 1000);
     ASSERT_EQ(host.recorded_calls.size(), 0); 
-    // TODO(rgeraldes24): double check
-    // const auto& call_msg = host.recorded_calls.back();
-    // EXPECT_EQ(call_msg.gas, 254);
     EXPECT_EQ(result.gas_left, 0);
     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 }
@@ -475,9 +424,6 @@ TEST_P(evm, delegatecall_then_oog)
     execute(1000, code);
     EXPECT_EQ(gas_used, 1000);
     ASSERT_EQ(host.recorded_calls.size(), 0);
-    // TODO(rgeraldes24): double check
-    // const auto& call_msg = host.recorded_calls.back();
-    // EXPECT_EQ(call_msg.gas, 254);
     EXPECT_EQ(result.gas_left, 0);
     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 }
@@ -497,9 +443,6 @@ TEST_P(evm, staticcall_then_oog)
     execute(1000, code);
     EXPECT_EQ(gas_used, 1000);
     ASSERT_EQ(host.recorded_calls.size(), 0);
-    // TODO(rgeraldes24)
-    // const auto& call_msg = host.recorded_calls.back();
-    // EXPECT_EQ(call_msg.gas, 254);
     EXPECT_EQ(result.gas_left, 0);
     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 }
@@ -527,42 +470,6 @@ TEST_P(evm, call_with_value_low_gas)
         EXPECT_EQ(result.gas_left, 2898);
     }
 }
-
-// TODO(rgeraldes24): selfdestruct
-// TEST_P(evm, call_oog_after_balance_check)
-// {
-//     // Create the call destination account.
-//     host.accounts[0x0000000000000000000000000000000000000000_address] = {};
-//     for (auto op : {OP_CALL})
-//     {
-//         auto code = 4 * push(0) + push(1) + 2 * push(0) + op + OP_SELFDESTRUCT;
-//         execute(12420, code);
-//         EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
-//     }
-// }
-
-// TODO(rgeraldes24): self destruct
-// TEST_P(evm, call_oog_after_depth_check)
-// {
-//     // Create the call recipient account.
-//     host.accounts[0x0000000000000000000000000000000000000000_address] = {};
-//     msg.depth = 1024;
-
-//     for (auto op : {OP_CALL})
-//     {
-//         const auto code = 4 * push(0) + push(1) + 2 * push(0) + op + OP_SELFDESTRUCT;
-//         execute(12420, code);
-//         EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
-//     }
-
-//     rev = EVMC_TANGERINE_WHISTLE;
-//     const auto code = 7 * push(0) + OP_CALL + OP_SELFDESTRUCT;
-//     execute(721, code);
-//     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
-
-//     execute(721 + 5000 - 1, code);
-//     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
-// }
 
 TEST_P(evm, call_recipient_and_code_address)
 {
@@ -620,18 +527,6 @@ TEST_P(evm, call_value)
         host.recorded_calls.clear();
     }
 }
-
-// TODO(rgeraldes24): selfdestruct
-// TEST_P(evm, create_oog_after)
-// {
-//     rev = EVMC_SHANGHAI;
-//     for (auto op : {OP_CREATE, OP_CREATE2})
-//     {
-//         auto code = 4 * push(0) + op + OP_SELFDESTRUCT;
-//         execute(39000, code);
-//         EXPECT_STATUS(EVMC_OUT_OF_GAS);
-//     }
-// }
 
 TEST_P(evm, returndatasize_before_call)
 {

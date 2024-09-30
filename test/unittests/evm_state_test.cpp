@@ -241,11 +241,7 @@ TEST_P(evm, extcode)
     ASSERT_EQ(result.output_size, 4);
     EXPECT_EQ(bytes_view(result.output_data, 3), bytes_view(host.accounts[addr].code.data(), 3));
     EXPECT_EQ(result.output_data[3], 0);
-    // TODO(rgeraldes24): double check
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 2);
     ASSERT_EQ(host.recorded_account_accesses.size(), 6);
-    // EXPECT_EQ(host.recorded_account_accesses[0], addr);
-    // EXPECT_EQ(host.recorded_account_accesses[1], addr);
 }
 
 TEST_P(evm, extcodesize)
