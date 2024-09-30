@@ -92,8 +92,6 @@ TEST_P(evm, balance)
     host.accounts[msg.recipient].set_balance(0x0504030201);
     auto code = bytecode{} + OP_ADDRESS + OP_BALANCE + mstore(0) + ret(32 - 6, 6);
     execute(417, code);
-    // TODO(rgeraldes24): double check
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 417);
     EXPECT_GAS_USED(EVMC_SUCCESS, 117);
     ASSERT_EQ(result.output_size, 6);
     EXPECT_EQ(result.output_data[0], 0);
@@ -111,20 +109,14 @@ TEST_P(evm, account_info_homestead)
     host.accounts[msg.recipient].code = bytes{1};
 
     execute(bytecode{} + OP_ADDRESS + OP_BALANCE + ret_top());
-    // TODO(rgeraldes24): double check
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 37);
     EXPECT_GAS_USED(EVMC_SUCCESS, 117);
     EXPECT_OUTPUT_INT(1);
 
     execute(bytecode{} + OP_ADDRESS + OP_EXTCODESIZE + ret_top());
-    // TODO(rgeraldes24): double check
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 37);
     EXPECT_GAS_USED(EVMC_SUCCESS, 117);
     EXPECT_OUTPUT_INT(1);
 
     execute(bytecode{} + push(1) + push(0) + push(0) + OP_ADDRESS + OP_EXTCODECOPY + ret(0, 1));
-    // TODO(rgeraldes24): double check
-    // EXPECT_GAS_USED(EVMC_SUCCESS, 43);
     EXPECT_GAS_USED(EVMC_SUCCESS, 123);
     ASSERT_EQ(result.output_size, 1);
     EXPECT_EQ(result.output_data[0], 1);
@@ -281,8 +273,6 @@ TEST_P(evm, extcodehash)
 
     rev = EVMC_SHANGHAI;
     execute(code);
-    // TODO(rgeraldes24): double check
-    // EXPECT_EQ(gas_used, 418);
     EXPECT_EQ(gas_used, 118);
     ASSERT_EQ(result.output_size, 32);
     auto expected_hash = bytes(32, 0xee);
@@ -316,7 +306,6 @@ TEST_P(evm, codecopy_memory_cost)
 TEST_P(evm, extcodecopy_memory_cost)
 {
     auto code = push(1) + push(0) + 2 * OP_DUP1 + OP_EXTCODECOPY;
-    // TODO(rgeraldes24): double check
     execute(118, code);
     EXPECT_EQ(result.status_code, EVMC_SUCCESS);
     execute(117, code);
@@ -338,8 +327,6 @@ TEST_P(evm, extcodecopy_nonzero_index)
     ASSERT_EQ(result.output_size, 2);
     EXPECT_EQ(result.output_data[0], 0xc0);
     EXPECT_EQ(result.output_data[1], 0);
-    // TODO(rgeraldes24): double check
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 1);
     ASSERT_EQ(host.recorded_account_accesses.size(), 4);
     EXPECT_EQ(host.recorded_account_accesses.back().bytes[19], 0xa);
 }
@@ -354,8 +341,7 @@ TEST_P(evm, extcodecopy_fill_tail)
     extcode.resize(1);
     auto code = push(2) + push(0) + push(0) + push(0xa) + OP_EXTCODECOPY + ret(0, 2);
     execute(code);
-    // TODO(rgeraldes24): double check
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 4);
+    ASSERT_EQ(host.recorded_account_accesses.size(), 4);
     EXPECT_EQ(host.recorded_account_accesses.back().bytes[19], 0xa);
     EXPECT_EQ(result.status_code, EVMC_SUCCESS);
     ASSERT_EQ(result.output_size, 2);

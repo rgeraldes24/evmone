@@ -13,18 +13,17 @@ namespace
 class StateTest : public testing::Test
 {
     fs::path m_json_test_file;
-    // evmc::VM& m_vm;
+    evmc::VM& m_vm;
 
 public:
-    explicit StateTest(fs::path json_test_file, evmc::VM& /*vm*/) noexcept
-      : m_json_test_file{std::move(json_test_file)} /*, m_vm{vm}*/
+    explicit StateTest(fs::path json_test_file, evmc::VM& vm) noexcept
+      : m_json_test_file{std::move(json_test_file)} , m_vm{vm}
     {}
 
     void TestBody() final
     {
         std::ifstream f{m_json_test_file};
-        // TODO(rgeraldes24): disabled for now
-        // evmone::test::run_state_test(evmone::test::load_state_test(f), m_vm);
+        evmone::test::run_state_test(evmone::test::load_state_test(f), m_vm);
     }
 };
 
