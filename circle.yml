@@ -23,7 +23,8 @@ executors:
   blockchain-tests:
     docker:
       - image: ethereum/cpp-build-env:19-gcc-12
-    resource_class: xlarge
+    # resource_class: xlarge
+    resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 8
   linux-clang-xlarge:
