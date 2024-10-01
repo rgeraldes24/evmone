@@ -9,8 +9,7 @@ namespace evmone::instr::core
 template <Opcode Op>
 Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexcept
 {
-    static_assert(
-        Op == OP_CALL || Op == OP_DELEGATECALL || Op == OP_STATICCALL);
+    static_assert(Op == OP_CALL || Op == OP_DELEGATECALL || Op == OP_STATICCALL);
 
     const auto gas = stack.pop();
     const auto dst = intx::be::trunc<evmc::address>(stack.pop());

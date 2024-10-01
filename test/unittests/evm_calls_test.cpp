@@ -626,8 +626,7 @@ TEST_P(evm, call_gas_refund_propagation)
     host.call_result.gas_refund = 1;
 
     const auto code_prolog = 7 * push(1);
-    for (const auto op :
-        {OP_CALL, OP_DELEGATECALL, OP_STATICCALL, OP_CREATE, OP_CREATE2})
+    for (const auto op : {OP_CALL, OP_DELEGATECALL, OP_STATICCALL, OP_CREATE, OP_CREATE2})
     {
         execute(code_prolog + op);
         EXPECT_STATUS(EVMC_SUCCESS);
@@ -658,8 +657,7 @@ TEST_P(evm, call_gas_refund_aggregation_same_calls)
     host.call_result.gas_refund = 1;
 
     const auto code_prolog = 14 * push(1);
-    for (const auto op :
-        {OP_CALL, OP_DELEGATECALL, OP_STATICCALL, OP_CREATE, OP_CREATE2})
+    for (const auto op : {OP_CALL, OP_DELEGATECALL, OP_STATICCALL, OP_CREATE, OP_CREATE2})
     {
         execute(code_prolog + 2 * op);
         EXPECT_STATUS(EVMC_SUCCESS);

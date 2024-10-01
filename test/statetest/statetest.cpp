@@ -17,7 +17,7 @@ class StateTest : public testing::Test
 
 public:
     explicit StateTest(fs::path json_test_file, evmc::VM& vm) noexcept
-      : m_json_test_file{std::move(json_test_file)} , m_vm{vm}
+      : m_json_test_file{std::move(json_test_file)} ,m_vm{vm}
     {}
 
     void TestBody() final

@@ -95,7 +95,7 @@ struct Transaction
 {
     enum class Kind : uint8_t
     {
-        eip1559 = 2   ///< EIP1559 transaction https://eips.ethereum.org/EIPS/eip-1559
+        eip1559 = 2  ///< EIP1559 transaction https://eips.ethereum.org/EIPS/eip-1559
     };
 
     Kind kind = Kind::eip1559;
