@@ -611,7 +611,7 @@ workflows:
     jobs:
       - lint
       - release-linux:
-          filters:
+          filters: 
             tags:
               only: /.*/
       - release-windows:
