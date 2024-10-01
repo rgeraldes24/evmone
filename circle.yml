@@ -81,11 +81,11 @@ commands:
           command: |
             curl -L https://github.com/Kitware/CMake/releases/download/v<<parameters.version>>/cmake-<<parameters.version>>-linux-x86_64.tar.gz | sudo tar -xz --strip=1
 
-  checkout_submodules:
-    steps:
-      - run:
-          name: "Update submodules"
-          command: git submodule update --init --recursive
+  #checkout_submodules:
+  #  steps:
+  #    - run:
+  #        name: "Update submodules"
+  #        command: git submodule update --init --recursive
 
   build_silkworm:
     parameters:
@@ -162,7 +162,7 @@ commands:
     description: "Build"
     steps:
       - checkout
-      - checkout_submodules
+      #- checkout_submodules
       - run:
           name: "Environment"
           command: |
@@ -319,7 +319,7 @@ jobs:
       CMAKE_BUILD_PARALLEL_LEVEL: 4
     steps:
       - checkout
-      - checkout_submodules
+      #- checkout_submodules
       - run:
           name: "Setup environment (bash)"
           shell: bash
@@ -350,7 +350,7 @@ jobs:
       CMAKE_BUILD_PARALLEL_LEVEL: 4
     steps:
       - checkout
-      - checkout_submodules
+      #- checkout_submodules
       - run:
           name: "Setup environment (bash)"
           shell: bash
