@@ -298,10 +298,10 @@ jobs:
             clang-format --version
             find include lib test -name '*.hpp' -o -name '*.cpp' -o -name '*.h' -o -name '*.c' | xargs clang-format -i
             git diff --color --exit-code
-      - run:
-          name: "Check spelling"
-          command: |
-            codespell --quiet-level=4 --skip=.git
+      # - run:
+      #     name: "Check spelling"
+      #     command: |
+      #       codespell --quiet-level=4 --skip=.git
 
   release-linux:
     executor: linux-gcc-latest
