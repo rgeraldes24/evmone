@@ -642,8 +642,7 @@ TEST_P(evm, call_gas_refund_aggregation_different_calls)
     host.call_result.gas_refund = 1;
 
     const auto a = 0xaa_address;
-    const auto code =
-        call(a) + delegatecall(a) + staticcall(a) + create() + create2();
+    const auto code = call(a) + delegatecall(a) + staticcall(a) + create() + create2();
     execute(code);
     EXPECT_STATUS(EVMC_SUCCESS);
     EXPECT_EQ(result.gas_refund, 5);

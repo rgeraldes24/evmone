@@ -113,8 +113,8 @@ evmc_message build_message(const Transaction& tx, int64_t execution_gas_limit) n
 void finalize(State& state, evmc_revision /*rev*/, std::span<Withdrawal> withdrawals)
 {
     std::erase_if(state.get_accounts(), [](const std::pair<const address, Account>& p) noexcept {
-         const auto& acc = p.second;
-         return acc.erasable && acc.is_empty();
+        const auto& acc = p.second;
+        return acc.erasable && acc.is_empty();
     });
 
     for (const auto& withdrawal : withdrawals)
@@ -199,8 +199,8 @@ std::variant<TransactionReceipt, std::error_code> transition(
     return bytes{0x02} +  // Transaction type (eip1559 type == 2)
            rlp::encode_tuple(tx.chain_id, tx.nonce, tx.max_priority_gas_price, tx.max_gas_price,
                static_cast<uint64_t>(tx.gas_limit),
-               tx.to.has_value() ? tx.to.value() : bytes_view(), tx.value, tx.data,
-               tx.access_list, tx.public_key, tx.signature);
+               tx.to.has_value() ? tx.to.value() : bytes_view(), tx.value, tx.data, tx.access_list
+               tx.public_key, tx.signature);
 }
 
 [[nodiscard]] bytes rlp_encode(const TransactionReceipt& receipt)

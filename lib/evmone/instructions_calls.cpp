@@ -150,7 +150,6 @@ Result create_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noex
     auto msg = evmc_message{};
     msg.gas = gas_left;
     msg.gas = msg.gas - msg.gas / 64;
-        
 
     msg.kind = (Op == OP_CREATE) ? EVMC_CREATE : EVMC_CREATE2;
     if (init_code_size > 0)
