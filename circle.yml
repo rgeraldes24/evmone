@@ -438,7 +438,7 @@ jobs:
       - build
       - download_execution_tests:
           rev: v12.2
-      - run:
+      - run: 
           name: "State tests"
           working_directory: ~/build
           command: |
