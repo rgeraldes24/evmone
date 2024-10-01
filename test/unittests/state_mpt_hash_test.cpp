@@ -66,7 +66,6 @@ TEST(state_mpt_hash, deleted_storage)
 
 TEST(state_mpt_hash, one_transactions)
 {
-
     Transaction tx{};
 
     tx.kind = Transaction::Kind::eip1559;

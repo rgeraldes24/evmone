@@ -76,7 +76,7 @@ Result call_impl(StackTop stack, int64_t gas_left, ExecutionState& state) noexce
         msg.gas = static_cast<int64_t>(gas);
 
     msg.gas = std::min(msg.gas, gas_left - gas_left / 64);
-    
+
     if (has_value)
     {
         msg.gas += 2300;  // Add stipend.

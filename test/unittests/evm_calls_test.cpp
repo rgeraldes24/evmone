@@ -405,7 +405,7 @@ TEST_P(evm, call_then_oog)
 
     execute(1000, code);
     EXPECT_EQ(gas_used, 1000);
-    ASSERT_EQ(host.recorded_calls.size(), 0); 
+    ASSERT_EQ(host.recorded_calls.size(), 0);
     EXPECT_EQ(result.gas_left, 0);
     EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
 }
