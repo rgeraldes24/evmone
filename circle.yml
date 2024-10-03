@@ -422,7 +422,7 @@ jobs:
           command: ~/silkworm/consensus --evm lib/libevmone.so --tests ~/tests --threads $CMAKE_BUILD_PARALLEL_LEVEL
       - collect_coverage_gcc
       - upload_coverage:
-         flags: blockchaintests
+          flags: blockchaintests
 
   state-tests:
     executor: blockchain-tests
