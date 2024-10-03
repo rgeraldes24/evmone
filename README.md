@@ -130,6 +130,7 @@ Licensed under the [Apache License, Version 2.0].
 
 
 [@chfast]: https://github.com/chfast
+[appveyor]: https://ci.appveyor.com/project/chfast/evmone/branch/master
 [circleci]: https://circleci.com/gh/ethereum/evmone/tree/master
 [codecov]: https://codecov.io/gh/ethereum/evmone/
 [Apache License, Version 2.0]: LICENSE
@@ -142,6 +143,7 @@ Licensed under the [Apache License, Version 2.0].
 [Releases]: https://github.com/ethereum/evmone/releases
 [standard readme]: https://github.com/RichardLitt/standard-readme
 
+[appveyor badge]: https://img.shields.io/appveyor/ci/chfast/evmone/master.svg?logo=appveyor
 [circleci badge]: https://img.shields.io/circleci/project/github/ethereum/evmone/master.svg?logo=circleci
 [codecov badge]: https://img.shields.io/codecov/c/github/ethereum/evmone.svg?logo=codecov
 [ethereum badge]: https://img.shields.io/badge/ethereum-EVM-informational.svg?logo=ethereum
