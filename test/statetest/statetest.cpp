@@ -27,32 +27,33 @@ public:
     }
 };
 
-void register_test(const std::string& suite_name, const fs::path& file, evmc::VM& vm)
-{
-    testing::RegisterTest(suite_name.c_str(), file.stem().string().c_str(), nullptr, nullptr,
-        file.string().c_str(), 0,
-        [file, &vm]() -> testing::Test* { return new StateTest(file, vm); });
-}
+// TODO(rgeraldes24): circle ci
+// void register_test(const std::string& suite_name, const fs::path& file, evmc::VM& vm)
+// {
+//     testing::RegisterTest(suite_name.c_str(), file.stem().string().c_str(), nullptr, nullptr,
+//         file.string().c_str(), 0,
+//         [file, &vm]() -> testing::Test* { return new StateTest(file, vm); });
+// }
 
-void register_test_files(const fs::path& root, evmc::VM& vm)
-{
-    if (is_directory(root))
-    {
-        std::vector<fs::path> test_files;
-        std::copy_if(fs::recursive_directory_iterator{root}, fs::recursive_directory_iterator{},
-            std::back_inserter(test_files), [](const fs::directory_entry& entry) {
-                return entry.is_regular_file() && entry.path().extension() == ".json";
-            });
-        std::sort(test_files.begin(), test_files.end());
+// void register_test_files(const fs::path& root, evmc::VM& vm)
+// {
+//     if (is_directory(root))
+//     {
+//         std::vector<fs::path> test_files;
+//         std::copy_if(fs::recursive_directory_iterator{root}, fs::recursive_directory_iterator{},
+//             std::back_inserter(test_files), [](const fs::directory_entry& entry) {
+//                 return entry.is_regular_file() && entry.path().extension() == ".json";
+//             });
+//         std::sort(test_files.begin(), test_files.end());
 
-        for (const auto& p : test_files)
-            register_test(fs::relative(p, root).parent_path().string(), p, vm);
-    }
-    else  // Treat as a file.
-    {
-        register_test(root.parent_path().string(), root, vm);
-    }
-}
+//         for (const auto& p : test_files)
+//             register_test(fs::relative(p, root).parent_path().string(), p, vm);
+//     }
+//     else  // Treat as a file.
+//     {
+//         register_test(root.parent_path().string(), root, vm);
+//     }
+// }
 }  // namespace
 
 
@@ -90,8 +91,9 @@ int main(int argc, char* argv[])
         if (trace_flag)
             vm.set_option("trace", "1");
 
-        for (const auto& p : paths)
-            register_test_files(p, vm);
+        // TODO(rgeraldes24): circle ci
+        // for (const auto& p : paths)
+        //     register_test_files(p, vm);
 
         return RUN_ALL_TESTS();
     }

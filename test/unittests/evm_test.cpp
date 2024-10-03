@@ -10,7 +10,7 @@ using namespace evmone;
 using namespace intx;
 using evmone::test::evm;
 
-// TODO(rgeraldes24)
+// TODO(rgeraldes24): circle ci
 /*
 TEST_P(evm, empty)
 {
