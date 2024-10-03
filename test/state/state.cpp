@@ -45,7 +45,7 @@ int64_t compute_tx_intrinsic_cost(evmc_revision rev, const Transaction& tx) noex
     static constexpr auto create_tx_cost = 53000;
     static constexpr auto initcode_word_cost = 2;
     const auto is_create = !tx.to.has_value();
-    const auto initcode_cost = is_create && initcode_word_cost * num_words(tx.data.size());
+    const auto initcode_cost = is_create ? initcode_word_cost * num_words(tx.data.size()) : 0;
     const auto tx_cost = is_create ? create_tx_cost : call_tx_cost;
     return tx_cost + compute_tx_data_cost(rev, tx.data) + compute_access_list_cost(tx.access_list) +
            initcode_cost;
