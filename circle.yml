@@ -30,7 +30,8 @@ executors:
   linux-clang-xlarge:
     docker:
       - image: ethereum/cpp-build-env:19-clang-15
-    resource_class: xlarge
+    # resource_class: xlarge
+    resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 8
   linux-gcc-min:
@@ -427,8 +428,8 @@ jobs:
           no_output_timeout: 20m
           command: ~/silkworm/consensus --evm lib/libevmone.so --tests ~/tests --threads $CMAKE_BUILD_PARALLEL_LEVEL
       - collect_coverage_gcc
-      - upload_coverage:
-          flags: blockchaintests
+      #- upload_coverage:
+      #    flags: blockchaintests
 
   state-tests:
     executor: blockchain-tests
@@ -635,7 +636,7 @@ workflows:
       #      tags:
       #        only: /^v[0-9].*/
       - state-tests
-      #- blockchain-tests
+      - blockchain-tests
       #- cmake-min
       #- gcc-min
       #- clang-min
@@ -647,4 +648,4 @@ workflows:
       #- xcode-min
       #- gcc-32bit
       #- x86-64-v1
-      #- fuzzing
+      - fuzzing
