@@ -152,7 +152,7 @@ commands:
             git clone --no-checkout --depth=250 --single-branch https://github.com/ethereum/tests . --branch <<parameters.rev>>
             <<#parameters.rev>>git checkout <<parameters.rev>><</parameters.rev>>
             <<#parameters.commit>>git checkout <<parameters.commit>><</parameters.commit>>
-            #git submodule update --init --recursive --depth=1 --progress
+            git submodule update --init --recursive --depth=1 --progress
 
   build:
     description: "Build"
@@ -177,9 +177,9 @@ commands:
             
             printf '\n-----------\nbuild.info:\n'
             cat build.info
-      # - restore_cache:
-      #     name: "Restore Hunter cache"
-      #     key: &hunter-cache-key hunter-{{arch}}-{{checksum "build.info"}}-{{checksum "cmake/Hunter/init.cmake"}}-{{checksum "cmake/Hunter/config.cmake"}}
+      - restore_cache:
+          name: "Restore Hunter cache"
+          key: &hunter-cache-key hunter-{{arch}}-{{checksum "build.info"}}-{{checksum "cmake/Hunter/init.cmake"}}-{{checksum "cmake/Hunter/config.cmake"}}
       - run:
           name: "Configure"
           working_directory: ~/build
@@ -188,11 +188,11 @@ commands:
               export toolchain_option="-DTOOLCHAIN=$TOOLCHAIN"
             fi
             cmake ../project $toolchain_option -DCMAKE_INSTALL_PREFIX=~/install -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DEVMONE_TESTING=ON $CMAKE_OPTIONS
-      # - save_cache:
-      #     name: "Save Hunter cache"
-      #     key: *hunter-cache-key
-      #     paths:
-      #       - ~/.hunter/_Base/Cache
+      - save_cache:
+          name: "Save Hunter cache"
+          key: *hunter-cache-key
+          paths:
+            - ~/.hunter/_Base/Cache
       - run:
           name: "Build"
           command: cmake --build ~/build
@@ -293,10 +293,10 @@ jobs:
             clang-format --version
             find include lib test -name '*.hpp' -o -name '*.cpp' -o -name '*.h' -o -name '*.c' | xargs clang-format -i
             git diff --color --exit-code
-      # - run:
-      #     name: "Check spelling"
-      #     command: |
-      #       codespell --quiet-level=4 --skip=.git
+      - run:
+          name: "Check spelling"
+          command: |
+            codespell --quiet-level=4 --skip=.git
 
   release-linux:
     executor: linux-gcc-latest
@@ -421,8 +421,8 @@ jobs:
           no_output_timeout: 20m
           command: ~/silkworm/consensus --evm lib/libevmone.so --tests ~/tests --threads $CMAKE_BUILD_PARALLEL_LEVEL
       - collect_coverage_gcc
-      #- upload_coverage:
-      #    flags: blockchaintests
+      - upload_coverage:
+         flags: blockchaintests
 
   state-tests:
     executor: blockchain-tests
@@ -433,7 +433,7 @@ jobs:
       - build
       - download_execution_tests:
           rev: v12.2
-      - run: 
+      - run:
           name: "State tests"
           working_directory: ~/build
           command: |
@@ -606,40 +606,40 @@ workflows:
   evmone:
     jobs:
       - lint
-      #- release-linux:
-      #    filters:
-      #      tags:
-      #        only: /.*/
-      #- release-windows:
-      #    filters:
-      #      tags:
-      #        only: /.*/
-      #- release-windows-32bit
-      #- release-macos:
-      #    filters:
-      #      tags:
-      #        only: /.*/
-      #- deploy:
-      #    requires:
-      #      - release-linux
-      #      - release-windows
-      #      - release-macos
-      #    filters:
-      #      branches:
-      #        ignore: /.*/
-      #      tags:
-      #        only: /^v[0-9].*/
-      #- state-tests
-      #- blockchain-tests
-      #- cmake-min
-      #- gcc-min
-      #- clang-min
-      #- gcc-latest-coverage
-      #- gcc-latest-memcheck
-      #- clang-latest-sanitizers
-      #- clang-latest-coverage
-      #- macos-asan
-      #- xcode-min
-      #- gcc-32bit
-      #- x86-64-v1
-      #- fuzzing
+      - release-linux:
+          filters:
+            tags:
+              only: /.*/
+      - release-windows:
+          filters:
+            tags:
+              only: /.*/
+      - release-windows-32bit
+      - release-macos:
+          filters:
+            tags:
+              only: /.*/
+      - deploy:
+          requires:
+            - release-linux
+            - release-windows
+            - release-macos
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9].*/
+      - state-tests
+      - blockchain-tests
+      - cmake-min
+      - gcc-min
+      - clang-min
+      - gcc-latest-coverage
+      - gcc-latest-memcheck
+      - clang-latest-sanitizers
+      - clang-latest-coverage
+      - macos-asan
+      - xcode-min
+      - gcc-32bit
+      - x86-64-v1
+      - fuzzing
