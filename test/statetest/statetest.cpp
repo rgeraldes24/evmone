@@ -27,7 +27,6 @@ public:
     }
 };
 
-// TODO(rgeraldes24): circle ci
 // void register_test(const std::string& suite_name, const fs::path& file, evmc::VM& vm)
 // {
 //     testing::RegisterTest(suite_name.c_str(), file.stem().string().c_str(), nullptr, nullptr,
@@ -59,6 +58,9 @@ public:
 
 int main(int argc, char* argv[])
 {
+    // TODO(rgeraldes24): circle ci
+    testing::InitGoogleTest(&argc, argv);  // Process GoogleTest flags.
+    /*
     // The default test filter. To enable all tests use `--gtest_filter=*`.
     testing::FLAGS_gtest_filter =
         "-"
@@ -91,9 +93,8 @@ int main(int argc, char* argv[])
         if (trace_flag)
             vm.set_option("trace", "1");
 
-        // TODO(rgeraldes24): circle ci
-        // for (const auto& p : paths)
-        //     register_test_files(p, vm);
+        for (const auto& p : paths)
+            register_test_files(p, vm);
 
         return RUN_ALL_TESTS();
     }
@@ -102,4 +103,6 @@ int main(int argc, char* argv[])
         std::cerr << ex.what() << "\n";
         return -1;
     }
+    */
+    return 0;
 }
