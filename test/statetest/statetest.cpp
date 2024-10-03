@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "statetest.hpp"
-#include <CLI/CLI.hpp>
+// #include <CLI/CLI.hpp>
 #include <evmone/evmone.h>
-#include <gtest/gtest.h>
+// #include <gtest/gtest.h>
 #include <iostream>
 
 namespace
