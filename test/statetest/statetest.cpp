@@ -2,12 +2,13 @@
 // Copyright 2022 The evmone Authors.
 // SPDX-License-Identifier: Apache-2.0
 
-#include "statetest.hpp"
+// #include "statetest.hpp"
 // #include <CLI/CLI.hpp>
-#include <evmone/evmone.h>
-// #include <gtest/gtest.h>
-#include <iostream>
+// #include <evmone/evmone.h>
+#include <gtest/gtest.h>
+// #include <iostream>
 
+/*
 namespace
 {
 class StateTest : public testing::Test
@@ -54,11 +55,10 @@ public:
 //     }
 // }
 }  // namespace
-
+*/
 
 int main(int argc, char* argv[])
 {
-    // TODO(rgeraldes24): circle ci
     testing::InitGoogleTest(&argc, argv);  // Process GoogleTest flags.
     /*
     // The default test filter. To enable all tests use `--gtest_filter=*`.
