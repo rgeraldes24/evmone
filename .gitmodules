@@ -1,3 +1,4 @@
 [submodule "evmc"]
 	path = evmc
+	# TODO(now.youtrack.cloud/issue/TE-11)
 	url = https://github.com/rgeraldes24/evmc
