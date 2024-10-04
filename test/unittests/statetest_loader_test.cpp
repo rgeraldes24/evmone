@@ -112,7 +112,6 @@ TEST(statetest_loader, load_minimal_test)
     EXPECT_EQ(st.multi_tx.sender, address{});
     EXPECT_EQ(st.multi_tx.to, std::nullopt);
     EXPECT_EQ(st.multi_tx.value, 0);
-    EXPECT_EQ(st.multi_tx.nonce, 0);
     EXPECT_EQ(st.multi_tx.access_list.size(), 0);
     EXPECT_EQ(st.multi_tx.chain_id, 0);
     EXPECT_EQ(st.multi_tx.nonce, 0);
