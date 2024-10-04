@@ -26,6 +26,7 @@ TEST(statetest_loader, block_info)
     EXPECT_EQ(bi.base_fee, 7);
     EXPECT_EQ(bi.timestamp, 0);
     EXPECT_EQ(bi.number, 0);
+    EXPECT_EQ(bi.withdrawals.size(), 0);
 }
 
 TEST(statetest_loader, block_info_hex)
