@@ -67,7 +67,7 @@ CodeAnalysis analyze_legacy(bytes_view code)
 }
 }  // namespace
 
-CodeAnalysis analyze(bytes_view code)
+CodeAnalysis analyze(evmc_revision /*rev*/, bytes_view code)
 {
     return analyze_legacy(code);
 }
@@ -347,7 +347,7 @@ evmc_result execute(evmc_vm* c_vm, const evmc_host_interface* host, evmc_host_co
     evmc_revision rev, const evmc_message* msg, const uint8_t* code, size_t code_size) noexcept
 {
     auto vm = static_cast<VM*>(c_vm);
-    const auto jumpdest_map = analyze({code, code_size});
+    const auto jumpdest_map = analyze(rev, {code, code_size});
     auto state =
         std::make_unique<ExecutionState>(*msg, rev, *host, ctx, bytes_view{code, code_size});
     return execute(*vm, msg->gas, *state, jumpdest_map);
