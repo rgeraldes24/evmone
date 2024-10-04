@@ -81,7 +81,7 @@ TEST(statetest_loader, load_minimal_test)
                 "to": "",
                 "data": null,
                 "gasLimit": "0",
-                "value": "0",
+                "value": null,
                 "maxFeePerGas": "",
                 "maxPriorityFeePerGas": ""
             },
