@@ -55,6 +55,7 @@ void register_test_files(const fs::path& root, evmc::VM& vm)
 }
 }  // namespace
 
+
 int main(int argc, char* argv[])
 {
     // The default test filter. To enable all tests use `--gtest_filter=*`.
