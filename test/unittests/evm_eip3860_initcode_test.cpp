@@ -18,16 +18,20 @@ TEST_P(evm, create_initcode_limit)
     for (const auto& c : {create().input(0, calldataload(0)) + ret_top(),
              create2().input(0, calldataload(0)) + ret_top()})
     {
-        for (const auto s : {initcode_size_limit, initcode_size_limit + 1})
+        for (const auto r : {EVMC_SHANGHAI})
         {
-            execute(c, evmc::uint256be{s});
-            if (s > initcode_size_limit)
+            rev = r;
+            for (const auto s : {initcode_size_limit, initcode_size_limit + 1})
             {
-                EXPECT_STATUS(EVMC_OUT_OF_GAS);
-            }
-            else
-            {
-                EXPECT_OUTPUT_INT(2);
+                execute(c, evmc::uint256be{s});
+                if (rev >= EVMC_SHANGHAI && s > initcode_size_limit)
+                {
+                    EXPECT_STATUS(EVMC_OUT_OF_GAS);
+                }
+                else
+                {
+                    EXPECT_OUTPUT_INT(2);
+                }
             }
         }
     }
