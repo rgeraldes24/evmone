@@ -21,11 +21,6 @@ using namespace std::literals;
 
 int main(int argc, const char* argv[])
 {
-    for (int i = 0; i < argc; ++i)
-    {
-        const std::string_view arg{argv[i]};
-    }
-    /*
     evmc_revision rev = {};
     fs::path alloc_file;
     fs::path env_file;
@@ -194,7 +189,6 @@ int main(int argc, const char* argv[])
         std::cerr << e.what() << std::endl;
         return 1;
     }
-    */
 
     return 0;
 }
