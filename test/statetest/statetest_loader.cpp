@@ -150,8 +150,8 @@ template <>
 state::BlockInfo from_json<state::BlockInfo>(const json::json& j)
 {
     evmc::bytes32 random;
-    const auto prev_randao_it = j.find("currentRandom");
-    random = from_json<bytes32>(*prev_randao_it);
+    if (const auto prev_randao_it = j.find("currentRandom"); prev_randao_it != j.end())
+        random = from_json<bytes32>(*prev_randao_it);     
 
     uint64_t base_fee = 0;
     if (j.contains("currentBaseFee"))
