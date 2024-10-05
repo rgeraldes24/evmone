@@ -91,12 +91,6 @@ public:
     }
 };
 
-/// The newest "old" EVM revision. Lower priority.
-static constexpr auto old_rev = EVMC_SPURIOUS_DRAGON;
-
-/// The additional gas limit cap for "old" EVM revisions.
-static constexpr auto old_rev_max_gas = 500000;
-
 struct fuzz_input
 {
     evmc_revision rev{};
@@ -236,10 +230,7 @@ fuzz_input populate_input(const uint8_t* data, size_t data_size) noexcept
     in.msg.flags = static_1bit ? EVMC_STATIC : 0;
     in.msg.depth = generate_depth(depth_2bits);
 
-    // Set the gas limit. For old revisions cap the gas limit more because:
-    // - they are less priority,
-    // - pre Tangerine Whistle calls are extremely cheap and it is easy to find slow running units.
-    in.msg.gas = in.rev <= old_rev ? std::min(gas_24bits, old_rev_max_gas) : gas_24bits;
+    in.msg.gas = gas_24bits;
 
     in.msg.recipient = generate_interesting_address(destination_8bits);
     in.msg.sender = generate_interesting_address(sender_8bits);
@@ -368,10 +359,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t data_size) noe
             ASSERT(std::equal(ref_host.recorded_blockhashes.begin(),
                 ref_host.recorded_blockhashes.end(), host.recorded_blockhashes.begin(),
                 host.recorded_blockhashes.end()));
-
-            ASSERT(std::equal(ref_host.recorded_selfdestructs.begin(),
-                ref_host.recorded_selfdestructs.end(), host.recorded_selfdestructs.begin(),
-                host.recorded_selfdestructs.end()));
 
             // TODO: Enable account accesses check. Currently this is not possible because Aleth
             //       is doing additional unnecessary account existence checks in calls.

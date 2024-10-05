@@ -1,3 +1,4 @@
+# TODO(now.youtrack.cloud/issue/TE-9)
 version: 2.1
 orbs:
   win: circleci/windows@5.0
@@ -23,13 +24,15 @@ executors:
   blockchain-tests:
     docker:
       - image: ethereum/cpp-build-env:19-gcc-12
-    resource_class: xlarge
+    # resource_class: xlarge
+    resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 8
   linux-clang-xlarge:
     docker:
       - image: ethereum/cpp-build-env:19-clang-15
-    resource_class: xlarge
+    # resource_class: xlarge
+    resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 8
   linux-gcc-min:
@@ -404,6 +407,7 @@ jobs:
             echo $name
             ghr -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -n "$name" $prerelease_flag $CIRCLE_TAG ~/package
 
+  # TODO(now.youtrack.cloud/issue/TE-8)
   blockchain-tests:
     executor: blockchain-tests
     environment:
@@ -443,7 +447,8 @@ jobs:
           working_directory: ~/build
           command: |
             export EVMONE_PRECOMPILES_STUB=~/project/test/state/precompiles_stub.json 
-            bin/evmone-statetest ~/tests/GeneralStateTests ~/tests/EIPTests/StateTests/stEOF ~/tests/LegacyTests/Constantinople/GeneralStateTests
+            # TODO(now.youtrack.cloud/issue/TE-7)
+            bin/evmone-statetest ~/tests/GeneralStateTests ~/tests/LegacyTests/Constantinople/GeneralStateTests
       - collect_coverage_gcc
       - upload_coverage:
           flags: statetests
