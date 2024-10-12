@@ -10,6 +10,7 @@
 using namespace evmc::literals;
 using evmone::test::evm;
 
+// TODO(now.youtrack.cloud/issue/TE-13)
 TEST_P(evm, storage)
 {
     const auto code = sstore(0xee, 0xff) + sload(0xee) + mstore8(0) + ret(0, 1);
@@ -18,6 +19,7 @@ TEST_P(evm, storage)
     EXPECT_EQ(bytes_view(result.output_data, result.output_size), bytes{0xff});
 }
 
+// TODO(now.youtrack.cloud/issue/TE-13)
 TEST_P(evm, sstore_pop_stack)
 {
     execute(100000, sstore(1, dup1(0)) + mstore8(0) + ret(0, 1));
@@ -27,7 +29,7 @@ TEST_P(evm, sstore_pop_stack)
         host.accounts[msg.recipient].storage.find(0x01_bytes32)->second.current, 0x00_bytes32);
 }
 
-
+// TODO(now.youtrack.cloud/issue/TE-13)
 TEST_P(evm, sload_cost)
 {
     rev = EVMC_SHANGHAI;
@@ -37,6 +39,7 @@ TEST_P(evm, sload_cost)
     EXPECT_EQ(host.accounts[msg.recipient].storage.size(), 1);
 }
 
+// TODO(now.youtrack.cloud/issue/TE-13)
 TEST_P(evm, sstore_out_of_block_gas)
 {
     const auto code = push(0) + sstore(0, 1) + OP_POP;
@@ -62,6 +65,7 @@ TEST_P(evm, sstore_out_of_block_gas)
     EXPECT_STATUS(EVMC_OUT_OF_GAS);
 }
 
+// TODO(now.youtrack.cloud/issue/TE-13)
 TEST_P(evm, sstore_cost)
 {
     auto& storage = host.accounts[msg.recipient].storage;
