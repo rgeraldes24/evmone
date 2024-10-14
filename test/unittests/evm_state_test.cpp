@@ -4,6 +4,7 @@
 
 /// This file contains EVM unit tests that access or modify information
 /// about accounts, without storage.
+// TODO(now.youtrack.cloud/issue/TE-13)
 
 #include "evm_fixture.hpp"
 #include <evmone/instructions_traits.hpp>
@@ -11,7 +12,6 @@
 using namespace evmc::literals;
 using evmone::test::evm;
 
-// TODO(now.youtrack.cloud/issue/TE-13): double check all tests vs original
 TEST_P(evm, code)
 {
     // CODESIZE 2 0 CODECOPY RETURN(0,9)
@@ -242,10 +242,9 @@ TEST_P(evm, extcode)
     ASSERT_EQ(result.output_size, 4);
     EXPECT_EQ(bytes_view(result.output_data, 3), bytes_view(host.accounts[addr].code.data(), 3));
     EXPECT_EQ(result.output_data[3], 0);
-    // ASSERT_EQ(host.recorded_account_accesses.size(), 2);
-    // EXPECT_EQ(host.recorded_account_accesses[0], addr);
-    // EXPECT_EQ(host.recorded_account_accesses[1], addr);
     ASSERT_EQ(host.recorded_account_accesses.size(), 6);
+    EXPECT_EQ(host.recorded_account_accesses[2], addr);
+    EXPECT_EQ(host.recorded_account_accesses[3], addr);
 }
 
 TEST_P(evm, extcodesize)
@@ -263,7 +262,6 @@ TEST_P(evm, extcodecopy_big_index)
     execute(code);
     EXPECT_EQ(output, "00"_hex);
 }
-
 
 TEST_P(evm, extcodehash)
 {
