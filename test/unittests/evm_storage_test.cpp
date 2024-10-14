@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /// This file contains EVM unit tests that access or modify the contract storage.
+// TODO(now.youtrack.cloud/issue/TE-13)
 
 #include "evm_fixture.hpp"
 #include <array>
@@ -10,7 +11,6 @@
 using namespace evmc::literals;
 using evmone::test::evm;
 
-// TODO(now.youtrack.cloud/issue/TE-13): double check all tests vs original
 TEST_P(evm, storage)
 {
     const auto code = sstore(0xee, 0xff) + sload(0xee) + mstore8(0) + ret(0, 1);
@@ -33,7 +33,6 @@ TEST_P(evm, sload_cost)
     rev = EVMC_SHANGHAI;
     execute(2106, sload(dup1(0)));
     EXPECT_GAS_USED(EVMC_SUCCESS, 2106);
-    // EXPECT_EQ(host.accounts[msg.recipient].storage.size(), 0);
     EXPECT_EQ(host.accounts[msg.recipient].storage.size(), 1);
 }
 
