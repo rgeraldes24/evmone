@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /// This file contains EVM unit tests that perform any kind of calls.
+// TODO(now.youtrack.cloud/issue/TE-13)
 
 #include "evm_fixture.hpp"
 
@@ -28,10 +29,8 @@ TEST_P(evm, delegatecall)
     EXPECT_EQ(gas_used, 1141);
     EXPECT_EQ(result.status_code, EVMC_SUCCESS);
 
-    // auto gas_left = 1700 - 736;
     ASSERT_EQ(host.recorded_calls.size(), 1);
     const auto& call_msg = host.recorded_calls.back();
-    // EXPECT_EQ(call_msg.gas, gas_left - gas_left / 64);
     EXPECT_EQ(call_msg.gas, 1000);
     EXPECT_EQ(call_msg.input_size, 3);
     EXPECT_EQ(call_msg.value.bytes[17], 0xfe);
@@ -220,6 +219,8 @@ TEST_P(evm, call_failing_with_value)
 
         // Fails on value transfer additional cost - maximum gas limit that triggers this condition.
         execute(744 + 9000, code);
+        // EXPECT_STATUS(EVMC_OUT_OF_GAS);
+        // EXPECT_EQ(host.recorded_calls.size(), 0);  // There was no call().
     }
 }
 
@@ -314,7 +315,6 @@ TEST_P(evm, call_output)
     }
 }
 
-
 TEST_P(evm, call_high_gas)
 {
     rev = EVMC_SHANGHAI;
@@ -336,8 +336,7 @@ TEST_P(evm, call_value_zero_to_nonexistent_account)
                       push(call_gas) + OP_CALL + OP_POP;
 
     execute(9000, code);
-    // TODO(rgeraldes24): fix
-    // EXPECT_EQ(gas_used, 729 + (call_gas - host.call_result.gas_left));
+    EXPECT_EQ(gas_used, 7629);
     EXPECT_EQ(result.status_code, EVMC_SUCCESS);
     ASSERT_EQ(host.recorded_calls.size(), 1);
     const auto& call_msg = host.recorded_calls.back();
@@ -472,6 +471,30 @@ TEST_P(evm, call_with_value_low_gas)
     }
 }
 
+/*
+TEST_P(evm, call_oog_after_depth_check)
+{
+    // Create the call recipient account.
+    host.accounts[0x0000000000000000000000000000000000000000_address] = {};
+    msg.depth = 1024;
+
+    for (auto op : {OP_CALL, OP_CALLCODE})
+    {
+        const auto code = 4 * push(0) + push(1) + 2 * push(0) + op + OP_SELFDESTRUCT;
+        execute(12420, code);
+        EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
+    }
+
+    rev = EVMC_TANGERINE_WHISTLE;
+    const auto code = 7 * push(0) + OP_CALL + OP_SELFDESTRUCT;
+    execute(721, code);
+    EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
+
+    execute(721 + 5000 - 1, code);
+    EXPECT_EQ(result.status_code, EVMC_OUT_OF_GAS);
+}
+*/
+
 TEST_P(evm, call_recipient_and_code_address)
 {
     constexpr auto origin = 0x9900000000000000000000000000000000000099_address;
@@ -528,6 +551,20 @@ TEST_P(evm, call_value)
         host.recorded_calls.clear();
     }
 }
+
+// TODO(now.youtrack.cloud/issue/TE-13)
+/*
+TEST_P(evm, create_oog_after)
+{
+    rev = EVMC_CONSTANTINOPLE;
+    for (auto op : {OP_CREATE, OP_CREATE2})
+    {
+        auto code = 4 * push(0) + op + OP_SELFDESTRUCT;
+        execute(39000, code);
+        EXPECT_STATUS(EVMC_OUT_OF_GAS);
+    }
+}
+*/
 
 TEST_P(evm, returndatasize_before_call)
 {
