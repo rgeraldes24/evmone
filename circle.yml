@@ -203,11 +203,11 @@ commands:
               export toolchain_option="-DTOOLCHAIN=$TOOLCHAIN"
             fi
             cmake ../project $toolchain_option -DCMAKE_INSTALL_PREFIX=~/install -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DEVMONE_TESTING=ON $CMAKE_OPTIONS
-      - save_cache:
-          name: "Save Hunter cache"
-          key: *hunter-cache-key
-          paths:
-            - ~/.hunter/_Base/Cache
+      #- save_cache:
+      #    name: "Save Hunter cache"
+      #    key: *hunter-cache-key
+      #    paths:
+      #      - ~/.hunter/_Base/Cache
       - run:
           name: "Build"
           command: cmake --build ~/build
