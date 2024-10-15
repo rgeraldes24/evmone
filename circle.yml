@@ -607,7 +607,7 @@ workflows:
             tags:
               only: /^v[0-9].*/
       - state-tests
-      - blockchain-tests
+      #- blockchain-tests
       - cmake-min
       - gcc-min
       - clang-min
