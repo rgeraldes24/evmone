@@ -35,6 +35,13 @@ executors:
     resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 8
+  linux-clang-2xlarge:
+    docker:
+      - image: ethereum/cpp-build-env:21-clang-17
+    #resource_class: 2xlarge
+    resource_class: small
+    environment:
+      CMAKE_BUILD_PARALLEL_LEVEL: 16
   linux-gcc-min:
     docker:
       - image: ethereum/cpp-build-env:17-gcc-11
@@ -185,9 +192,9 @@ commands:
             
             printf '\n-----------\nbuild.info:\n'
             cat build.info
-      - restore_cache:
-          name: "Restore Hunter cache"
-          key: &hunter-cache-key hunter-{{arch}}-{{checksum "build.info"}}-{{checksum "cmake/Hunter/init.cmake"}}-{{checksum "cmake/Hunter/config.cmake"}}
+      #- restore_cache:
+      #    name: "Restore Hunter cache"
+      #    key: &hunter-cache-key hunter-{{arch}}-{{checksum "build.info"}}-{{checksum "cmake/Hunter/init.cmake"}}-{{checksum "cmake/Hunter/config.cmake"}}
       - run:
           name: "Configure"
           working_directory: ~/build
@@ -466,7 +473,7 @@ jobs:
       - test
 
   clang-tidy:
-    executor: linux-clang-xlarge
+    executor: linux-clang-2xlarge
     environment:
       CMAKE_OPTIONS: -DCMAKE_CXX_CLANG_TIDY=clang-tidy -DCMAKE_CXX_FLAGS=-g0
       BUILD_TYPE: Debug
