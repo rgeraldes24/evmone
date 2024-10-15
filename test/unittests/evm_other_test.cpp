@@ -95,17 +95,18 @@ TEST_P(evm, evmone_block_gas_cost_overflow_balance)
 {
     // Here we build single-block bytecode with as many BALANCE instructions as possible.
 
-    rev = EVMC_SHANGHAI;  // Here BALANCE costs 100 or 2600; depends on whether the account is warm or not.
+    rev = EVMC_SHANGHAI;  // Here BALANCE costs 100 or 2600; depends on whether the account is warm
+                          // or not.
 
     constexpr auto gas_max = std::numeric_limits<uint32_t>::max();
-    constexpr auto n = gas_max / 100 + 2;   
+    constexpr auto n = gas_max / 100 + 2;
     auto code = bytecode{bytes(n, OP_BALANCE)};
     code[0] = OP_ADDRESS;
     EXPECT_EQ(code.size(), 42'949'674);
 
     execute(0, code);
     EXPECT_STATUS(EVMC_OUT_OF_GAS);
-    EXPECT_EQ(host.recorded_account_accesses.size(), 2); // EIP-2929 tweak = 2 account accesses
+    EXPECT_EQ(host.recorded_account_accesses.size(), 2);  // EIP-2929 tweak = 2 account accesses
     host.recorded_account_accesses.clear();
 
     execute(gas_max - 1, code);
