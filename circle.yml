@@ -466,7 +466,7 @@ jobs:
       - test
 
   clang-tidy:
-    executor: linux-clang-2xlarge
+    executor: linux-clang-xlarge
     environment:
       CMAKE_OPTIONS: -DCMAKE_CXX_CLANG_TIDY=clang-tidy -DCMAKE_CXX_FLAGS=-g0
       BUILD_TYPE: Debug
