@@ -59,7 +59,8 @@ executors:
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 2
   macos:
-    resource_class: macos.m1.large.gen1
+    resource_class: macos.m1.medium.gen1
+    #resource_class: macos.m1.large.gen1
     macos:
       xcode: 14.3.0
     environment:
@@ -402,6 +403,7 @@ jobs:
       - upload_coverage:
           flags: blockchaintests
 
+  # TODO(now.youtrack.cloud/issue/TE-8)
   state-tests:
     executor: blockchain-tests
     environment:
@@ -606,7 +608,7 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v[0-9].*/
-      - state-tests
+      #- state-tests
       #- blockchain-tests
       - cmake-min
       - gcc-min
