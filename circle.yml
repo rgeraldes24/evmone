@@ -192,9 +192,9 @@ commands:
             
             printf '\n-----------\nbuild.info:\n'
             cat build.info
-      #- restore_cache:
-      #    name: "Restore Hunter cache"
-      #    key: &hunter-cache-key hunter-{{arch}}-{{checksum "build.info"}}-{{checksum "cmake/Hunter/init.cmake"}}-{{checksum "cmake/Hunter/config.cmake"}}
+      - restore_cache:
+         name: "Restore Hunter cache"
+         key: &hunter-cache-key hunter-{{arch}}-{{checksum "build.info"}}-{{checksum "cmake/Hunter/init.cmake"}}-{{checksum "cmake/Hunter/config.cmake"}}
       - run:
           name: "Configure"
           working_directory: ~/build
@@ -203,11 +203,11 @@ commands:
               export toolchain_option="-DTOOLCHAIN=$TOOLCHAIN"
             fi
             cmake ../project $toolchain_option -DCMAKE_INSTALL_PREFIX=~/install -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DEVMONE_TESTING=ON $CMAKE_OPTIONS
-      #- save_cache:
-      #    name: "Save Hunter cache"
-      #    key: *hunter-cache-key
-      #    paths:
-      #      - ~/.hunter/_Base/Cache
+      - save_cache:
+         name: "Save Hunter cache"
+         key: *hunter-cache-key
+         paths:
+           - ~/.hunter/_Base/Cache
       - run:
           name: "Build"
           command: cmake --build ~/build
@@ -472,13 +472,13 @@ jobs:
       - build
       - test
 
-  # clang-tidy:
-  #   executor: linux-clang-2xlarge
-  #   environment:
-  #     CMAKE_OPTIONS: -DCMAKE_CXX_CLANG_TIDY=clang-tidy -DCMAKE_CXX_FLAGS=-g0
-  #     BUILD_TYPE: Debug
-  #   steps:
-  #     - build
+  clang-tidy:
+    executor: linux-clang-2xlarge
+    environment:
+      CMAKE_OPTIONS: -DCMAKE_CXX_CLANG_TIDY=clang-tidy -DCMAKE_CXX_FLAGS=-g0
+      BUILD_TYPE: Debug
+    steps:
+      - build
 
   clang-latest-coverage:
     executor: linux-clang-latest
@@ -581,7 +581,7 @@ workflows:
   evmone:
     jobs:
       - lint
-      #- clang-tidy
+      - clang-tidy
       - release-linux:
           filters:
             tags:
