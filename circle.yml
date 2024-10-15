@@ -233,16 +233,16 @@ commands:
           path: ~/coverage
           destination: coverage
 
-  upload_coverage:
-    description: "Upload coverage data"
-    parameters:
-      flags:
-        type: string
-    steps:
-      - codecov/upload:
-          upload_args: --plugin noop
-          file: ../build/coverage.json
-          flags: <<parameters.flags>>
+  # upload_coverage:
+  #   description: "Upload coverage data"
+  #   parameters:
+  #     flags:
+  #       type: string
+  #   steps:
+  #     - codecov/upload:
+  #         upload_args: --plugin noop
+  #         file: ../build/coverage.json
+  #         flags: <<parameters.flags>>
 
   package:
     description: "Make package"
@@ -384,8 +384,8 @@ jobs:
           no_output_timeout: 20m
           command: ~/silkworm/consensus --evm lib/libevmone.so --tests ~/tests --threads $CMAKE_BUILD_PARALLEL_LEVEL
       - collect_coverage_gcc
-      - upload_coverage:
-          flags: blockchaintests
+      # - upload_coverage:
+      #     flags: blockchaintests
 
   # TODO(now.youtrack.cloud/issue/TE-8)
   state-tests:
@@ -405,8 +405,8 @@ jobs:
             # TODO(now.youtrack.cloud/issue/TE-7)
             bin/evmone-statetest ~/tests/GeneralStateTests ~/tests/LegacyTests/Constantinople/GeneralStateTests
       - collect_coverage_gcc
-      - upload_coverage:
-          flags: statetests
+      # - upload_coverage:
+      #     flags: statetests
 
   gcc-min:
     executor: linux-gcc-min
@@ -432,8 +432,8 @@ jobs:
       - build
       - test
       - collect_coverage_gcc
-      - upload_coverage:
-          flags: unittests
+      # - upload_coverage:
+      #     flags: unittests
 
   gcc-latest-memcheck:
     executor: linux-gcc-latest
