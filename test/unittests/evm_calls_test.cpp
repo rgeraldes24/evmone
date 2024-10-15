@@ -15,7 +15,8 @@ using evmone::test::evm;
 //   output
 //     Which is: { '\0', '\0', '\0', '\0', '\n' (10, 0xA), '\v' (11, 0xB), '\f' (12, 0xC), '\0' }
 //   (bytes{0xff, 0xff, 0xff, 0xff, 0xa, 0xb, 0xc, 0xff})
-//     Which is: { '\xFF' (255), '\xFF' (255), '\xFF' (255), '\xFF' (255), '\n' (10, 0xA), '\v' (11, 0xB), '\f' (12, 0xC), '\xFF' (255) }
+//     Which is: { '\xFF' (255), '\xFF' (255), '\xFF' (255), '\xFF' (255), '\n' (10, 0xA), '\v' (11,
+//     0xB), '\f' (12, 0xC), '\xFF' (255) }
 // TEST_P(evm, delegatecall)
 // {
 //     auto code = bytecode{};
