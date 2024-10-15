@@ -74,7 +74,7 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION "path: Path does not exist: invalid\\.json"
 )
 
-# TODO(rgeraldes24)
+# TODO(rgeraldes24): fix
 #add_test(
 #    NAME ${PREFIX}/trace
 #    COMMAND evmone-statetest ${TESTS1}/SuiteA/test1.json --trace

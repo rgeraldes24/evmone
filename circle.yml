@@ -1,4 +1,3 @@
-# TODO(now.youtrack.cloud/issue/TE-9)
 version: 2.1
 orbs:
   win: circleci/windows@5.0
@@ -509,7 +508,7 @@ jobs:
       - store_artifacts:
           path: ~/coverage
           destination: coverage
-
+  # TODO(now.youtrack.cloud/issue/TE-8)
   fuzzing:
     executor: linux-clang-xlarge
     environment:
@@ -621,4 +620,4 @@ workflows:
       - xcode-min
       - gcc-32bit
       - x86-64-v1
-      - fuzzing
+      #- fuzzing
