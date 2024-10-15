@@ -1,22 +1,23 @@
 version: 2.1
 orbs:
+  codecov: codecov/codecov@4.1.0
   win: circleci/windows@5.0
 
 executors:
   lint:
     docker:
-      - image: ethereum/cpp-build-env:19-lint
+      - image: ethereum/cpp-build-env:22-lint
     resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 2
   linux-gcc-latest:
     docker:
-      - image: ethereum/cpp-build-env:19-gcc-12
+      - image: ethereum/cpp-build-env:22-gcc-14
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 4
   linux-gcc-multilib:
     docker:
-      - image: ethereum/cpp-build-env:19-gcc-12-multilib
+      - image: ethereum/cpp-build-env:22-gcc-14-multilib
     resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 2
@@ -29,7 +30,7 @@ executors:
       CMAKE_BUILD_PARALLEL_LEVEL: 8
   linux-clang-xlarge:
     docker:
-      - image: ethereum/cpp-build-env:19-clang-15
+      - image: ethereum/cpp-build-env:22-clang-18
     # resource_class: xlarge
     resource_class: small
     environment:
@@ -42,12 +43,12 @@ executors:
       CMAKE_BUILD_PARALLEL_LEVEL: 2
   linux-clang-latest:
     docker:
-      - image: ethereum/cpp-build-env:19-clang-15
+      - image: ethereum/cpp-build-env:22-clang-18
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 4
   linux-clang-min:
     docker:
-      - image: ethereum/cpp-build-env:18-clang-13
+      - image: ethereum/cpp-build-env:19-clang-15
     resource_class: small
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 2
@@ -61,13 +62,13 @@ executors:
     resource_class: macos.m1.medium.gen1
     #resource_class: macos.m1.large.gen1
     macos:
-      xcode: 14.3.0
+      xcode: 15.4.0
     environment:
-      CMAKE_BUILD_PARALLEL_LEVEL: 4
+      CMAKE_BUILD_PARALLEL_LEVEL: 8
   macos-xcode-min:
     resource_class: macos.m1.medium.gen1
     macos:
-      xcode: 13.4.1
+      xcode: 15.0.0
     environment:
       CMAKE_BUILD_PARALLEL_LEVEL: 4
 
@@ -224,11 +225,10 @@ commands:
       - run:
           name: "Collect coverage data (GCC)"
           working_directory: ~/build
+          # Use coveralls to eliminate branch stats (they need more work)
           command: |
-            lcov --capture --directory . --output-file coverage.lcov --exclude='/usr/*' --exclude="$HOME/.hunter/*" --exclude="$PWD/_deps/*"
-            lcov --zerocounters --directory .
-            rm -rf ~/coverage
-            genhtml coverage.lcov --output-directory ~/coverage --title $CIRCLE_PROJECT_REPONAME
+            mkdir -p ~/coverage
+            gcovr --filter ~/project --coveralls coverage.json --html ~/coverage/coverage.html --html-nested ~/coverage/coverage.html
       - store_artifacts:
           path: ~/coverage
           destination: coverage
@@ -239,29 +239,10 @@ commands:
       flags:
         type: string
     steps:
-      - run:
-          name: "Install codecov"
-          command: |
-            # TODO: This should go to cpp-build-env image
-            gpg --no-default-keyring --keyring trustedkeys.gpg --keyserver keyserver.ubuntu.com --recv-key ED779869
-            
-            export CODECOV_VERSION=v0.4.1
-            curl -Os https://uploader.codecov.io/$CODECOV_VERSION/linux/codecov
-            curl -Os https://uploader.codecov.io/$CODECOV_VERSION/linux/codecov.SHA256SUM
-            curl -Os https://uploader.codecov.io/$CODECOV_VERSION/linux/codecov.SHA256SUM.sig
-  
-            gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
-            shasum -c codecov.SHA256SUM
-            
-            chmod +x codecov
-            sudo mv codecov /usr/local/bin
-
-      - run:
-          name: "Upload to Codecov"
-          command: |
-            # Convert to relative paths
-            sed -i 's|$(pwd)/||' ~/build/coverage.lcov
-            codecov --flags <<parameters.flags>> --required --file ~/build/coverage.lcov -X gcov
+      - codecov/upload:
+          upload_args: --plugin noop
+          file: ../build/coverage.json
+          flags: <<parameters.flags>>
 
   package:
     description: "Make package"
@@ -312,6 +293,10 @@ jobs:
     steps:
       - build
       - test
+      - run:
+          name: "Export JSON tests"
+          working_directory: ~/package
+          command: tar -C ~/build/test/integration/export -cz fixtures > evmone-tests.tar.gz
       - package
 
   release-windows:
@@ -431,6 +416,8 @@ jobs:
 
   clang-min:
     executor: linux-clang-min
+    environment:
+      CMAKE_OPTIONS=-DEVMONE_X86_64_ARCH_LEVEL=3
     steps:
       - build
       - test
@@ -457,9 +444,6 @@ jobs:
       - build
       - test
       - run:
-          name: "Install valgrind"
-          command: sudo apt-get -q update && sudo apt-get -qy install --no-install-recommends valgrind
-      - run:
           name: "memcheck"
           working_directory: ~/build
           command: valgrind --vgdb=no --error-exitcode=99 bin/evmone-unittests
@@ -475,11 +459,19 @@ jobs:
   clang-latest-sanitizers:
     executor: linux-clang-xlarge
     environment:
-      CMAKE_OPTIONS: -DBUILD_SHARED_LIBS=NO -DSANITIZE=address,undefined,shift-exponent,implicit-conversion,nullability -DCMAKE_CXX_CLANG_TIDY=clang-tidy
+      CMAKE_OPTIONS: -DBUILD_SHARED_LIBS=NO -DSANITIZE=address,undefined,shift-exponent,implicit-conversion,nullability
       UBSAN_OPTIONS: halt_on_error=1
     steps:
       - build
       - test
+
+  clang-tidy:
+    executor: linux-clang-2xlarge
+    environment:
+      CMAKE_OPTIONS: -DCMAKE_CXX_CLANG_TIDY=clang-tidy -DCMAKE_CXX_FLAGS=-g0
+      BUILD_TYPE: Debug
+    steps:
+      - build
 
   clang-latest-coverage:
     executor: linux-clang-latest
@@ -499,7 +491,7 @@ jobs:
             SHOW_ARGS='-format=html -show-branches=count -show-regions -show-expansions'
             
             mkdir ~/coverage
-            llvm-profdata merge *.profraw -o evmone.profdata
+            llvm-profdata merge -sparse *.profraw -o evmone.profdata
             llvm-cov show $ARGS $SHOW_ARGS > ~/coverage/full.html
             llvm-cov show $ARGS $SHOW_ARGS -region-coverage-lt=100 > ~/coverage/missing.html
 
@@ -533,7 +525,7 @@ jobs:
     executor: macos
     environment:
       BUILD_TYPE: RelWithDebInfo
-      CMAKE_OPTIONS: -DSANITIZE=address
+      CMAKE_OPTIONS: -DSANITIZE=address,undefined
       TESTS_FILTER: unittests
     steps:
       - run:
@@ -555,7 +547,7 @@ jobs:
     executor: linux-base
     steps:
       - install_cmake:
-          version: 3.16.9
+          version: 3.18.4
       - build
       - test
 
@@ -565,9 +557,6 @@ jobs:
       BUILD_TYPE: Release
       QEMU_CPU: core2duo  # The lowest 64-bit CPU I could find, but qemu64 should be good too.
     steps:
-      - run:
-          name: "Install qemu"
-          command: sudo apt update -y && sudo apt install -y qemu-user-static
       - build
       - run:
           name: "Check evmone.so"
@@ -585,6 +574,7 @@ workflows:
   evmone:
     jobs:
       - lint
+      - clang-tidy
       - release-linux:
           filters:
             tags:
