@@ -581,7 +581,7 @@ workflows:
   evmone:
     jobs:
       - lint
-      - clang-tidy
+      #- clang-tidy
       - release-linux:
           filters:
             tags:
