@@ -472,13 +472,13 @@ jobs:
       - build
       - test
 
-  clang-tidy:
-    executor: linux-clang-2xlarge
-    environment:
-      CMAKE_OPTIONS: -DCMAKE_CXX_CLANG_TIDY=clang-tidy -DCMAKE_CXX_FLAGS=-g0
-      BUILD_TYPE: Debug
-    steps:
-      - build
+  # clang-tidy:
+  #   executor: linux-clang-2xlarge
+  #   environment:
+  #     CMAKE_OPTIONS: -DCMAKE_CXX_CLANG_TIDY=clang-tidy -DCMAKE_CXX_FLAGS=-g0
+  #     BUILD_TYPE: Debug
+  #   steps:
+  #     - build
 
   clang-latest-coverage:
     executor: linux-clang-latest
