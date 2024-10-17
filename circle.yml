@@ -617,4 +617,4 @@ workflows:
       - xcode-min
       - gcc-32bit
       - x86-64-v1
-      #- fuzzing
+      - fuzzing
