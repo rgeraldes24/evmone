@@ -507,7 +507,7 @@ jobs:
       - store_artifacts:
           path: ~/coverage
           destination: coverage
-  # TODO(now.youtrack.cloud/issue/TE-8)
+
   fuzzing:
     executor: linux-clang-xlarge
     environment:
@@ -617,4 +617,5 @@ workflows:
       - xcode-min
       - gcc-32bit
       - x86-64-v1
-      - fuzzing
+      # TODO(now.youtrack.cloud/issue/TE-14)
+      #- fuzzing
