@@ -186,7 +186,7 @@ fuzz_input populate_input(const uint8_t* data, size_t data_size) noexcept
     if (data_size < min_required_size)
         return in;
 
-    const auto rev_4bits = data[0] >> 4;
+    // const auto rev_4bits = data[0] >> 4;
     const auto kind_1bit = (data[0] >> 3) & 0b1;
     const auto static_1bit = (data[0] >> 2) & 0b1;
     const auto depth_2bits = uint8_t(data[0] & 0b11);
@@ -221,8 +221,10 @@ fuzz_input populate_input(const uint8_t* data, size_t data_size) noexcept
     if (data_size < input_size_16bits)  // Not enough data for input.
         return in;
 
-    in.rev = (rev_4bits > EVMC_LATEST_STABLE_REVISION) ? EVMC_LATEST_STABLE_REVISION :
-                                                         static_cast<evmc_revision>(rev_4bits);
+    // NOTE(rgeraldes24): come back to this on as soon as we have more forks
+    // in.rev = (rev_4bits > EVMC_LATEST_STABLE_REVISION) ? EVMC_LATEST_STABLE_REVISION :
+    //                                                      static_cast<evmc_revision>(rev_4bits);
+    in.rev = EVMC_LATEST_STABLE_REVISION;
 
     // The message king should not matter but this 1 bit was free.
     in.msg.kind = kind_1bit ? EVMC_CREATE : EVMC_CALL;
