@@ -11,7 +11,6 @@ namespace
 /// The gas cost specification for storage instructions.
 struct StorageCostSpec
 {
-    bool net_cost;        ///< Is this net gas cost metering schedule?
     int16_t warm_access;  ///< Storage warm access cost, YP: G_{warmaccess}
     int16_t set;          ///< Storage addition cost, YP: G_{sset}
     int16_t reset;        ///< Storage modification cost, YP: G_{sreset}
@@ -26,7 +25,7 @@ constexpr auto storage_cost_spec = []() noexcept {
 
     // Net cost schedule.
     tbl[EVMC_SHANGHAI] = {
-        true, instr::warm_storage_read_cost, 20000, 5000 - instr::cold_sload_cost, 4800};
+        instr::warm_storage_read_cost, 20000, 5000 - instr::cold_sload_cost, 4800};
     return tbl;
 }();
 
@@ -46,33 +45,19 @@ constexpr auto sstore_costs = []() noexcept {
     for (size_t rev = EVMC_SHANGHAI; rev <= EVMC_MAX_REVISION; ++rev)
     {
         auto& e = tbl[rev];
-        if (const auto c = storage_cost_spec[rev]; !c.net_cost)  // legacy
-        {
-            e[EVMC_STORAGE_ADDED] = {c.set, 0};
-            e[EVMC_STORAGE_DELETED] = {c.reset, c.clear};
-            e[EVMC_STORAGE_MODIFIED] = {c.reset, 0};
-            e[EVMC_STORAGE_ASSIGNED] = e[EVMC_STORAGE_MODIFIED];
-            e[EVMC_STORAGE_DELETED_ADDED] = e[EVMC_STORAGE_ADDED];
-            e[EVMC_STORAGE_MODIFIED_DELETED] = e[EVMC_STORAGE_DELETED];
-            e[EVMC_STORAGE_DELETED_RESTORED] = e[EVMC_STORAGE_ADDED];
-            e[EVMC_STORAGE_ADDED_DELETED] = e[EVMC_STORAGE_DELETED];
-            e[EVMC_STORAGE_MODIFIED_RESTORED] = e[EVMC_STORAGE_MODIFIED];
-        }
-        else  // net cost
-        {
-            e[EVMC_STORAGE_ASSIGNED] = {c.warm_access, 0};
-            e[EVMC_STORAGE_ADDED] = {c.set, 0};
-            e[EVMC_STORAGE_DELETED] = {c.reset, c.clear};
-            e[EVMC_STORAGE_MODIFIED] = {c.reset, 0};
-            e[EVMC_STORAGE_DELETED_ADDED] = {c.warm_access, static_cast<int16_t>(-c.clear)};
-            e[EVMC_STORAGE_MODIFIED_DELETED] = {c.warm_access, c.clear};
-            e[EVMC_STORAGE_DELETED_RESTORED] = {
-                c.warm_access, static_cast<int16_t>(c.reset - c.warm_access - c.clear)};
-            e[EVMC_STORAGE_ADDED_DELETED] = {
-                c.warm_access, static_cast<int16_t>(c.set - c.warm_access)};
-            e[EVMC_STORAGE_MODIFIED_RESTORED] = {
-                c.warm_access, static_cast<int16_t>(c.reset - c.warm_access)};
-        }
+        const auto c = storage_cost_spec[rev];
+        e[EVMC_STORAGE_ASSIGNED] = {c.warm_access, 0};
+        e[EVMC_STORAGE_ADDED] = {c.set, 0};
+        e[EVMC_STORAGE_DELETED] = {c.reset, c.clear};
+        e[EVMC_STORAGE_MODIFIED] = {c.reset, 0};
+        e[EVMC_STORAGE_DELETED_ADDED] = {c.warm_access, static_cast<int16_t>(-c.clear)};
+        e[EVMC_STORAGE_MODIFIED_DELETED] = {c.warm_access, c.clear};
+        e[EVMC_STORAGE_DELETED_RESTORED] = {
+            c.warm_access, static_cast<int16_t>(c.reset - c.warm_access - c.clear)};
+        e[EVMC_STORAGE_ADDED_DELETED] = {
+            c.warm_access, static_cast<int16_t>(c.set - c.warm_access)};
+        e[EVMC_STORAGE_MODIFIED_RESTORED] = {
+            c.warm_access, static_cast<int16_t>(c.reset - c.warm_access)};
     }
 
     return tbl;
