@@ -70,7 +70,9 @@ bytes from_json<bytes>(const json::json& j)
 template <>
 address from_json<address>(const json::json& j)
 {
-    return evmc::from_hex<address>(j.get<std::string>()).value();
+    // TODO(rgeraldes24)
+    // return evmc::from_hex<address>(j.get<std::string>()).value();
+    return evmc::from_hex_z_prefix<address>(j.get<std::string>()).value();
 }
 
 template <>
