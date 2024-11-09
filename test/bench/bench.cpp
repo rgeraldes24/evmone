@@ -84,13 +84,13 @@ std::vector<BenchmarkCase> load_benchmarks_from_dir(  // NOLINT(misc-no-recursio
 
     std::sort(std::begin(subdirs), std::end(subdirs));
     std::sort(std::begin(code_files), std::end(code_files));
-
     std::vector<BenchmarkCase> benchmark_cases;
 
     benchmark_cases.reserve(std::size(code_files));
-    for (const auto& f : code_files)
+    for (const auto& f : code_files) 
         benchmark_cases.emplace_back(load_benchmark(f, name_prefix));
-
+    
+        
     for (const auto& d : subdirs)
     {
         auto t = load_benchmarks_from_dir(d, name_prefix + d.filename().string() + '/');

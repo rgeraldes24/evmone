@@ -5,6 +5,7 @@
 #include "../utils/stdx/utility.hpp"
 #include "statetest.hpp"
 #include <nlohmann/json.hpp>
+#include <iostream>
 
 namespace evmone::test
 {
@@ -295,9 +296,7 @@ static void from_json(const json::json& j, StateTransitionTest& o)
         throw std::invalid_argument{"JSON test must be an object with single key of the test name"};
 
     const auto& j_t = *j.begin();  // Content is in a dict with the test name.
-
     o.pre_state = from_json<state::State>(j_t.at("pre"));
-
     o.multi_tx = j_t.at("transaction").get<TestMultiTransaction>();
 
     o.block = from_json<state::BlockInfo>(j_t.at("env"));
