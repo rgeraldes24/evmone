@@ -17,7 +17,7 @@
         },
         "env" : {
             "currentBaseFee" : "0x01",
-            "currentCoinbase" : "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            "currentCoinbase" : "Za94f5374fce5edbc8e2a8697c15331677e6ebf0b",
             "currentGasLimit" : "0x3b9aca00",
             "currentNumber" : "0x01",
             "currentRandom" : "0x0000000000000000000000000000000000000000000000000000000000000001",
