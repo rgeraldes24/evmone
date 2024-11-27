@@ -77,8 +77,8 @@ TEST(statetest_loader, load_minimal_test)
             "_info": {},
             "pre": {},
             "transaction": {
-                "sender": "",
-                "to": "",
+                "sender": "Z",
+                "to": "Z",
                 "data": null,
                 "gasLimit": "0",
                 "value": null,
