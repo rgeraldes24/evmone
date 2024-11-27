@@ -34,8 +34,8 @@ TEST(statetest_loader, tx_eip1559)
     EXPECT_EQ(tx.gas_limit, 0x9091);
     EXPECT_EQ(tx.chain_id, 0);
     EXPECT_EQ(tx.value, 0xe0e1);
-    EXPECT_EQ(tx.sender, 0xa0a1_address);
-    EXPECT_EQ(tx.to, 0xc0c1_address);
+    EXPECT_EQ(tx.sender, "Za0a1"_address);
+    EXPECT_EQ(tx.to, "Zc0c1"_address);
     EXPECT_EQ(tx.max_gas_price, 0x7071);
     EXPECT_EQ(tx.max_priority_gas_price, 0x6061);
     EXPECT_TRUE(tx.access_list.empty());
@@ -238,14 +238,14 @@ TEST(statetest_loader, tx_access_list)
     EXPECT_TRUE(tx.data.empty());
     EXPECT_EQ(tx.gas_limit, 0);
     EXPECT_EQ(tx.value, 0);
-    EXPECT_EQ(tx.sender, address{});  // TODO: use 0x0_address?
+    EXPECT_EQ(tx.sender, address{});  // TODO: use Z0_address?
     EXPECT_FALSE(tx.to.has_value());
     EXPECT_EQ(tx.max_gas_price, 0);
     EXPECT_EQ(tx.max_priority_gas_price, 0);
     ASSERT_EQ(tx.access_list.size(), 2);
-    EXPECT_EQ(tx.access_list[0].first, 0xac01_address);
+    EXPECT_EQ(tx.access_list[0].first, "Zac01"_address);
     EXPECT_EQ(tx.access_list[0].second.size(), 0);
-    EXPECT_EQ(tx.access_list[1].first, 0xac02_address);
+    EXPECT_EQ(tx.access_list[1].first, "Zac02"_address);
     EXPECT_EQ(tx.access_list[1].second, (std::vector{0xfe_bytes32, 0x00_bytes32}));
     EXPECT_EQ(tx.nonce, 0);
     EXPECT_EQ(tx.public_key,
