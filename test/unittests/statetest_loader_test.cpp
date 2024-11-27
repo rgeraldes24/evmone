@@ -90,7 +90,7 @@ TEST(statetest_loader, load_minimal_test)
                 "currentNumber": "0",
                 "currentTimestamp": "0",
                 "currentGasLimit": "0",
-                "currentCoinbase": "",
+                "currentCoinbase": "Z",
                 "currentRandom": ""
             }
         }
