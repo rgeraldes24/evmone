@@ -110,8 +110,7 @@ TEST(statetest_loader, load_minimal_test)
     EXPECT_EQ(st.multi_tx.max_gas_price, 0);
     EXPECT_EQ(st.multi_tx.max_priority_gas_price, 0);
     EXPECT_EQ(st.multi_tx.sender, address{});
-    // TODO(rgeraldes24)
-    // EXPECT_EQ(st.multi_tx.to, std::nullopt);
+    EXPECT_EQ(st.multi_tx.to, std::nullopt);
     EXPECT_EQ(st.multi_tx.value, 0);
     EXPECT_EQ(st.multi_tx.access_list.size(), 0);
     EXPECT_EQ(st.multi_tx.chain_id, 0);

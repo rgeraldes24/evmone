@@ -239,8 +239,7 @@ TEST(statetest_loader, tx_access_list)
     EXPECT_EQ(tx.gas_limit, 0);
     EXPECT_EQ(tx.value, 0);
     EXPECT_EQ(tx.sender, address{});  // TODO: use Z0_address?
-    // TODO(rgeraldes24)
-    // EXPECT_FALSE(tx.to.has_value());
+    EXPECT_FALSE(tx.to.has_value());
     EXPECT_EQ(tx.max_gas_price, 0);
     EXPECT_EQ(tx.max_priority_gas_price, 0);
     ASSERT_EQ(tx.access_list.size(), 2);
