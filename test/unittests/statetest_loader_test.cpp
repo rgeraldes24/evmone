@@ -77,8 +77,8 @@ TEST(statetest_loader, load_minimal_test)
             "_info": {},
             "pre": {},
             "transaction": {
-                "sender": "Z",
-                "to": "Z",
+                "sender": "",
+                "to": "",
                 "data": null,
                 "gasLimit": "0",
                 "value": null,
@@ -90,7 +90,7 @@ TEST(statetest_loader, load_minimal_test)
                 "currentNumber": "0",
                 "currentTimestamp": "0",
                 "currentGasLimit": "0",
-                "currentCoinbase": "Z",
+                "currentCoinbase": "",
                 "currentRandom": ""
             }
         }
