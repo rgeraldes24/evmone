@@ -2,4 +2,3 @@
 	path = evmc
 	# TODO(now.youtrack.cloud/issue/TE-11)
 	url = https://github.com/rgeraldes24/evmc
-	branch = feature/z-prefix-address-2
