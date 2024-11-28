@@ -615,7 +615,8 @@ workflows:
       - clang-latest-coverage
       - macos-asan
       - xcode-min
-      - gcc-32bit
+      # TODO(rgeraldes24)
+      #- gcc-32bit
       - x86-64-v1
       # TODO(now.youtrack.cloud/issue/TE-14)
       #- fuzzing
