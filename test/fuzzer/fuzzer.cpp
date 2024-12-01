@@ -2,10 +2,10 @@
 // Copyright 2019 The evmone Authors.
 // SPDX-License-Identifier: Apache-2.0
 
-#include <zvmc/mocked_host.hpp>
-#include <zvmone/zvmone.h>
 #include <test/utils/bytecode.hpp>
 #include <test/utils/utils.hpp>
+#include <zvmc/mocked_host.hpp>
+#include <zvmone/zvmone.h>
 
 #include <cstring>
 #include <iostream>

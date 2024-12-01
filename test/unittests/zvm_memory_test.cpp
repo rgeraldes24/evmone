@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "zvm_fixture.hpp"
-#include <zvmone/instructions_traits.hpp>
 #include <intx/intx.hpp>
+#include <zvmone/instructions_traits.hpp>
 #include <algorithm>
 
 using namespace zvmone;

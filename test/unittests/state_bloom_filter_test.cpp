@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "../utils/utils.hpp"
-#include <zvmc/zvmc.hpp>
 #include <gtest/gtest.h>
 #include <test/state/bloom_filter.hpp>
 #include <test/state/state.hpp>
+#include <zvmc/zvmc.hpp>
 #include <array>
 
 using namespace zvmc::literals;

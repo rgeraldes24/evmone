@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
 
-#include <zvmc/zvmc.h>
-#include <zvmc/utils.h>
 #include <intx/intx.hpp>
+#include <zvmc/utils.h>
+#include <zvmc/zvmc.h>
 #include <memory>
 #include <ostream>
 #include <string_view>

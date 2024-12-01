@@ -2,9 +2,9 @@
 // Copyright 2020 The evmone Authors.
 // SPDX-License-Identifier: Apache-2.0
 
+#include <gtest/gtest.h>
 #include <zvmone/advanced_analysis.hpp>
 #include <zvmone/execution_state.hpp>
-#include <gtest/gtest.h>
 #include <type_traits>
 
 static_assert(std::is_default_constructible_v<zvmone::ExecutionState>);

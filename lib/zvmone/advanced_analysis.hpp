@@ -5,9 +5,9 @@
 
 #include "execution_state.hpp"
 #include "instructions_opcodes.hpp"
-#include <zvmc/zvmc.hpp>
-#include <zvmc/utils.h>
 #include <intx/intx.hpp>
+#include <zvmc/utils.h>
+#include <zvmc/zvmc.hpp>
 #include <array>
 #include <cstdint>
 #include <vector>

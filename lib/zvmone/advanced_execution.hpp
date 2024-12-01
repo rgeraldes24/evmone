@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
 
-#include <zvmc/zvmc.h>
 #include <zvmc/utils.h>
+#include <zvmc/zvmc.h>
 
 namespace zvmone::advanced
 {

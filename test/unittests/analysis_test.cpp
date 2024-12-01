@@ -2,10 +2,10 @@
 // Copyright 2018-2019 The zvmone Authors.
 // SPDX-License-Identifier: Apache-2.0
 
-#include <zvmone/advanced_analysis.hpp>
 #include <gtest/gtest.h>
 #include <test/utils/bytecode.hpp>
 #include <test/utils/utils.hpp>
+#include <zvmone/advanced_analysis.hpp>
 
 using namespace zvmone::advanced;
 

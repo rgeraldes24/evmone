@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
 
-#include <zvmc/zvmc.hpp>
 #include <intx/intx.hpp>
+#include <zvmc/zvmc.hpp>
 #include <unordered_map>
 
 namespace zvmone::state

@@ -2,10 +2,10 @@
 // Copyright 2019 The evmone Authors.
 // SPDX-License-Identifier: Apache-2.0
 
-#include <zvmone/advanced_analysis.hpp>
-#include <zvmone/instructions_traits.hpp>
 #include <gtest/gtest.h>
 #include <test/utils/bytecode.hpp>
+#include <zvmone/advanced_analysis.hpp>
+#include <zvmone/instructions_traits.hpp>
 
 namespace
 {

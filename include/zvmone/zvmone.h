@@ -5,8 +5,8 @@
 #ifndef ZVMONE_H
 #define ZVMONE_H
 
-#include <zvmc/zvmc.h>
 #include <zvmc/utils.h>
+#include <zvmc/zvmc.h>
 
 #if __cplusplus
 extern "C" {

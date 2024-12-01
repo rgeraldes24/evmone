@@ -5,8 +5,8 @@
 
 #include "test/utils/utils.hpp"
 #include <benchmark/benchmark.h>
-#include <zvmc/zvmc.hpp>
 #include <zvmc/mocked_host.hpp>
+#include <zvmc/zvmc.hpp>
 #include <zvmone/advanced_analysis.hpp>
 #include <zvmone/advanced_execution.hpp>
 #include <zvmone/baseline.hpp>

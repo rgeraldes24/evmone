@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
 
-#include <zvmc/zvmc.hpp>
-#include <zvmone/instructions_traits.hpp>
 #include <intx/intx.hpp>
 #include <test/utils/utils.hpp>
+#include <zvmc/zvmc.hpp>
+#include <zvmone/instructions_traits.hpp>
 #include <algorithm>
 #include <ostream>
 #include <stdexcept>

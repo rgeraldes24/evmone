@@ -5,8 +5,8 @@
 #pragma once
 
 #include <ethash/keccak.hpp>
-#include <zvmc/zvmc.hpp>
 #include <zvmc/hex.hpp>
+#include <zvmc/zvmc.hpp>
 #include <cstring>
 
 namespace zvmone

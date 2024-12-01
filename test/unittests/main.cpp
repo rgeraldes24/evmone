@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "vm_loader.hpp"
-#include <zvmc/loader.h>
 #include <gtest/gtest.h>
+#include <zvmc/loader.h>
 #include <iostream>
 #include <string>
 #include <vector>

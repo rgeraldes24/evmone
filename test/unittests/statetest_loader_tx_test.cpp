@@ -2,10 +2,10 @@
 // Copyright 2023 The evmone Authors.
 // SPDX-License-Identifier: Apache-2.0
 
-#include <zvmc/hex.hpp>
 #include <gmock/gmock.h>
 #include <intx/intx.hpp>
 #include <test/statetest/statetest.hpp>
+#include <zvmc/hex.hpp>
 
 using namespace zvmone;
 using namespace intx;

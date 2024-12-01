@@ -6,8 +6,8 @@
 #include "helpers.hpp"
 #include "synthetic_benchmarks.hpp"
 #include <benchmark/benchmark.h>
-#include <zvmc/zvmc.hpp>
 #include <zvmc/loader.h>
+#include <zvmc/zvmc.hpp>
 #include <zvmone/zvmone.h>
 #include <filesystem>
 #include <fstream>

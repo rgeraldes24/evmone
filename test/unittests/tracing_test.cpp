@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "test/utils/bytecode.hpp"
-#include <zvmc/zvmc.hpp>
+#include <gmock/gmock.h>
 #include <zvmc/mocked_host.hpp>
-#include <zvmone/zvmone.h>
+#include <zvmc/zvmc.hpp>
 #include <zvmone/instructions_traits.hpp>
 #include <zvmone/tracing.hpp>
 #include <zvmone/vm.hpp>
-#include <gmock/gmock.h>
+#include <zvmone/zvmone.h>
 
 using namespace testing;
 

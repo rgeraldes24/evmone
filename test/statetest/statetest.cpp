@@ -4,8 +4,8 @@
 
 #include "statetest.hpp"
 #include <CLI/CLI.hpp>
-#include <zvmone/zvmone.h>
 #include <gtest/gtest.h>
+#include <zvmone/zvmone.h>
 #include <iostream>
 
 namespace

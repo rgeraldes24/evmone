@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
 
-#include <zvmone/zvmone.h>
 #include <gtest/gtest.h>
 #include <test/state/host.hpp>
+#include <zvmone/zvmone.h>
 
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
