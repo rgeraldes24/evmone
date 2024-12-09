@@ -12,7 +12,7 @@
                 "3" : "by32"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/micro/memory_grow_mloadFiller.yml",
             "sourceHash" : "26894703093bd254278478b0e2568f0a96c6f1a8de47b69149e77bf84f6607b7"
         },

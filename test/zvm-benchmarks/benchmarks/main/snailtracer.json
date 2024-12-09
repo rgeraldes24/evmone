@@ -9,7 +9,7 @@
                 "0" : "benchmark"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/main/snailtracerFiller.yml",
             "sourceHash" : "34872f8b937189b9e6f02e168b2adbc53af7cf4cc6b8cdf0d4af2f0de3f3af20"
         },

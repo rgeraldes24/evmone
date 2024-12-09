@@ -9,7 +9,7 @@
                 "0" : "8415nulls"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/main/blake2b_shiftsFiller.yml",
             "sourceHash" : "921101343751bba9e5167d1f1f405f9f9d812e65d88466b4d09dadc796130477"
         },

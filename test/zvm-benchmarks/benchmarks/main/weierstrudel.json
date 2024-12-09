@@ -10,7 +10,7 @@
                 "1" : "15"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/main/weierstrudelFiller.yml",
             "sourceHash" : "40084fe4fed89ef13e41ab12577ca29a16427b594d33941efcc793ba3f09d951"
         },

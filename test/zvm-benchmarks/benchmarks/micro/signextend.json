@@ -10,7 +10,7 @@
                 "1" : "one"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/micro/signextendFiller.yml",
             "sourceHash" : "cdc96c71d0d3d447620217f172df80ec92694967ff9186e66a5d9afca61e958c"
         },

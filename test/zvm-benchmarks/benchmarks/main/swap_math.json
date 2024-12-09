@@ -11,7 +11,7 @@
                 "2" : "insufficient_liquidity"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/main/swap_mathFiller.yml",
             "sourceHash" : "adc826a54860eed1e577724a12c2de0e0160bef1a9321e81120570adf5e32bca"
         },

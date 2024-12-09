@@ -9,7 +9,7 @@
                 "0" : "empty"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/micro/loop_with_many_jumpdestsFiller.yml",
             "sourceHash" : "d6102e691b595ce00d2b0a1009096fe4499d67190aea6358a11b3b993dbad854"
         },

@@ -10,7 +10,7 @@
                 "1" : "5311"
             },
             "lllcversion" : "Error getting LLLC Version",
-            "solidity" : "Error getting solc Version",
+            "hyperion" : "Error getting hypc Version",
             "source" : "tmp/main/sha1_shiftsFiller.yml",
             "sourceHash" : "3a727b04c54517d77df7e7e5852c8360ecebe957a4444e2ea6d7cb338019dce6"
         },
