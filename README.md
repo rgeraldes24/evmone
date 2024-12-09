@@ -44,16 +44,16 @@ The codebase of _zvmone_ is optimized to provide fast and efficient execution of
 ### As gzond plugin
 
 zvmone implements the [ZVMC] API for Zond Virtual Machines.
-It can be used as a plugin replacing geth's internal ZVM. But for that a modified
-version of geth is needed. The [Ewasm]'s fork
+It can be used as a plugin replacing gzond's internal ZVM. But for that a modified
+version of gzond is needed. The [Ewasm]'s fork
 of go-zond provides [binary releases of gzond with ZVMC support](https://github.com/ewasm/go-ethereum/releases).
 
 Next, download zvmone from [Releases].
 
-Start the downloaded geth with `--vm.zvm` option pointing to the zvmone shared library.
+Start the downloaded gzond with `--vm.zvm` option pointing to the zvmone shared library.
 
 ```bash
-geth --vm.zvm=./libzvmone.so
+gzond --vm.zvm=./libzvmone.so
 ```
 
 ### Building from source

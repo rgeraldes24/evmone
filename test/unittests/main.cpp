@@ -147,8 +147,8 @@ int main(int argc, char* argv[])
         auto cli = cli_parser{"ZVM Test", PROJECT_VERSION,
             "Testing tool for ZVMC-compatible Zond Virtual Machine implementations.\n"
             "Powered by the zvmone project.\n\n"
-            "ZVMC:   https://github.com/ethereum/zvmc\n"
-            "zvmone: https://github.com/ethereum/zvmone",
+            "ZVMC:   https://github.com/theqrl/zvmc\n"
+            "zvmone: https://github.com/theqrl/zvmone",
             {"MODULE"}};
         cli.set_preprocessor(testing::InitGoogleTest);
 

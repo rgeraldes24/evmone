@@ -19,7 +19,7 @@ TEST(state_mpt, empty_trie)
 
 TEST(state_mpt, single_account_v1)
 {
-    // Expected value computed in go-ethereum.
+    // Expected value computed in go-zond.
     constexpr auto expected =
         0x084f337237951e425716a04fb0aaa74111eda9d9c61767f2497697d0a201c92e_bytes32;
 
